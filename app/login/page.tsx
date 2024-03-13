@@ -6,6 +6,7 @@ import {z} from "zod"
 import {zodResolver} from "@hookform/resolvers/zod";
 import {signIn} from "next-auth/react";
 import {redirect, useRouter} from "next/navigation";
+import showMessage from "@/app/components/Message";
 
 const schema = z.object({
     account: z.string().min(3, {message: "短了哥"}),
@@ -32,10 +33,10 @@ export default function LoginPage() {
             ...data,
             redirect: false
         })
-        console.log({response})
         if(!response?.error){
             router.push("/")
             router.refresh()
+            showMessage("登陆成功！")
         }
     }
     return (

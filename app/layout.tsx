@@ -3,8 +3,7 @@ import "./globals.css";
 import Navbar from "@/app/components/navbar/Navbar";
 import Footer from "@/app/components/Footer";
 import getCurrentUser from "@/app/actions/getCurrentUser";
-import {getServerSession} from "next-auth";
-import {authOptions} from "@/app/api/auth/[...nextauth]/route";
+import {useSession} from "next-auth/react";
 
 // 字体问题
 // import {Nunito} from "next/font/google";
@@ -21,7 +20,7 @@ export default async function RootLayout({children}: Readonly<{
     children: React.ReactNode;
 }>) {
     const currentUser = await getCurrentUser()
-    console.log(currentUser)
+
     return (
         <html lang="en">
         <body className={"relative min-h-screen min-w-fit"}>

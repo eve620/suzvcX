@@ -13,7 +13,7 @@ const Navbar: React.FC<NavbarProps> = ({currentUser}) => {
             <nav className={"flex justify-between items-center p-4 border-b"}>
                 <Logo/>
                 <NavMenu/>
-                <UserMenu/>
+                <UserMenu currentUser={currentUser}/>
             </nav>
         </header>
     )
