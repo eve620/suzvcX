@@ -14,6 +14,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
       onClick={onClick}
       className="
         text-sm
+        text-nowrap
         bg-white
         px-4
         py-2

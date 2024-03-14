@@ -14,21 +14,14 @@ datasource db {
 }
 
 model User {
-  id               Int       @id @default(autoincrement())
-  account          String    @unique
-  password         String // 实际使用时，你将在应用程序层对密码进行哈希处理
-  nickname         String?
-  bio              String?
-  avatarUrl        String?
-  registrationDate DateTime  @default(now())
-  lastLogin        DateTime?
-  status           UserState @default(Active)
-  role             UserRole  @default(User)
-}
-
-enum UserState {
-  Active
-  Banned
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  password  String
+  image     String?
+  bio       String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  role      UserRole @default(User)
 }
 
 enum UserRole {

@@ -7,8 +7,8 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import showMessage from "@/app/components/Message";
 
 const schema = z.object({
-    account: z.string().min(3, {message: "短了哥"}),
-    password: z.string().min(6, {message: "短了哥"})
+    name: z.string().min(1, {message: "required"}).max(10, {message: "<=10"}),
+    password: z.string().min(6, {message: ">=6"}).max(16, {message: "<=16"})
 })
 
 export default function RegisterPage() {
@@ -18,13 +18,13 @@ export default function RegisterPage() {
         formState: {errors,}
     } = useForm<FieldValues>({
         defaultValues: {
-            account: "",
+            name:"",
             password: ""
         },
         resolver: zodResolver(schema)
     });
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-        const user = await fetch("api/auth/register", {
+        const user = await fetch("http://localhost:3000/api/auth/register", {
             method: "POST",
             body: JSON.stringify(data)
         })
@@ -35,7 +35,7 @@ export default function RegisterPage() {
     return (
         <main className="font-bold w-48">
             <div>register page</div>
-            <Input label={"账户"} id={"account"} register={register} errors={errors}/>
+            <Input label={"用户名"} id={"name"} register={register} errors={errors}/>
             <Input label={"密码"} id={"password"} register={register} errors={errors}/>
             <button onClick={handleSubmit(onSubmit)}>submit</button>
         </main>

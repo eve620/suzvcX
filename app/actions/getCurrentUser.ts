@@ -1,21 +1,33 @@
 import {getServerSession} from "next-auth";
 import {authOptions} from "@/app/api/auth/[...nextauth]/route";
+import prisma from "@/prisma/client";
 
-export interface SessionUser {
-    id: string
-    account: string
-    role: UserRole
+const getCurrentUser = async () => {
+    try {
+        const session = await getServerSession(authOptions)
+        if (!session?.user?.name) {
+            return null;
+        }
+        const currentUser = await prisma.user.findUnique({
+            where: {
+                name: session.user.name,
+            }
+        });
+
+        if (!currentUser) {
+            return null;
+        }
+
+        return {
+            id: currentUser.id,
+            name: currentUser.name,
+            bio: currentUser.bio,
+            image: currentUser.image,
+            role: currentUser.role
+        };
+    } catch (error) {
+        return null;
+    }
 }
 
-enum UserRole {
-    Admin,
-    User
-}
-
-export default async function getCurrentUser() {
-    const session: { user: SessionUser } | null = await getServerSession(authOptions)
-    if (session?.user) return session.user
-    return null
-
-
-}
+export default getCurrentUser

@@ -1,5 +1,5 @@
 import type {Metadata} from "next";
-import "./globals.css";
+// import "./globals.css";
 import Navbar from "@/app/components/navbar/Navbar";
 import Footer from "@/app/components/Footer";
 import getCurrentUser from "@/app/actions/getCurrentUser";
@@ -19,17 +19,9 @@ export const metadata: Metadata = {
 export default async function RootLayout({children}: Readonly<{
     children: React.ReactNode;
 }>) {
-    const currentUser = await getCurrentUser()
-    console.log(currentUser)
     return (
-        <html lang="en">
-        <body className={"relative min-h-screen min-w-fit bg-pink-50"}>
-        <Navbar currentUser={currentUser}/>
-        <main>
+        <div className={"pt-28 px-10"}>
             {children}
-        </main>
-        <Footer/>
-        </body>
-        </html>
+        </div>
     );
 }

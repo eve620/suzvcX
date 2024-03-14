@@ -4,19 +4,19 @@ import {hash} from "bcrypt"
 
 export async function POST(request: NextRequest) {
     try {
-        const {account, password} = await request.json()
+        const {name, password} = await request.json()
         // 判断是否存在
         const user = await prisma.user.findUnique({
             where: {
-                account
+                name
             }
         })
-        if (user) return NextResponse.json({error: "用户名已存在"}, {status: 400})
+        if (user) return NextResponse.json({error: "该用户名已使用"}, {status: 400})
         // 创建新用户
         const hashedPassword = await hash(password, 10);
         const newUser = await prisma.user.create({
             data: {
-                account,
+                name,
                 password: hashedPassword
             }
         })

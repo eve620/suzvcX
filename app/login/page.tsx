@@ -9,8 +9,8 @@ import {redirect, useRouter} from "next/navigation";
 import showMessage from "@/app/components/Message";
 
 const schema = z.object({
-    account: z.string().min(3, {message: "短了哥"}),
-    password: z.string().min(6, {message: "短了哥"})
+    name: z.string().min(1, {message: "required"}).max(10, {message: "<=10"}),
+    password: z.string().min(6, {message: ">=6"}).max(16, {message: "<=16"})
 })
 
 export default function LoginPage() {
@@ -23,7 +23,7 @@ export default function LoginPage() {
         formState: {errors,}
     } = useForm<FieldValues>({
         defaultValues: {
-            account: "",
+            name: "",
             password: ""
         },
         resolver: zodResolver(schema)
@@ -33,7 +33,7 @@ export default function LoginPage() {
             ...data,
             redirect: false
         })
-        if(!response?.error){
+        if (!response?.error) {
             router.push("/")
             router.refresh()
             showMessage("登陆成功！")
@@ -42,7 +42,7 @@ export default function LoginPage() {
     return (
         <main className="font-bold w-48">
             <div>login page</div>
-            <Input label={"账户"} id={"account"} register={register} errors={errors}/>
+            <Input label={"用户名"} id={"name"} register={register} errors={errors}/>
             <Input label={"密码"} id={"password"} register={register} errors={errors}/>
             <button onClick={handleSubmit(onSubmit)}>submit</button>
         </main>
