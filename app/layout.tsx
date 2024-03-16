@@ -1,8 +1,8 @@
 import type {Metadata} from "next";
 import "./globals.css";
-import Navbar from "@/app/components/navbar/Navbar";
-import Footer from "@/app/components/Footer";
-import getCurrentUser from "@/app/actions/getCurrentUser";
+import Navbar from "@/components/navbar/Navbar";
+import Footer from "@/components/Footer";
+import getCurrentUser from "@/actions/getCurrentUser";
 
 // 字体问题
 // import {Nunito} from "next/font/google";
@@ -23,9 +23,9 @@ export default async function RootLayout({children}: Readonly<{
     console.log(currentUser)
     return (
         <html lang="en">
-        <body className={"relative min-h-screen min-w-fit bg-pink-50"}>
+        <body className={"flex flex-col min-h-screen bg-pink-50"}>
         <Navbar currentUser={currentUser}/>
-        <main>
+        <main className={"flex-1 pt-28 md:pt-36 px-12 md:px-36 pb-16"}>
             {children}
         </main>
         <Footer/>

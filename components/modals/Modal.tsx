@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 
-import Button from "../Button";
+import Button from "@/components/Button";
 
 interface ModalProps {
   isOpen?: boolean;

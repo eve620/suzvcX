@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
+@layer components {
+    /*.menu-button {*/
+    /*    @apply block cursor-pointer;*/
+    /*}*/
+
+    /*.nav-button {*/
+    /*    @apply cursor-pointer rounded-full shadow-sm hover:shadow-md px-2 py-1 border-2 duration-200 dark:border-amber-500;*/
+    /*}*/
+
+    /*.option-button {*/
+    /*    @apply hover:bg-red-300 duration-200 p-1;*/
+    /*}*/
+    .tag {
+        @apply bg-blue-400 rounded-xl px-2 inline-block hover:bg-blue-300;
+    }
+}
+
 @tailwind utilities;

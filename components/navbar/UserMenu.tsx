@@ -1,8 +1,8 @@
 "use client"
 import Link from "next/link";
 import {useState} from "react";
-import showMessage from "@/app/components/Message";
-import MenuItem from "@/app/components/navbar/MenuItem";
+import showMessage from "@/components/Message";
+import MenuItem from "@/components/navbar/MenuItem";
 import {signOut} from "next-auth/react";
 import {useRouter} from "next/navigation";
 import {SafeUser} from "@/types";
