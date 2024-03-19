@@ -6,6 +6,8 @@ import {FieldValues, SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
 import showMessage from "@/app/components/Message";
+import {signIn} from "next-auth/react";
+import {useRouter} from "next/navigation";
 
 const schema = z.object({
     name: z.string().min(1, {message: "required"}).max(10, {message: "<=10"}),
@@ -14,6 +16,7 @@ const schema = z.object({
 
 const RegisterModal = () => {
     const registerModal = useRegisterModal()
+    const router = useRouter()
     const {
         register,
         handleSubmit,
@@ -25,6 +28,7 @@ const RegisterModal = () => {
         },
         resolver: zodResolver(schema)
     });
+    // 注册并登录
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         const user = await fetch("http://localhost:3000/api/auth/register", {
             method: "POST",
@@ -34,9 +38,17 @@ const RegisterModal = () => {
             showMessage("注册成功")
             registerModal.onClose()
         }
+        const response = await signIn('credentials', {
+            ...data,
+            redirect: false
+        })
+        if (!response?.error) {
+            router.push("/")
+            router.refresh()
+        }
     }
     const bodyContent = (
-        <div className={"flex flex-col items-center gap-8"}>
+        <div className={"space-y-6"}>
             <Input label={"用户名"} id={"name"} register={register} errors={errors}/>
             <Input label={"密码"} id={"password"} register={register} errors={errors}/>
         </div>
