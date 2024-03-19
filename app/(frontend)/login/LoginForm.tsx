@@ -23,7 +23,7 @@ export default function LoginForm() {
         register,
         handleSubmit,
         formState: {errors,}
-    } = useForm<FieldValues>({
+    } = useForm<z.infer<typeof schema>>({
         defaultValues: {
             name: "",
             password: ""
@@ -48,7 +48,7 @@ export default function LoginForm() {
     return (
         <div className={"h-[435px] w-[39rem] mx-auto flex rounded bg-white shadow-2xl"}>
             <div className={"w-60 bg-cover rounded-l bg-[url('/login_bg.png')]"}></div>
-            <div className={"w-96 flex flex-col items-center justify-center px-6"}>
+            <form className={"w-96 flex flex-col items-center justify-center px-6"}>
                 <div className={""}>
                     <h4 className={"text-2xl font-bold mb-8"}>Welcome to <span
                         className={"text-amber-600"}>Glog</span></h4>
@@ -93,7 +93,7 @@ export default function LoginForm() {
                     <a onClick={registerModal.onOpen}
                        className={"text-center block cursor-pointer underline text-cyan-600 hover:text-cyan-800 mt-1"}>register</a>
                 </div>
-            </div>
+            </form>
         </div>
     );
 }

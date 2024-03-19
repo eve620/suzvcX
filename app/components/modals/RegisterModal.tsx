@@ -48,10 +48,10 @@ const RegisterModal = () => {
         }
     }
     const bodyContent = (
-        <div className={"space-y-6"}>
+        <form className={"space-y-6"}>
             <Input label={"用户名"} id={"name"} register={register} errors={errors}/>
             <Input label={"密码"} id={"password"} register={register} errors={errors}/>
-        </div>
+        </form>
     )
     return (<Modal isOpen={registerModal.isOpen}
                    onClose={registerModal.onClose}
