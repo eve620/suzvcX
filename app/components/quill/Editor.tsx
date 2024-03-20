@@ -2,14 +2,13 @@ import dynamic from "next/dynamic";
 
 const ReactQuill = dynamic(() => import('react-quill'), {ssr: false});
 import 'react-quill/dist/quill.snow.css';
-import {FieldValues, UseFormRegister} from "react-hook-form";
+import {ControllerRenderProps, FieldValues} from "react-hook-form";
 
 interface EditorProps {
-    id: string
-    register: UseFormRegister<FieldValues>;
+    field: ControllerRenderProps<FieldValues,"value">;
 }
 
-const Editor: React.FC = () => {
+const Editor: React.FC<EditorProps> = ({field}) => {
 
     const options = {
         modules: {
@@ -19,7 +18,9 @@ const Editor: React.FC = () => {
         theme: 'snow'
     };
     return (
-        <ReactQuill {...options}/>
+        <ReactQuill
+            {...field}
+            {...options}/>
     );
 };
 

@@ -1,75 +1,75 @@
 'use client';
 
-import { useCallback, useEffect, useState } from "react";
+import {useCallback, useEffect, useState} from "react";
 
 import Button from "@/app/components/Button";
 
 interface ModalProps {
-  isOpen?: boolean;
-  onClose: () => void;
-  onSubmit: () => void;
-  title?: string;
-  body?: React.ReactElement;
-  footer?: React.ReactElement;
-  actionLabel: string;
-  disabled?: boolean;
-  secondaryAction?: () => void;
-  secondaryActionLabel?: string;
+    isOpen?: boolean;
+    onClose: () => void;
+    onSubmit: () => void;
+    title?: string;
+    body?: React.ReactElement;
+    footer?: React.ReactElement;
+    actionLabel: string;
+    disabled?: boolean;
+    secondaryAction?: () => void;
+    secondaryActionLabel?: string;
 }
 
 const Modal: React.FC<ModalProps> = ({
-  isOpen,
-  onClose,
-  onSubmit,
-  title,
-  body,
-  actionLabel,
-  footer,
-  disabled,
-  secondaryAction,
-  secondaryActionLabel
-}) => {
-  const [showModal, setShowModal] = useState(isOpen);
+                                         isOpen,
+                                         onClose,
+                                         onSubmit,
+                                         title,
+                                         body,
+                                         actionLabel,
+                                         footer,
+                                         disabled,
+                                         secondaryAction,
+                                         secondaryActionLabel
+                                     }) => {
+    const [showModal, setShowModal] = useState(isOpen);
 
-  useEffect(() => {
-    setShowModal(isOpen);
-  }, [isOpen]);
+    useEffect(() => {
+        setShowModal(isOpen);
+    }, [isOpen]);
 
-  const handleClose = useCallback(() => {
-    if (disabled) {
-      return;
+    const handleClose = useCallback(() => {
+        if (disabled) {
+            return;
+        }
+
+        setShowModal(false);
+        setTimeout(() => {
+            onClose();
+        }, 300)
+    }, [onClose, disabled]);
+
+    const handleSubmit = useCallback(() => {
+        if (disabled) {
+            return;
+        }
+
+        onSubmit();
+    }, [onSubmit, disabled]);
+
+    const handleSecondaryAction = useCallback(() => {
+        if (disabled || !secondaryAction) {
+            return;
+        }
+
+        secondaryAction();
+    }, [secondaryAction, disabled]);
+
+    if (!isOpen) {
+        return null;
     }
 
-    setShowModal(false);
-    setTimeout(() => {
-      onClose();
-    }, 300)
-  }, [onClose, disabled]);
-
-  const handleSubmit = useCallback(() => {
-    if (disabled) {
-      return;
-    }
-
-    onSubmit();
-  }, [onSubmit, disabled]);
-
-  const handleSecondaryAction = useCallback(() => {
-    if (disabled || !secondaryAction) {
-      return;
-    }
-
-    secondaryAction();
-  }, [secondaryAction, disabled]);
-
-  if (!isOpen) {
-    return null;
-  }
-
-  return (
-    <>
-      <div
-        className="
+    return (
+        <>
+            <div
+                className={`
           justify-center 
           items-center 
           flex 
@@ -80,10 +80,15 @@ const Modal: React.FC<ModalProps> = ({
           z-50 
           outline-none 
           focus:outline-none
-          bg-neutral-800/70
-        "
-      >
-        <div className="
+          bg-neutral-800/90
+          duration-300
+          ${showModal ? 'opacity-100' : 'opacity-0'}
+        `}
+                onClick={() => {
+                    handleClose()
+                }}
+            >
+                <div className="
           relative 
           w-full
           md:w-4/6
@@ -95,16 +100,19 @@ const Modal: React.FC<ModalProps> = ({
           lg:h-auto
           md:h-auto
           "
-        >
-          {/*content*/}
-          <div className={`
+                     onClick={(event) => {
+                         event.stopPropagation()
+                     }}
+                >
+                    {/*content*/}
+                    <div className={`
             translate
             duration-300
             h-full
             ${showModal ? 'translate-y-0' : 'translate-y-full'}
             ${showModal ? 'opacity-100' : 'opacity-0'}
           `}>
-            <div className="
+                        <div className="
               translate
               h-full
               lg:h-auto
@@ -120,9 +128,9 @@ const Modal: React.FC<ModalProps> = ({
               outline-none 
               focus:outline-none
             "
-            >
-              {/*header*/}
-              <div className="
+                        >
+                            {/*header*/}
+                            <div className="
                 flex 
                 items-center 
                 p-6
@@ -131,9 +139,9 @@ const Modal: React.FC<ModalProps> = ({
                 relative
                 border-b-[1px]
                 "
-              >
-                <button
-                  className="
+                            >
+                                <button
+                                    className="
                     p-1
                     border-0 
                     hover:opacity-70
@@ -141,51 +149,54 @@ const Modal: React.FC<ModalProps> = ({
                     absolute
                     left-9
                   "
-                  onClick={handleClose}
-                >
-                  close
-                </button>
-                <div className="text-lg font-semibold">
-                  {title}
-                </div>
-              </div>
-              {/*body*/}
-              <div className="relative p-6 flex-auto">
-                {body}
-              </div>
-              {/*footer*/}
-              <div className="flex flex-col gap-2 p-6">
-                <div
-                  className="
+                                    onClick={handleClose}
+                                >
+                                    <svg className="icon" viewBox="0 0 1024 1024" width="16" height="16">
+                                        <path
+                                            d="M563.8 512l262.5-312.9c4.4-5.2 0.7-13.1-6.1-13.1h-79.8c-4.7 0-9.2 2.1-12.3 5.7L511.6 449.8 295.1 191.7c-3-3.6-7.5-5.7-12.3-5.7H203c-6.8 0-10.5 7.9-6.1 13.1L459.4 512 196.9 824.9c-4.4 5.2-0.7 13.1 6.1 13.1h79.8c4.7 0 9.2-2.1 12.3-5.7l216.5-258.1 216.5 258.1c3 3.6 7.5 5.7 12.3 5.7h79.8c6.8 0 10.5-7.9 6.1-13.1L563.8 512z" fill="#707070"></path>
+                                    </svg>
+                                </button>
+                                <div className="text-lg font-semibold">
+                                    {title}
+                                </div>
+                            </div>
+                            {/*body*/}
+                            <div className="relative p-6 flex-auto">
+                                {body}
+                            </div>
+                            {/*footer*/}
+                            <div className="flex flex-col gap-2 p-6">
+                                <div
+                                    className="
                     flex 
                     flex-row 
                     items-center 
                     gap-4 
                     w-full
                   "
-                >
-                  {secondaryAction && secondaryActionLabel && (
-                    <Button
-                      disabled={disabled}
-                      label={secondaryActionLabel}
-                      onClick={handleSecondaryAction}
-                      outline
-                    />
-                  )}
-                  <Button
-                    disabled={disabled}
-                    label={actionLabel}
-                    onClick={handleSubmit}
-                  />
+                                >
+                                    {secondaryAction && secondaryActionLabel && (
+                                        <Button
+                                            disabled={disabled}
+                                            label={secondaryActionLabel}
+                                            onClick={handleSecondaryAction}
+                                            outline
+                                        />
+                                    )}
+                                    <Button
+                                        disabled={disabled}
+                                        label={actionLabel}
+                                        onClick={handleSubmit}
+                                    />
+                                </div>
+                                {footer}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                {footer}
-              </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
+        </>
+    );
 }
 
 export default Modal;
