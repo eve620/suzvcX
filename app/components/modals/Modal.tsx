@@ -5,7 +5,7 @@ import {useCallback, useEffect, useState} from "react";
 import Button from "@/app/components/Button";
 
 interface ModalProps {
-    isOpen?: boolean;
+    isOpen: boolean;
     onClose: () => void;
     onSubmit: () => void;
     title?: string;
@@ -109,7 +109,7 @@ const Modal: React.FC<ModalProps> = ({
             translate
             duration-300
             h-full
-            ${showModal ? 'translate-y-0' : 'translate-y-full'}
+            ${showModal ? 'translate-y-0' : 'translate-y-16'}
             ${showModal ? 'opacity-100' : 'opacity-0'}
           `}>
                         <div className="
