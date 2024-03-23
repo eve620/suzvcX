@@ -1,91 +1,82 @@
 "use client"
 import Modal from "@/app/components/modals/Modal";
-import useAvatarModal from "@/app/hooks/useAvatarModal";
-import {centerCrop, Crop, makeAspectCrop, ReactCrop} from "react-image-crop";
-import {ChangeEvent, useState} from "react";
+import {useState} from "react";
 import 'react-image-crop/dist/ReactCrop.css'
+import ImgCrop from "antd-img-crop";
+import {Upload} from "antd";
+import type {GetProp, UploadProps} from 'antd';
+import useAvatarModal from "@/app/hooks/useAvatarModal";
 import Image from "next/image";
+import "@/app/components/modals/css/avatarModal.css";
 
+type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
-const defaultAvatar = "/avatar.jpg"
-const getAvatar = (avatar?: string) => {
-    if (avatar != undefined && avatar.length == 0) {
-        return avatar
+const getBase64 = (img: FileType, callback: (url: string) => void) => {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => callback(reader.result as string));
+    reader.readAsDataURL(img);
+};
+
+const beforeUpload = (file: FileType) => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+        console.log('You can only upload JPG/PNG file!');
     }
-    return defaultAvatar
-}
-
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+        console.log('Image must smaller than 2MB!');
+    }
+    return isJpgOrPng && isLt2M;
+};
 const AvatarModal: React.FC = () => {
-    const [imgSrc, setImgSrc] = useState("")
-    const [crop, setCrop] = useState<Crop>()
+    const [imageUrl, setImageUrl] = useState<string>();
     const avatarModal = useAvatarModal()
-    const onSelectFile = (e: ChangeEvent<HTMLInputElement>) => {
-        setImgSrc("")
-        const file = e.target.files?.[0]
-        if (!file) return
-        const reader = new FileReader()
-        reader.addEventListener("load", () => {
-            const imageUrl = reader.result?.toString() || ""
-            setImgSrc(imageUrl)
-        })
-        reader.readAsDataURL(file)
-    }
-    const onImageLoad = (e: any) => {
-        const {width, height} = e.currentTarget
-        const crop = makeAspectCrop(
-            {
-                unit: "%",
-                width: 100,
-            },
-            1,
-            width,
-            height)
-        const centeredCrop = centerCrop(crop, width, height)
-        setCrop(centeredCrop)
-    }
+    const handleChange: UploadProps['onChange'] = (info) => {
+        if (info.file.status === 'uploading') {
+            return;
+        }
+        if (info.file.status === 'done') {
+            // Get this url from response in real world.
+            getBase64(info.file.originFileObj as FileType, (url) => {
+                setImageUrl(url);
+            });
+        }
+    };
+
+    const uploadButton = (
+        <button style={{border: 0, background: 'none'}} type="button">
+            <div style={{marginTop: 8}}>Upload</div>
+        </button>
+    );
     const bodyContent = (
-        <div className={""}>
-            <label className={"block ms-3 w-fit"}>
-                <span className={"sr-only"}>选择上传图片</span>
-                <input type="file"
-                       className={"block w-full text-sm text-slate-600 file:mr-4 file:py-1 file:px-2 file:rounded-full file:border-0 file:text-xs file:bg-black file:text-white hover:file:opacity-80"}
-                       accept="image/*"
-                       onChange={onSelectFile}
-                />
-            </label>
-
-
-            {imgSrc ?
-                <div className={"flex justify-center"}>
-                    <ReactCrop crop={crop} circularCrop aspect={1}
-                               onChange={c => setCrop(c)} minWidth={10} keepSelection>
-                        <Image src={imgSrc} alt={"avatar"} width={300} height={300} onLoad={onImageLoad}/>
-                    </ReactCrop>
-                </div> :
-                <div
-                    className={"flex justify-center items-center w-64 h-64 mx-auto border-2 bg-gray-200 border-black rounded-xl border-dotted"}>
-                    <svg className="icon" viewBox="0 0 1024 1024" width="48" height="48">
-                        <path d="M474 152m8 0l60 0q8 0 8 8l0 704q0 8-8 8l-60 0q-8 0-8-8l0-704q0-8 8-8Z"
-                              fill="#2c2c2c"></path>
-                        <path d="M168 474m8 0l672 0q8 0 8 8l0 60q0 8-8 8l-672 0q-8 0-8-8l0-60q0-8 8-8Z"
-                              fill="#2c2c2c"></path>
-                    </svg>
-                </div>
-            }
+        <div className={"flex justify-center h-full items-center"}>
+            <div>
+                <ImgCrop rotationSlider>
+                    <Upload
+                        name="avatar"
+                        listType="picture-card"
+                        showUploadList={false}
+                        beforeUpload={beforeUpload}
+                        onChange={handleChange}
+                    >
+                        {imageUrl ? <Image src={imageUrl} alt="avatar" width={200} height={200}/> : uploadButton}
+                    </Upload>
+                </ImgCrop>
+            </div>
         </div>
     )
     return (
         <Modal isOpen={avatarModal.isOpen}
                onClose={() => {
                    avatarModal.onClose()
-                   setImgSrc("")
+                   setImageUrl("")
                }}
                onSubmit={() => {
                    avatarModal.onClose()
-                   setImgSrc("")
+                   setImageUrl("")
                }}
                body={bodyContent}
-               actionLabel={"修改"}/>
+               actionLabel={"保存"}/>
     )
 }
 

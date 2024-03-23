@@ -91,9 +91,9 @@ const Modal: React.FC<ModalProps> = ({
                 <div className="
           relative 
           w-full
-          md:w-4/6
-          lg:w-3/6
-          xl:w-2/5
+          md:w-2/3
+          lg:w-1/2
+          xl:w-1/3
           my-6
           mx-auto 
           h-full 
@@ -168,10 +168,10 @@ const Modal: React.FC<ModalProps> = ({
                             <div className="flex flex-col gap-2 p-6">
                                 <div
                                     className="
-                    flex 
-                    flex-row 
-                    items-center 
-                    gap-4 
+                    flex
+                    flex-row
+                    items-center
+                    gap-4
                     w-full
                   "
                                 >

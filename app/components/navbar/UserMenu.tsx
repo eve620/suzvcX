@@ -8,6 +8,7 @@ import {useRouter} from "next/navigation";
 import {SafeUser} from "@/types";
 import Avatar from "@/app/components/Avatar";
 import useAvatarModal from "@/app/hooks/useAvatarModal";
+import useProfileModal from "@/app/hooks/useProfileModal";
 
 interface UserMenuProps {
     currentUser?: SafeUser | null
@@ -17,6 +18,7 @@ const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false)
     const router = useRouter()
     const avatarModal = useAvatarModal()
+    const profileModal = useProfileModal()
     return (
         <div>
             {currentUser ?
@@ -33,7 +35,7 @@ const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
                         {isDropdownOpen &&
                             <div
                                 className={"absolute right-0 shadow-sm rounded-2xl border dark:border-0 overflow-hidden"}>
-                                <MenuItem label={"详情"}/>
+                                <MenuItem label={"详情"} onClick={profileModal.onOpen}/>
                                 <MenuItem label={"退出"} onClick={() => {
                                     signOut({redirect: false}).then(() => {
                                         setIsDropdownOpen(false)
