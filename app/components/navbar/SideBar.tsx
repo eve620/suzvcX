@@ -39,9 +39,9 @@ const SideBar: React.FC = () => {
                     </Link>
                     <Link href={"/project"} className={"block cursor-pointer bg-white"}>项目
                     </Link>
-                    <Link href={"/applet"} className={"block cursor-pointer bg-white"}>开发
+                    <Link href={"/english"} className={"block cursor-pointer bg-white"}>英语
                     </Link>
-                    <Link href={"/acg"} className={"block cursor-pointer bg-white"}>ACG
+                    <Link href={"/kanban"} className={"block cursor-pointer bg-white"}>看板
                     </Link>
                 </ul>
             </div>

@@ -6,7 +6,8 @@ const NavMenu = () => {
     const pathname = usePathname()
     const isActive = (route: string) => pathname.startsWith(route)
     return (
-        <div className="rounded-full shadow-sm hover:shadow-md border cursor-pointer hidden py-1 md:py-3 w-1/2 justify-around md:flex">
+        <div
+            className="rounded-full shadow-sm hover:shadow-md border cursor-pointer hidden py-1 md:py-3 w-1/2 justify-around md:flex">
             <Link href={"/about"}
                   className={`flex-1 text-center border-r hover:underline ${isActive('/about') && 'underline'}`}>
                 关于
@@ -19,13 +20,13 @@ const NavMenu = () => {
                   className={`flex-1 text-center border-r hover:underline ${isActive('/project') && 'underline'}`}>
                 项目
             </Link>
-            <Link href={"/applet"}
-                  className={`flex-1 text-center border-r hover:underline ${isActive('/applet') && 'underline'}`}>
-                开发
+            <Link href={"/english"}
+                  className={`flex-1 text-center border-r hover:underline ${isActive('/english') && 'underline'}`}>
+                英语
             </Link>
-            <Link href={"/acg"}
-                  className={`flex-1 text-center hover:underline ${isActive('/acg') && 'underline'}`}>
-                ACG
+            <Link href={"/kanban"}
+                  className={`flex-1 text-center hover:underline ${isActive('/kanban') && 'underline'}`}>
+                看板
             </Link>
         </div>
     )
