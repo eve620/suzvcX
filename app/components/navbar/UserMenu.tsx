@@ -17,17 +17,12 @@ interface UserMenuProps {
 const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false)
     const router = useRouter()
-    const avatarModal = useAvatarModal()
     const profileModal = useProfileModal()
     return (
         <div>
             {currentUser ?
                 <div className={"flex items-center"}>
-                    <div
-                        className={"w-8 h-8 bg-blue-300 rounded-full overflow-hidden mr-2 cursor-pointer hover:opacity-80"}
-                        onClick={avatarModal.onOpen}>
-                        <Avatar/>
-                    </div>
+                    <Avatar/>
                     <div className={"relative nav-button"}
                          onMouseLeave={() => setIsDropdownOpen(false)}
                          onMouseEnter={() => setIsDropdownOpen(true)}>

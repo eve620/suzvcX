@@ -50,7 +50,7 @@ const AvatarModal: React.FC = () => {
     );
     const bodyContent = (
         <div className={"flex justify-center h-full items-center"}>
-            <div>
+            <div id={"avatar"}>
                 <ImgCrop rotationSlider>
                     <Upload
                         name="avatar"

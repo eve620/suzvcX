@@ -14,7 +14,7 @@ export default async function FrontLayout({children}: Readonly<{ children: React
         <ModalContainer>
             <RegisterModal/>
             <AvatarModal/>
-            <ProfileModal/>
+            <ProfileModal currentUser={currentUser}/>
         </ModalContainer>
         <Navbar currentUser={currentUser}/>
         <main className={"flex-1 pt-28 md:pt-36 px-12 md:px-36 pb-16"}>

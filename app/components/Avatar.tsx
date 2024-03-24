@@ -1,4 +1,5 @@
 import Image from "next/image";
+import useAvatarModal from "@/app/hooks/useAvatarModal";
 
 const defaultAvatar = "/avatar.jpg"
 const getAvatar = (avatar?: string) => {
@@ -9,8 +10,14 @@ const getAvatar = (avatar?: string) => {
 }
 
 const Avatar = (props: { avatar?: string }) => {
+  const avatarModal = useAvatarModal()
   return (
-      <Image src={getAvatar(props.avatar)} alt="avatar" width={100} height={100}/>
+      <div
+          className={"w-8 h-8 bg-blue-300 rounded-full overflow-hidden mr-2 cursor-pointer hover:opacity-80"}
+          onClick={avatarModal.onOpen}>
+        <Image src={getAvatar(props.avatar)} alt="avatar" width={100} height={100}/>
+      </div>
+
   )
 }
 
