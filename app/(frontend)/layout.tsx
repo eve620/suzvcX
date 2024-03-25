@@ -11,16 +11,16 @@ export default async function FrontLayout({children}: Readonly<{ children: React
 
     return (
         <div className={"flex flex-col min-h-screen"}>
-        <ModalContainer>
-            <RegisterModal/>
-            <AvatarModal/>
-            <ProfileModal currentUser={currentUser}/>
-        </ModalContainer>
-        <Navbar currentUser={currentUser}/>
-        <main className={"flex-1 pt-28 md:pt-36 px-12 md:px-36 pb-16"}>
-            {children}
-        </main>
-        <Footer/>
+            <ModalContainer>
+                <RegisterModal/>
+                <AvatarModal/>
+                <ProfileModal currentUser={currentUser}/>
+            </ModalContainer>
+            <Navbar currentUser={currentUser}/>
+            <main className={"flex-1 pt-28 md:pt-36 w-2/3 mx-auto pb-16"}>
+                {children}
+            </main>
+            <Footer/>
         </div>
     );
 }

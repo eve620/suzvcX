@@ -25,21 +25,19 @@ export default function Page() {
         setSelectedIds([]);
     };
     return (
-        <div className={""}>
-            <div className={"flex flex-col bg-white"}>
-                {<div className={"flex border-b justify-end space-x-3 md:space-x-10 py-1 pr-5"}>
-                    <button className={"option-button"}>添加</button>
-                </div>}
-                <div className="flex">
-                    {items.map(item => {
-                        return (
-                            <div key={item.id}
-                                 className="w-28 h-28 m-2 mb-36 p-2 rounded-xl border hover:bg-amber-500 hover:border-2 hover:border-amber-700">
-                                {item.name}
-                            </div>
-                        )
-                    })}
-                </div>
+        <div className={"flex flex-col"}>
+            {<div className={"flex border-b justify-end space-x-3 md:space-x-10 py-1 pr-5"}>
+                <button className={"option-button"}>添加</button>
+            </div>}
+            <div className="flex">
+                {items.map(item => {
+                    return (
+                        <div key={item.id}
+                             className="w-28 h-28 m-2 mb-36 p-2 rounded-xl border hover:bg-amber-500 hover:border-2 hover:border-amber-700">
+                            {item.name}
+                        </div>
+                    )
+                })}
             </div>
         </div>
     );

@@ -64,7 +64,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({currentUser}) => {
         </button>
     );
     const bodyContent = (
-        <form className={"space-y-6 pl-6 pr-10"}>
+        <form className={"space-y-6 pl-6 pr-10 text-black"}>
             <div id={"profile"} className={"flex justify-center items-center"}>
                 <label className={"text-sm w-1/5 text-end pr-3 font-bold inline-block"}>头像:</label>
                 <div className={"w-4/5 pl-2"}>

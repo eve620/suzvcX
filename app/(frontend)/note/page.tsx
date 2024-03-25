@@ -24,8 +24,8 @@ export default function Page() {
         setSelectedIds([]);
     };
     return (
-        <div className={"bg-white"}>
-            {<div className={"flex border-b justify-end space-x-3 md:space-x-10 py-1 pr-5"}>
+        <div className={""}>
+            {<div className={"flex dark:border-b justify-end space-x-3 md:space-x-10 py-1 pr-5"}>
                 <button className={"option-button"} onClick={() => {
                     router.push("/note/add")
                 }}>添加
@@ -33,7 +33,7 @@ export default function Page() {
             </div>}
             <div>
                 <div className="flex items-start">
-                    <div className={"w-56 min-h-[35rem] bg-rose-200 p-5"}>
+                    <div className={"w-56 dark:border-r p-5"}>
                         <ul>
                             <li>123</li>
                             <li>123</li>
@@ -51,7 +51,7 @@ export default function Page() {
                                 <div key={item.id} onClick={() => {
                                     router.push(`/note/${item.id}`)
                                 }}
-                                     className="m-2 p-2 text-center rounded-xl border hover:bg-amber-500 hover:border-amber-700">
+                                     className="m-2 p-2 text-center rounded-xl dark:border hover:bg-amber-500 hover:border-amber-700">
                                     {item.name}
                                 </div>
                             )

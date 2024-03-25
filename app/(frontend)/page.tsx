@@ -1,6 +1,6 @@
 export default function FrontendPage() {
     return (
-        <div className={"bg-white w-full"}>
+        <div className={"w-full"}>
             FrontendPage
         </div>
     );

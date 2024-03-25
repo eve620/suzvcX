@@ -31,15 +31,15 @@ export default function Page() {
     return (
         <div className={"flex flex-col flex-1 w-full"}>
             <Back url={"/note"}></Back>
-            <form className={"flex flex-1 gap-2 flex-col bg-white p-5 border-2 border-black rounded"}>
+            <form className={"flex flex-1 gap-2 flex-col p-5 border-2 border-black rounded dark:shadow-md dark:shadow-pink-900"}>
                 <div>
                     <div className={"text-sm font-bold"}>标题</div>
-                    <input className={"border-2 rounded pl-1"}/>
+                    <input className={"border-2 rounded pl-1 dark:text-black"}/>
                 </div>
                 <div>
                     <div className={"text-sm"}>内容</div>
                     <div className={"flex w-full"}>
-                        <div className={"w-1/2"}>
+                        <div className={"w-1/2 bg-white dark:text-black"}>
                             <Editor field={field}/>
                         </div>
                         <div className={"p-4 pt-2 w-1/2 border-2"}>
