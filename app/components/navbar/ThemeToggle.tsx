@@ -2,17 +2,22 @@
 import {useEffect, useState} from "react";
 
 const ThemeToggle:React.FC=()=>{
-    const [isLight, setIsLight] = useState(true)
+    const [isLight, setIsLight] = useState(true);
+
     useEffect(() => {
         if (isLight) {
-            document.documentElement.classList.remove("dark")
+            document.documentElement.classList.remove("dark");
+            document.documentElement.dataset.theme = "light"; // 添加这行
         } else {
-            document.documentElement.classList.add("dark")
+            document.documentElement.classList.add("dark");
+            document.documentElement.dataset.theme = "dark"; // 添加这行
         }
     }, [isLight]);
+
     const changeTheme = () => {
-        setIsLight(!isLight)
-    }
+        setIsLight((prevIsLight) => !prevIsLight);
+        document.documentElement.dataset.theme = isLight ? "dark" : "light"; // 在这里同步修改data-theme
+    };
 
     return(
         <div id={"mode"} className={"pr-2"} onClick={changeTheme}>

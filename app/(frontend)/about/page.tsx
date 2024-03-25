@@ -11,7 +11,7 @@ export default function Page() {
                     </div>
                 </div>
                 <div className={""}>
-                    <div className="float-left text-center w-52 space-x-2 space-y-3 pt-16">
+                    <div className="float-left text-black text-center w-52 space-x-2 space-y-3 pt-16">
                         <span className="tag">#HTML</span>
                         <span className="tag">#CSS</span>
                         <span className="tag">#JS</span>
@@ -21,7 +21,7 @@ export default function Page() {
                         <span className="tag">#AE</span>
                         <span className="tag">#Vscode</span>
                     </div>
-                    <div className="text-xl leading-9 float-left w-[450px] pl-12 pt-5">
+                    <div className="text-xl text-black leading-9 float-left w-[450px] pl-12 pt-5">
                         <p>
                             Hello everyone, I am very glad to have the opportunity to introduce
                             myself to you. I have a strong interest in CSS and love sports...

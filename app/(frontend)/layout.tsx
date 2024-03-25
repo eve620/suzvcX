@@ -10,7 +10,7 @@ export default async function FrontLayout({children}: Readonly<{ children: React
     const currentUser = await getCurrentUser()
 
     return (
-        <body className={"flex flex-col min-h-screen bg-pink-50"}>
+        <div className={"flex flex-col min-h-screen"}>
         <ModalContainer>
             <RegisterModal/>
             <AvatarModal/>
@@ -21,6 +21,6 @@ export default async function FrontLayout({children}: Readonly<{ children: React
             {children}
         </main>
         <Footer/>
-        </body>
+        </div>
     );
 }

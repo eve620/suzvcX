@@ -1,8 +1,6 @@
 import type {Metadata} from "next";
 import "./globals.css";
-import Navbar from "@/app/components/navbar/Navbar";
-import Footer from "@/app/components/Footer";
-import getCurrentUser from "@/actions/getCurrentUser";
+import {ThemeProvider} from "next-themes";
 
 // 字体问题
 // import {Nunito} from "next/font/google";
@@ -20,7 +18,9 @@ export default async function RootLayout({children}: Readonly<{
 }>) {
     return (
         <html lang="en">
+        <body>
         {children}
+        </body>
         </html>
     );
 }

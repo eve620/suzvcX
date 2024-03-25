@@ -64,10 +64,10 @@ const ProfileModal: React.FC<ProfileModalProps> = ({currentUser}) => {
         </button>
     );
     const bodyContent = (
-        <form className={"space-y-6 px-10"}>
+        <form className={"space-y-6 pl-6 pr-10"}>
             <div id={"profile"} className={"flex justify-center items-center"}>
-                <label className={"text-sm w-1/6 text-end pr-3 font-bold inline-block"}>头像:</label>
-                <div className={"w-5/6 pl-2"}>
+                <label className={"text-sm w-1/5 text-end pr-3 font-bold inline-block"}>头像:</label>
+                <div className={"w-4/5 pl-2"}>
                     <ImgCrop rotationSlider>
                         <Upload
                             name="avatar"
@@ -82,15 +82,15 @@ const ProfileModal: React.FC<ProfileModalProps> = ({currentUser}) => {
                 </div>
             </div>
             <div className={"flex justify-center items-center"}>
-                <label className={"w-1/6 text-sm text-end pr-3 font-bold inline-block"}>用户名:</label>
+                <label className={"w-1/5 text-sm text-end pr-3 font-bold inline-block"}>用户名:</label>
                 <input
                     {...register("name")}
-                    className={" rounded-md w-5/6 px-4 py-2 mt-1 outline outline-1 outline-neutral-300 focus:ring-2 focus:ring-neutral-400 focus:ring-offset-2"}
+                    className={" rounded-md w-4/5 px-4 py-2 mt-1 outline outline-1 outline-neutral-300 focus:ring-2 focus:ring-neutral-400 focus:ring-offset-2"}
                     placeholder={"请输入用户名"}/>
             </div>
             <div className={"flex justify-center"}>
-                <label className={"text-sm w-1/6 text-end pr-3 pt-1 font-bold inline-block"}>密码:</label>
-                <div className={"w-5/6"}>
+                <label className={"text-sm w-1/5 text-end pr-3 pt-1 font-bold inline-block"}>密码:</label>
+                <div className={"w-4/5"}>
                     {isChangePassword ? <div className={"flex flex-col gap-2"}>
                             <input
                                 className={"rounded-md block px-4 py-2 mt-1 outline outline-1 outline-neutral-300 focus:ring-2 focus:ring-neutral-400 focus:ring-offset-2"}
@@ -112,11 +112,11 @@ const ProfileModal: React.FC<ProfileModalProps> = ({currentUser}) => {
 
             </div>
             <div className={"flex justify-center"}>
-                <label className={"text-sm w-1/6 text-end pr-3 pt-2 font-bold inline-block"}>描述:</label>
+                <label className={"text-sm w-1/5 text-end pr-3 pt-2 font-bold inline-block"}>描述:</label>
                 <textarea
                     {...register("bio")}
                     maxLength={100}
-                    className={"w-5/6 h-auto min-h-32 max-h-56 rounded-md px-4 py-2 mt-2 outline outline-1 outline-neutral-300 focus:ring-2 focus:ring-neutral-400 focus:ring-offset-2"}
+                    className={"w-4/5 h-auto min-h-32 max-h-56 rounded-md px-4 py-2 mt-2 outline outline-1 outline-neutral-300 focus:ring-2 focus:ring-neutral-400 focus:ring-offset-2"}
                     placeholder={"请输入描述"}/>
             </div>
         </form>

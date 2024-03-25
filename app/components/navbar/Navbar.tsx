@@ -11,8 +11,8 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({currentUser}) => {
     return (
-        <header className={"fixed w-full bg-white z-10 shadow-md font-bold px-3"}>
-            <nav className={"flex justify-between items-center p-4 border-b"}>
+        <header className={"fixed w-full bg-white dark:bg-[#1f2937] z-10 shadow-md dark:shadow-pink-900 font-bold px-3"}>
+            <nav className={"flex justify-between items-center p-4"}>
                 <div className={"flex items-center"}>
                     <SideBar/>
                     <Logo/>
