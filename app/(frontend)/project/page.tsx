@@ -1,13 +1,17 @@
 "use client"
 import {useState} from "react";
 import {useRouter} from "next/navigation";
+import Button from "@/app/components/Button";
 
 
 export default function Page() {
     const router = useRouter()
     const list = [
         {name: "第一个项目", id: "1"},
-        {name: "第二个项目", id: "2"}
+        {name: "第二个项目第二个项目", id: "2"},
+        {name: "第二个项目第二个项目第二个项目", id: "2"},
+        {name: "第二个项目第二个项目第二个项目第二个项目", id: "2"},
+        {name: "第二个项目", id: "2"},
     ]
     const [items, setItems] = useState(list);
     const [selectedIds, setSelectedIds] = useState([""]);
@@ -26,14 +30,23 @@ export default function Page() {
     };
     return (
         <div className={"flex flex-col"}>
-            {<div className={"flex border-b justify-end space-x-3 md:space-x-10 py-1 pr-5"}>
-                <button className={"option-button"}>添加</button>
+            {<div className={"flex justify-end pb-6 pr-6"}>
+                <Button label={"添加项目"} onClick={() => {
+                }}/>
             </div>}
-            <div className="flex">
+            <div className="sm:columns-2 sm:gap-6 lg:columns-3 lg:gap-8">
                 {items.map(item => {
                     return (
                         <div key={item.id}
-                             className="w-28 h-28 m-2 mb-36 p-2 rounded-xl border hover:bg-amber-500 hover:border-2 hover:border-amber-700">
+                             className="
+                             mb-8
+                             sm:break-inside-avoid
+                             p-6
+                             rounded-xl
+                             shadow-lg
+                             duration-200
+                             dark:bg-gray-700 dark:hover:shadow-blue-400/40
+                             hover:shadow-2xl hover:shadow-purple-400/50">
                             {item.name}
                         </div>
                     )

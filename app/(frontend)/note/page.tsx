@@ -1,6 +1,7 @@
 "use client"
 import {useState} from "react";
 import {useRouter} from "next/navigation";
+import Button from "@/app/components/Button";
 
 export default function Page() {
     const router = useRouter()
@@ -26,10 +27,9 @@ export default function Page() {
     return (
         <div className={""}>
             {<div className={"flex dark:border-b justify-end space-x-3 md:space-x-10 py-1 pr-5"}>
-                <button className={"option-button"} onClick={() => {
+                <Button label={"添加笔记"} onClick={() => {
                     router.push("/note/add")
-                }}>添加
-                </button>
+                }}/>
             </div>}
             <div>
                 <div className="flex items-start">

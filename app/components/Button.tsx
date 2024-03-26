@@ -1,44 +1,17 @@
-'use client';
-
-
 interface ButtonProps {
-  label: string;
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  disabled?: boolean;
-  outline?: boolean;
-  small?: boolean;
+    label: string,
+    onClick: () => void,
+    big?: boolean,
 }
 
-const Button: React.FC<ButtonProps> = ({ 
-  label, 
-  onClick, 
-  disabled, 
-  outline,
-  small,
-}) => {
-  return ( 
-    <button
-      disabled={disabled}
-      onClick={onClick}
-      className={`
-        relative
-        disabled:opacity-70
-        disabled:cursor-not-allowed
-        rounded-lg
-        hover:opacity-80
-        transition
-        w-full
-        'border-black' 
-        ${outline ? 'bg-white' : 'bg-black'}
-        ${outline ? 'text-black' : 'text-white'}
-        ${small ? 'text-sm' : 'text-md'}
-        ${small ? 'py-1' : 'py-3'}
-        ${small ? 'font-light' : 'font-semibold'}
-      `}
-    >
-      {label}
-    </button>
-   );
+const Button: React.FC<ButtonProps> = ({label, onClick, big}) => {
+    return (
+        <button
+            className={`${big ? "text-md":"text-sm"} bold bg-black text-white dark:bg-white dark:text-black px-3 py-1 rounded hover:opacity-80 dark:hover:opacity-90`}
+            onClick={onClick}>
+            {label}
+        </button>
+    )
 }
- 
-export default Button;
+
+export default Button

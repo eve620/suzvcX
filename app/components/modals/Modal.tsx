@@ -2,7 +2,7 @@
 
 import {useCallback, useEffect, useState} from "react";
 
-import Button from "@/app/components/Button";
+import FormButton from "@/app/components/FormButton";
 
 interface ModalProps {
     isOpen: boolean;
@@ -177,14 +177,14 @@ const Modal: React.FC<ModalProps> = ({
                   "
                                 >
                                     {secondaryAction && secondaryActionLabel && (
-                                        <Button
+                                        <FormButton
                                             disabled={disabled}
                                             label={secondaryActionLabel}
                                             onClick={handleSecondaryAction}
                                             outline
                                         />
                                     )}
-                                    <Button
+                                    <FormButton
                                         disabled={disabled}
                                         label={actionLabel}
                                         onClick={handleSubmit}

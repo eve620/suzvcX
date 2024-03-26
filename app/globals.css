@@ -1,15 +1,20 @@
 @tailwind base;
 @tailwind components;
 @layer components {
+    .normalButton{
+        @apply text-pink-300 bg-black px-3 py-1;
+    }
     .tag {
         @apply bg-blue-400 rounded-xl px-2 inline-block hover:bg-blue-300;
     }
 }
+
 @tailwind utilities;
 
 body {
     @apply
-    bg-pink-100
+    text-gray-600
+    bg-white
     duration-200
 }
 
