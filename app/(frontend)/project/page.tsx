@@ -82,7 +82,7 @@ export default function Page() {
                              dark:bg-gray-700 dark:hover:shadow-blue-400/40
                              hover:shadow-2xl hover:shadow-purple-400/50">
                             <div className={"flex flex-col p-6"}>
-                                <div className={"flex justify-between"}>
+                                <div className={"flex flex-wrap justify-between text-nowrap"}>
                                     <span className={"font-bold text-black dark:text-white"}>{item.title}</span>
                                     <span className={"text-sm"}>{item.job}</span>
                                 </div>
