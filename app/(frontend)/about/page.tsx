@@ -1,12 +1,16 @@
 import "./introduce.css"
+import Image from "next/image";
+
 export default function Page() {
     return (
         <div className={"w-full flex-1"}>
             <div className={"w-[44rem] h-[28rem] bg-white relative rounded-3xl overflow-hidden shadow-2xl"}>
-                <img src="/avatar.jpg" className={"rounded-full absolute top-32 left-9 w-44 border-8 border-white z-10 shadow-2xl"}/>
+                <Image src="/avatar.jpg" width={160} height={160} alt={"avatar"}
+                       className={"rounded-full absolute top-32 left-9 border-8 border-white z-10 shadow-2xl"}/>
                 <div className={"head"}>
                     <div className="absolute top-28 left-72 text-white leading-10">
-                        <div className="title1 text-4xl">GQJ<span className={"pl-6 text-3xl"}>西安电子科技大学</span></div>
+                        <div className="title1 text-4xl">GQJ<span className={"pl-6 text-3xl"}>西安电子科技大学</span>
+                        </div>
                         <div className="title2">前端开发</div>
                     </div>
                 </div>

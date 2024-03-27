@@ -7,9 +7,9 @@ import useProjectModal from "@/app/hooks/useProjectModal";
 const list = [
     {name: "第一个项目", id: "1"},
     {name: "第二个项目第二个项目", id: "2"},
-    {name: "第二个项目第二个项目第二个项目", id: "2"},
-    {name: "第二个项目第二个项目第二个项目第二个项目", id: "2"},
-    {name: "第二个项目", id: "2"},
+    {name: "第二个项目第二个项目第二个项目", id: "3"},
+    {name: "第二个项目第二个项目第二个项目第二个项目", id: "4"},
+    {name: "第二个项目", id: "5"},
 ]
 
 export default function Page() {
