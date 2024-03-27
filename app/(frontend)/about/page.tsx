@@ -15,7 +15,7 @@ export default function Page() {
                     </div>
                 </div>
                 <div className={""}>
-                    <div className="float-left text-black text-center w-52 space-x-2 space-y-3 pt-16">
+                    <div className="float-left text-black text-center w-52 space-x-2 pt-16">
                         <span className="tag">#HTML</span>
                         <span className="tag">#CSS</span>
                         <span className="tag">#JS</span>
