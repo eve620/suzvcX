@@ -3,7 +3,57 @@ import {useState} from "react";
 import {useRouter} from "next/navigation";
 import Button from "@/app/components/Button";
 
+const mock = [
+    {id: 1, name: "文件夹1", parent: ""},
+    {id: 2, name: "文件夹2", parent: "1"},
+    {id: 3, name: "文件夹3", parent: "2"},
+    {id: 4, name: "文件夹4", parent: "6"},
+    {id: 5, name: "文件夹5", parent: ""},
+    {id: 6, name: "文件夹6", parent: "5"}]
+
+interface NodeTreeProps {
+    nodes: any[]
+    parentId?: string
+}
+
+interface Node {
+    id: string;
+    name: string;
+    parent: string;
+};
+
+interface NodeItemProps {
+    node: Node;
+    nodes: Node[];
+};
 export default function Page() {
+    const NoteTree: React.FC<NodeTreeProps> = ({nodes, parentId = ''}) => {
+        const filteredNodes = nodes.filter((item) => item.parent == parentId);
+        if (!filteredNodes) return null;
+        return (
+            <div>
+                {filteredNodes.map((item: Node) => (
+                    <NodeItem key={item.id} node={item} nodes={nodes}/>
+                ))}
+            </div>
+        );
+    };
+
+    const NodeItem: React.FC<NodeItemProps> = ({node, nodes}) => {
+        const [showChildren, setShowChildren] = useState(false);
+        const toggleChildren = () => setShowChildren((prev) => !prev);
+
+        return (
+            <div className="pl-6">
+                <span onClick={toggleChildren}>{node.name}</span>
+                {showChildren &&
+                    <div>
+                        <NoteTree nodes={nodes} parentId={node.id}/>
+                    </div>}
+            </div>
+        );
+    };
+
     const router = useRouter()
     const list = [
         {name: "第一个笔记", id: "1"},
@@ -34,16 +84,7 @@ export default function Page() {
             <div>
                 <div className="flex items-start">
                     <div className={"w-56 dark:border-r p-5"}>
-                        <ul>
-                            <li>123</li>
-                            <li>123</li>
-                            <li>123</li>
-                        </ul>
-                        <ul>
-                            <li>123</li>
-                            <li>123</li>
-                            <li>123</li>
-                        </ul>
+                        <NoteTree nodes={mock}/>
                     </div>
                     <div className={"flex"}>
                         {items.map(item => {

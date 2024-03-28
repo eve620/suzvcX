@@ -23,10 +23,7 @@ export default function FrontendPage() {
     }, {
         time: "2024",
         content: "此时若发现上个错词未正确修改，可按下退格键 （Backspace ⌫） 来回退到上一个错词，直到所有错词被更正完成，按下回车键提交即可验证通过后会显示答案页面，同时会播放对应题目语音用于辅助记忆。"
-    }, {
-        time: "2024",
-        content: "此时若发现上个错词未正确修改，可按下退格键 （Backspace ⌫） 来回退到上一个错词，直到所有错词被更正完成，按下回车键提交即可验证通过后会显示答案页面，同时会播放对应题目语音用于辅助记忆。"
-    }]
+    },]
 
     return (
         <div className={""}>
@@ -81,6 +78,18 @@ export default function FrontendPage() {
                             </div>
                         )
                     })}
+                    <div className={"md:w-1/2 lg:w-1/3 scroll-auto p-1 md:p-3"}>
+                        <div className="
+                                bg-gray-50 border border-gray-200 dark:border-gray-500
+                                dark:from-[#525252e6] dark:bg-gradient-to-b dark:to-gray-900
+                                rounded-2xl pt-4 pl-4 pb-4
+                                hover:shadow-xl dark:shadow-md dark:hover:shadow-blue-700/70
+                                ">
+                            <div className={"overflow-y-auto pr-2 h-32"}>
+                                <span>add预留</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>
