@@ -4,25 +4,25 @@ import Image from "next/image";
 export default function FrontendPage() {
     const logList = [{
         time: "2024",
-        content: "此时若发现上个错词未正确修改，可按下退格键 （Backspace ⌫） 来回退到上一个错词，直到所有错词被更正完成，按下回车键提交即可验证通过后会显示答案页面，同时会播放对应题目语音用于辅助记忆。"
+        content: "此时若发现上个错词未正确修改，可按下退格键 来回退到上一个错词"
     }, {
         time: "2024",
-        content: "此时若发现上个错词未正确修改，可按下退格键 （Backspace ⌫） 来回退到上一个错词，直到所有错词被更正完成，按下回车键提交即可验证通过后会显示答案页面，同时会播放对应题目语音用于辅助记忆。"
+        content: "此时若发现上个错词未正确修改，可按下退格键 来回退到上一个错词"
     }, {
         time: "2024",
-        content: "此时若发现上个错词未正确修改，可按下退格键 （Backspace ⌫） 来回退到上一个错词，直到所有错词被更正完成，按下回车键提交即可验证通过后会显示答案页面，同时会播放对应题目语音用于辅助记忆。"
+        content: "此时若发现上个错词未正确修改，可按下退格键 来回退到上一个错词"
     }, {
         time: "2024",
-        content: "此时若发现上个错词未正确修改，可按下退格键 （Backspace ⌫） 来回退到上一个错词，直到所有错词被更正完成，按下回车键提交即可验证通过后会显示答案页面，同时会播放对应题目语音用于辅助记忆。"
+        content: "此时若发现上个错词未正确修改，可按下退格键 来回退到上一个错词"
     }, {
         time: "2024",
-        content: "此时若发现上个错词未正确修改，可按下退格键 （Backspace ⌫） 来回退到上一个错词，直到所有错词被更正完成，按下回车键提交即可验证通过后会显示答案页面，同时会播放对应题目语音用于辅助记忆。"
+        content: "此时若发现上个错词未正确修改，可按下退格键 来回退到上一个错词"
     }, {
         time: "2024",
-        content: "此时若发现上个错词未正确修改，可按下退格键 （Backspace ⌫） 来回退到上一个错词，直到所有错词被更正完成，按下回车键提交即可验证通过后会显示答案页面，同时会播放对应题目语音用于辅助记忆。"
+        content: "此时若发现上个错词未正确修改，可按下退格键 来回退到上一个错词"
     }, {
         time: "2024",
-        content: "此时若发现上个错词未正确修改，可按下退格键 （Backspace ⌫） 来回退到上一个错词，直到所有错词被更正完成，按下回车键提交即可验证通过后会显示答案页面，同时会播放对应题目语音用于辅助记忆。"
+        content: "此时若发现上个错词未正确修改，可按下退格键 来回退到上一个错词"
     },]
 
     return (
@@ -44,6 +44,8 @@ export default function FrontendPage() {
             </section>
             <section className={"sm:columns-2 p-6 opacity-80"}>
                 <div className="overflow-hidden">
+                    <Image className={"mx-auto mt-2 rounded-md"} width={150} height={150} src={"/avatar.jpg"}
+                           alt={"picture"}/>
                     <span className={"text-3xl leading-loose inline-block"}>Why aren’t you good at English?</span>
                     <span
                         className={"text-3xl leading-loose inline-block"}>It’s because you haven’t used Log yet!</span>
@@ -53,9 +55,19 @@ export default function FrontendPage() {
                     bg-gray-200 dark:bg-neutral-800
                     hover:bg-gray-300 dark:hover:bg-neutral-950" href={""}>Github</Link>
                 </div>
-                <div className="overflow-hidden hidden sm:block">
-                    <Image className={"mx-auto mt-2 rounded-md"} width={250} height={250} src={"/avatar.jpg"}
-                           alt={"picture"}/>
+                <div className="hidden sm:block">
+                    <div className="overflow-hidden
+                                bg-gray-50 border border-gray-200 dark:border-gray-500
+                                dark:from-[#525252e6] dark:bg-gradient-to-b dark:to-gray-900
+                                rounded-2xl p-4
+                                hover:shadow-xl dark:shadow-md dark:hover:shadow-blue-700/70
+                                ">
+                        <div className={"pr-2"}>
+                            <h2 className={"text-xl font-bold py-4"}>使用指南</h2>
+                            <h3 className={"pb-2 font-semibold"}>点击这里开始哦</h3>
+                            <p className={"py-1 leading-7 text-sm"}>教你一下怎么用教你一下怎么用教你一下怎么用教你一下怎么用教你一下怎么用教你一下怎么用教你一下怎么用教你一下怎么用教你一下怎么用教你一下怎么用教你一下怎么用教你一下怎么用</p>
+                        </div>
+                    </div>
                 </div>
             </section>
             <section>
@@ -63,7 +75,7 @@ export default function FrontendPage() {
                 <div className={"flex justify-center flex-wrap"}>
                     {logList.map((log, index) => {
                         return (
-                            <div key={index} className={"md:w-1/2 lg:w-1/3 scroll-auto p-1 md:p-3"}>
+                            <div key={index} className={"md:w-1/2 lg:w-1/3 xl:w-1/4  scroll-auto p-1 md:p-3"}>
                                 <div className="
                                 bg-gray-50 border border-gray-200 dark:border-gray-500
                                 dark:from-[#525252e6] dark:bg-gradient-to-b dark:to-gray-900
@@ -78,7 +90,7 @@ export default function FrontendPage() {
                             </div>
                         )
                     })}
-                    <div className={"md:w-1/2 lg:w-1/3 scroll-auto p-1 md:p-3"}>
+                    <div className={"md:w-1/3 lg:w-1/4 scroll-auto p-1 md:p-3"}>
                         <div className="
                                 bg-gray-50 border border-gray-200 dark:border-gray-500
                                 dark:from-[#525252e6] dark:bg-gradient-to-b dark:to-gray-900

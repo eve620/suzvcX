@@ -24,31 +24,38 @@ const menu = [
 
 export default function Page({searchParams: {dir, id}}: { searchParams: { dir: string, id: string } }) {
     return (
-        <div className={"flex"}>
-            <div className={"p-6 pl-0 w-64 bg-pink-50"}>
+        <div className={"flex flex-wrap w-full"}>
+            <div className={"w-1/4 min-w-fit"}>
                 {dira.map((item) => {
                     return (
-                        <Link className={"block"} href={{pathname: "/note", search: `dir=${item.id}`}}
+                        <Link className={"block bg-blue-100 w-28 py-2 mx-auto text-center mb-2 rounded-full"}
+                              href={{pathname: "/note", search: `dir=${item.id}`}}
                               key={item.id}>{item.name}</Link>
                     )
                 })}
             </div>
-            <div className={"flex-1 bg-blue-300 pr-6"}>
-                <Button right={true} label={"添加笔记"}/>
-                {id ?
-                    <>
-                        <Back url={`/note/?dir=${dir}`}/>
-                        {id}
-                    </> :
-                    <>
-                        {menu.filter(item => item.parentId === Number(dir)).map((item) => {
-                            return (
-                                <Link key={item.id}
-                                      href={{pathname: "/note", search: `dir=${dir}&id=${item.id}`}}>{item.title}</Link>
-                            )
-                        })}
-                    </>
-                }
+            <div className={"w-3/4"}>
+                {dir && !id && <Button right={true} label={"添加笔记"}/>}
+                <div className={"pt-4"}>
+                    {id ?
+                        <>
+                            <Back url={`/note/?dir=${dir}`}/>
+                            {id}
+                        </> :
+                        <div className={"space-x-5 text-wrap"}>
+                            {menu.filter(item => item.parentId === Number(dir)).map((item) => {
+
+                                return (
+                                    <Link key={item.id} className={"inline-block bg-pink-50 py-2 rounded px-4"}
+                                          href={{
+                                              pathname: "/note",
+                                              search: `dir=${dir}&id=${item.id}`
+                                          }}>{item.title}</Link>
+                                )
+                            })}
+                        </div>
+                    }
+                </div>
             </div>
         </div>
     );
