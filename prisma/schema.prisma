@@ -29,18 +29,37 @@ enum UserRole {
   Admin
 }
 
-model Node {
-  id          Int      @id @default(autoincrement())
-  name        String
-  size        String?
-  contentType String?
-  content     String?
-  path        String?
-  parent      String?
-  createdBy   String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+model Dir {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdBy String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
+
+model DirNote {
+  id        Int      @id @default(autoincrement())
+  name      String
+  size      String?
+  content   String?
+  parent    String?
+  createdBy String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// model Node {
+//   id          Int      @id @default(autoincrement())
+//   name        String
+//   size        String?
+//   contentType String?
+//   content     String?
+//   path        String?
+//   parent      String?
+//   createdBy   String
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
+// }
 
 model Project {
   id        Int      @id @default(autoincrement())

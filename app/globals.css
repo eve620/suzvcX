@@ -5,6 +5,11 @@
         @apply text-pink-300 bg-black px-3 py-1;
     }
 
+    .linkStyle {
+        @apply text-sm font-bold bg-black text-white dark:bg-white dark:text-black
+        px-3 py-1 rounded hover:opacity-80 dark:hover:opacity-90
+    }
+
     .tag {
         @apply bg-pink-200 dark:bg-blue-300
         hover:bg-pink-300 dark:hover:bg-blue-400

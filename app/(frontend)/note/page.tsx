@@ -1,104 +1,54 @@
-"use client"
-import {useState} from "react";
-import {useRouter} from "next/navigation";
 import Button from "@/app/components/Button";
+import Link from "next/link";
+import Back from "@/app/components/Back";
 
-const mock = [
-    {id: 1, name: "文件夹1", parent: ""},
-    {id: 2, name: "文件夹2", parent: "1"},
-    {id: 3, name: "文件夹3", parent: "2"},
-    {id: 4, name: "文件夹4", parent: "6"},
-    {id: 5, name: "文件夹5", parent: ""},
-    {id: 6, name: "文件夹6", parent: "5"}]
+const dira = [
+    {id: 1, name: "分类1"},
+    {id: 2, name: "分类2"},
+    {id: 3, name: "分类3"},
+    {id: 4, name: "分类4"},
+    {id: 5, name: "分类5"},
+    {id: 6, name: "分类6"}]
 
-interface NodeTreeProps {
-    nodes: any[]
-    parentId?: string
-}
+const menu = [
+    {id: 1, parentId: 1, title: "前端"},
+    {id: 2, parentId: 1, title: "后端"},
+    {id: 3, parentId: 1, title: "移动端"},
+    {id: 4, parentId: 2, title: "css"},
+    {id: 5, parentId: 2, title: "js"},
+    {id: 6, parentId: 3, title: "java"},
+    {id: 7, parentId: 3, title: "react"},
+    {id: 8, parentId: 4, title: "vue"},
+    {id: 9, parentId: 5, title: "python"}
+]
 
-interface Node {
-    id: string;
-    name: string;
-    parent: string;
-};
-
-interface NodeItemProps {
-    node: Node;
-    nodes: Node[];
-};
-export default function Page() {
-    const NoteTree: React.FC<NodeTreeProps> = ({nodes, parentId = ''}) => {
-        const filteredNodes = nodes.filter((item) => item.parent == parentId);
-        if (!filteredNodes) return null;
-        return (
-            <div>
-                {filteredNodes.map((item: Node) => (
-                    <NodeItem key={item.id} node={item} nodes={nodes}/>
-                ))}
-            </div>
-        );
-    };
-
-    const NodeItem: React.FC<NodeItemProps> = ({node, nodes}) => {
-        const [showChildren, setShowChildren] = useState(false);
-        const toggleChildren = () => setShowChildren((prev) => !prev);
-
-        return (
-            <div className="pl-6">
-                <span onClick={toggleChildren}>{node.name}</span>
-                {showChildren &&
-                    <div>
-                        <NoteTree nodes={nodes} parentId={node.id}/>
-                    </div>}
-            </div>
-        );
-    };
-
-    const router = useRouter()
-    const list = [
-        {name: "第一个笔记", id: "1"},
-        {name: "第二个笔记", id: "2"}
-    ]
-    const [items, setItems] = useState(list);
-    const [selectedIds, setSelectedIds] = useState([""]);
-    const handleSelect = (itemId: string) => {
-        if (selectedIds.includes(itemId)) {
-            setSelectedIds(selectedIds.filter(id => id !== itemId));
-        } else {
-            setSelectedIds([...selectedIds, itemId]);
-        }
-    };
-
-    const handleDelete = () => {
-        const updatedItems = items.filter(item => !selectedIds.includes(item.id));
-        setItems(updatedItems);
-        setSelectedIds([]);
-    };
+export default function Page({searchParams: {dir, id}}: { searchParams: { dir: string, id: string } }) {
     return (
-        <div className={""}>
-            {<div className={"flex dark:border-b justify-end space-x-3 md:space-x-10 py-1 pr-5"}>
-                <Button label={"添加笔记"} onClick={() => {
-                    router.push("/note/add")
-                }}/>
-            </div>}
-            <div>
-                <div className="flex items-start">
-                    <div className={"w-56 dark:border-r p-5"}>
-                        <NoteTree nodes={mock}/>
-                    </div>
-                    <div className={"flex"}>
-                        {items.map(item => {
+        <div className={"flex"}>
+            <div className={"p-6 pl-0 w-64 bg-pink-50"}>
+                {dira.map((item) => {
+                    return (
+                        <Link className={"block"} href={{pathname: "/note", search: `dir=${item.id}`}}
+                              key={item.id}>{item.name}</Link>
+                    )
+                })}
+            </div>
+            <div className={"flex-1 bg-blue-300 pr-6"}>
+                <Button right={true} label={"添加笔记"}/>
+                {id ?
+                    <>
+                        <Back url={`/note/?dir=${dir}`}/>
+                        {id}
+                    </> :
+                    <>
+                        {menu.filter(item => item.parentId === Number(dir)).map((item) => {
                             return (
-                                <div key={item.id} onClick={() => {
-                                    router.push(`/note/${item.id}`)
-                                }}
-                                     className="m-2 p-2 text-center rounded-xl dark:border hover:bg-amber-500 hover:border-amber-700">
-                                    {item.name}
-                                </div>
+                                <Link key={item.id}
+                                      href={{pathname: "/note", search: `dir=${dir}&id=${item.id}`}}>{item.title}</Link>
                             )
                         })}
-                    </div>
-                </div>
+                    </>
+                }
             </div>
         </div>
     );

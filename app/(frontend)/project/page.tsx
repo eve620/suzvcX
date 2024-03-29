@@ -1,6 +1,4 @@
 "use client"
-import {useState} from "react";
-import {useRouter} from "next/navigation";
 import Button from "@/app/components/Button";
 import useProjectModal from "@/app/hooks/useProjectModal";
 import Link from "next/link";
@@ -59,8 +57,6 @@ const list = [
 ]
 
 export default function Page() {
-    const router = useRouter()
-    const [items, setItems] = useState(list);
     const projectModal = useProjectModal()
     return (
         <div className={"flex flex-col"}>
@@ -70,7 +66,7 @@ export default function Page() {
             </div>}
 
             <div className="sm:columns-2 sm:gap-6 lg:columns-3 lg:gap-8">
-                {items.map(item => {
+                {list.map(item => {
                     return (
                         <div key={item.id}
                              className="
