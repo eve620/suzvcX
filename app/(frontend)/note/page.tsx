@@ -1,8 +1,9 @@
 import Button from "@/app/components/Button";
 import Link from "next/link";
 import Back from "@/app/components/Back";
+import {Breadcrumb} from "antd";
 
-const dira = [
+const dirMenu = [
     {id: 1, name: "分类1"},
     {id: 2, name: "分类2"},
     {id: 3, name: "分类3"},
@@ -24,40 +25,84 @@ const menu = [
 
 export default function Page({searchParams: {dir, id}}: { searchParams: { dir: string, id: string } }) {
     return (
-        <div className={"flex flex-wrap w-full"}>
-            <div className={"w-1/4 min-w-fit flex flex-col pt-20"}>
-                {dira.map((item, index) => {
-                    return (
-                        <Link key={item.id}
-                              style={{zIndex: `${9999 - index}`}}
-                              className={"border-2 duration-300 -mt-3 py-2 first:mt-0 hover:mt-0 border-black bg-blue-100 w-28 mx-auto text-center rounded-full"}
-                              href={{pathname: "/note", search: `dir=${item.id}`}}>{item.name}</Link>
-                    )
-                })}
-            </div>
-            <div className={"w-3/4"}>
-                {dir && !id && <Button right={true} label={"添加笔记"}/>}
-                <div className={"pt-4"}>
-                    {id ?
+        <>
+            <ol className="flex flex-wrap text-gray-500 dark:text-gray-300 font-mono items-center gap-1.5 break-words text-sm text-muted-foreground sm:gap-2.5">
+                {dir ?
+                    <>{id ?
                         <>
-                            <Back url={`/note/?dir=${dir}`}/>
-                            {id}
+                            <li className={"hover:text-gray-900 dark:hover:text-gray-100"}>
+                                <Link className={""} href={"note"}>Home</Link>
+                            </li>
+                            <li className={"cursor-default"}>{">"}</li>
+                            <li className={"hover:text-gray-900 dark:hover:text-gray-100"}>
+                                <Link className={""}
+                                      href={`note?dir=${dir}`}>{dirMenu.find(item => item.id === Number(dir))?.name}</Link>
+                            </li>
+                            <li className={"cursor-default"}>{">"}</li>
+                            <li className={""}>
+                                <span
+                                    className={"cursor-default"}>{menu.find(item => item.id === Number(id))?.title}</span>
+                            </li>
                         </> :
-                        <div className={"space-x-5 text-wrap"}>
-                            {menu.filter(item => item.parentId === Number(dir)).map((item) => {
+                        <>
+                            <li className={"hover:text-gray-900 dark:hover:text-gray-100"}>
+                                <Link className={""} href={"note"}>Home</Link>
+                            </li>
+                            <li className={"cursor-default"}>{">"}</li>
+                            <li className={""}>
+                                <span
+                                    className={"cursor-default"}>{dirMenu.find(item => item.id === Number(dir))?.name}</span>
+                            </li>
+                        </>}
+                    </> :
+                    <>
+                        <li className={""}>
+                            <span className={"cursor-default"}>Home</span>
+                        </li>
+                    </>}
+            </ol>
+            <div className={"flex flex-wrap w-full"}>
+                <div className={"w-1/4 min-w-fit flex flex-col pt-20"}>
+                    {dirMenu.map((item, index) => {
+                        return (
+                            <Link key={item.id}
+                                  style={{zIndex: `${9999 - index}`}}
+                                  className={"border-2 duration-300 py-2 first:mt-0 -mt-3 hover:mt-0 border-black bg-blue-100 w-28 mx-auto text-center rounded-full"}
+                                  href={{pathname: "/note", search: `dir=${item.id}`}}>{item.name}</Link>
+                        )
+                    })}
+                </div>
+                <div className={"w-3/4"}>
+                    {dir ?
+                        <div className={"pt-4"}>
+                            {id ?
+                                <>
+                                    <Back url={`/note/?dir=${dir}`}/>
+                                    {id}
+                                </> :
+                                <>
+                                    <Button right={true} label={"添加笔记"}/>
+                                    <div className={"space-x-5 text-wrap"}>
+                                        {menu.filter(item => item.parentId === Number(dir)).map((item) => {
 
-                                return (
-                                    <Link key={item.id} className={"inline-block bg-pink-50 py-2 rounded px-4"}
-                                          href={{
-                                              pathname: "/note",
-                                              search: `dir=${dir}&id=${item.id}`
-                                          }}>{item.title}</Link>
-                                )
-                            })}
-                        </div>
-                    }
+                                            return (
+                                                <Link key={item.id}
+                                                      className={"inline-block bg-pink-50 py-2 rounded px-4"}
+                                                      href={{
+                                                          pathname: "/note",
+                                                          search: `dir=${dir}&id=${item.id}`
+                                                      }}>{item.title}</Link>
+                                            )
+                                        })}
+                                    </div>
+                                </>
+                            }
+                        </div> :
+                        <div>
+                            click to show SESSION
+                        </div>}
                 </div>
             </div>
-        </div>
+        </>
     );
 }
