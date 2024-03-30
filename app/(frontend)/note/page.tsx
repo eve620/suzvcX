@@ -25,12 +25,13 @@ const menu = [
 export default function Page({searchParams: {dir, id}}: { searchParams: { dir: string, id: string } }) {
     return (
         <div className={"flex flex-wrap w-full"}>
-            <div className={"w-1/4 min-w-fit"}>
-                {dira.map((item) => {
+            <div className={"w-1/4 min-w-fit flex flex-col pt-20"}>
+                {dira.map((item, index) => {
                     return (
-                        <Link className={"block bg-blue-100 w-28 py-2 mx-auto text-center mb-2 rounded-full"}
-                              href={{pathname: "/note", search: `dir=${item.id}`}}
-                              key={item.id}>{item.name}</Link>
+                        <Link key={item.id}
+                              style={{zIndex: `${9999 - index}`}}
+                              className={"border-2 duration-300 -mt-3 py-2 first:mt-0 hover:mt-0 border-black bg-blue-100 w-28 mx-auto text-center rounded-full"}
+                              href={{pathname: "/note", search: `dir=${item.id}`}}>{item.name}</Link>
                     )
                 })}
             </div>
