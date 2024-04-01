@@ -19,7 +19,7 @@ export default async function FrontLayout({children}: Readonly<{ children: React
                 <ProjectModal/>
             </ModalContainer>
             <Navbar currentUser={currentUser}/>
-            <main className={"flex-1 pt-28 md:pt-36 w-2/3 mx-auto pb-16"}>
+            <main className={"flex-1 relative mt-28 md:mt-36 w-2/3 mx-auto mb-16"}>
                 {children}
             </main>
             <Footer/>
