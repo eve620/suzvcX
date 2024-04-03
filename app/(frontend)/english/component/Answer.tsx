@@ -1,6 +1,6 @@
 import React, {useRef} from "react";
 
-export default function Answer({word, soundMark}: { word: string, soundMark: string }) {
+export default function Answer({word, soundMark,handleNext}: { word: string, soundMark: string, handleNext: () => void }) {
     const audioRef = useRef<HTMLAudioElement>(null)
     const handlePlayClick = async () => {
         const audioElement = audioRef.current;
@@ -11,7 +11,7 @@ export default function Answer({word, soundMark}: { word: string, soundMark: str
         }
     };
     return (
-        <div>
+        <div className={"flex flex-col items-center"}>
             <div className={"flex"}>
                 <div>{word}</div>
                 <svg
@@ -29,6 +29,10 @@ export default function Answer({word, soundMark}: { word: string, soundMark: str
             <audio autoPlay ref={audioRef}>
                 <source src={`https://dict.youdao.com/dictvoice?audio=${word}&type=1`}/>
             </audio>
+            <button onClick={handleNext}
+                    className={"bg-amber-300 p-1 border-2 border-amber-400 rounded-xl hover:bg-amber-200"}>Next
+                Word
+            </button>
         </div>
     )
 }
