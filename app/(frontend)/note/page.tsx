@@ -66,7 +66,7 @@ export default function Page({searchParams: {dir, id}}: { searchParams: { dir: s
                     {dirMenu.map((item, index) => {
                         return (
                             <Link key={item.id}
-                                  style={{zIndex: `${9999 - index}`}}
+                                  style={{zIndex: `${9999 - index}`,transitionProperty:"margin"}}
                                   className={"border-2 duration-300 py-2 first:mt-0 -mt-3 hover:mt-0 border-black bg-blue-100 dark:bg-gray-800 w-28 mx-auto text-center rounded-full"}
                                   href={{pathname: "/note", search: `dir=${item.id}`}}>{item.name}</Link>
                         )
