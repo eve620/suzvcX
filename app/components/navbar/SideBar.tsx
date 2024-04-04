@@ -1,31 +1,35 @@
 "use client"
 import Link from "next/link";
 import {useEffect, useRef, useState} from "react";
+import {useOnClickOutside} from "next/dist/client/components/react-dev-overlay/internal/hooks/use-on-click-outside";
 
 const SideBar: React.FC = () => {
     const [isMenuShow, setIsMenuShow] = useState(false)
     const menuRef = useRef<HTMLDivElement | null>(null);
     const iconRef = useRef<HTMLDivElement | null>(null);
 
-    useEffect(() => {
-        // 添加点击事件监听器
-        const handleClickOutside = (event: MouseEvent) => {
-            if (isMenuShow && menuRef.current && iconRef.current
-                && !menuRef.current.contains(event.target as Node)
-                && !iconRef.current.contains(event.target as Node)) {
-                setIsMenuShow(false);
-            }
-        };
-
-        document.addEventListener('mousedown', handleClickOutside);
-
-        // 清理函数，在组件卸载时移除事件监听器
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [isMenuShow]);
+    // useEffect(() => {
+    //     // 添加点击事件监听器
+    //     const handleClickOutside = (event: MouseEvent) => {
+    //         if (isMenuShow && menuRef.current && iconRef.current
+    //             && !menuRef.current.contains(event.target as Node)
+    //             && !iconRef.current.contains(event.target as Node)) {
+    //             setIsMenuShow(false);
+    //         }
+    //     };
+    //
+    //     document.addEventListener('mousedown', handleClickOutside);
+    //
+    //     // 清理函数，在组件卸载时移除事件监听器
+    //     return () => {
+    //         document.removeEventListener('mousedown', handleClickOutside);
+    //     };
+    // }, [isMenuShow]);
+    useOnClickOutside(menuRef.current, () => {
+        setIsMenuShow(false)
+    })
     const showMenu = () => {
-        setIsMenuShow(!isMenuShow)
+        setIsMenuShow(true)
     }
 
     return (
@@ -47,7 +51,7 @@ const SideBar: React.FC = () => {
             </div>
             <div ref={iconRef} className="md:hidden cursor-pointer pr-2">
                 {isMenuShow ?
-                    <svg onClick={showMenu} viewBox="0 0 1024 1024"
+                    <svg key={1} viewBox="0 0 1024 1024"
                          width="20"
                          height="20">
                         <path
