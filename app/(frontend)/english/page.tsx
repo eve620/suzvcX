@@ -1,13 +1,13 @@
 "use client"
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Answer from "@/app/(frontend)/english/component/Answer";
 import {Summary} from "@/app/(frontend)/english/component/Summary";
-import {notFound} from "next/navigation";
 import {useOnClickOutside} from "next/dist/client/components/react-dev-overlay/internal/hooks/use-on-click-outside";
 
 const courseDate = [
     {
-        name: "第一节课",
+        id: 1,
+        title: "第一节课",
         statements: [
             {
                 "chinese": "现在",
@@ -35,21 +35,35 @@ const courseDate = [
 
 export default function Page({searchParams: {id}}: { searchParams: { id: string } }) {
     const [currentCourse, setCurrentCourse] = useState(courseDate[0])
-    const statementIndex = useRef(0)
-    const {chinese, english, soundmark} = currentCourse.statements[statementIndex.current]
-    const [menuShow, setMenuShow] = useState(false)
-    const [lessonShow, setLessonShow] = useState(false)
-    let failedCount = useRef(0)
-    const failedCountLimit: number = 3
-    const progress = statementIndex.current / currentCourse.statements.length
-    const courseRef = useRef<HTMLDivElement | null>(null);
-    const wordRef = useRef<HTMLDivElement | null>(null);
-    const courseButtonRef = useRef<HTMLButtonElement | null>(null);
-    const wordButtonRef = useRef<HTMLButtonElement | null>(null);
-
+    const [courseList, setCourseList] = useState([])
+    const [statementIndex, setStatementIndex] = useState(0)
+    const [showCourseList, setShowCourseList] = useState(false)
+    const [showWordList, setShowWordList] = useState(false)
+    const failedCount = useRef(0)
     const [currentMode, setCurrentMode] =
         useState<"Question" | "Answer" | "Summary">("Question")
     const [inputValue, setInputValue] = useState<string>("")
+
+    const failedCountLimit: number = 3
+    const {chinese, english, soundmark} = currentCourse.statements[statementIndex]
+    const progress = statementIndex / currentCourse.statements.length
+
+    const courseRef = useRef<HTMLDivElement | null>(null);
+    const statementRef = useRef<HTMLDivElement | null>(null);
+    const courseButtonRef = useRef<HTMLButtonElement | null>(null);
+    const statementButtonRef = useRef<HTMLButtonElement | null>(null);
+
+    useEffect(() => {
+        const getCourseList = async () => {
+            const response = await fetch("/api/course/files");
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            setCourseList(data)
+        }
+        getCourseList()
+    }, [])
 
     const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value)
@@ -76,22 +90,37 @@ export default function Page({searchParams: {id}}: { searchParams: { id: string 
     }
 
     function handleNext() {
-        if (statementIndex.current < currentCourse.statements.length - 1) {
+        if (statementIndex < currentCourse.statements.length - 1) {
             setCurrentMode("Question")
-            statementIndex.current++
+            setStatementIndex(statementIndex + 1)
         } else {
             setCurrentMode("Summary")
         }
     }
 
+    async function handleCourse(id: string) {
+        const response = await fetch(`/api/course?id=${id}`);
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data)
+            setCurrentCourse(data)
+            setShowCourseList(false)
+            setStatementIndex(0)
+            setCurrentMode("Question")
+        } else {
+            // Handle error
+            throw new Error('Network response was not ok');
+        }
+    }
+
     useOnClickOutside(courseRef.current, (event) => {
         if (courseButtonRef.current && !courseButtonRef.current.contains(event.target as Node)) {
-            setLessonShow(false)
+            setShowCourseList(false)
         }
     })
-    useOnClickOutside(wordRef.current, (event) => {
-        if (wordButtonRef.current && !wordButtonRef.current.contains(event.target as Node)) {
-            setMenuShow(false)
+    useOnClickOutside(statementRef.current, (event) => {
+        if (statementButtonRef.current && !statementButtonRef.current.contains(event.target as Node)) {
+            setShowWordList(false)
         }
     })
 
@@ -99,7 +128,7 @@ export default function Page({searchParams: {id}}: { searchParams: { id: string 
     const viewMap = {
         Summary: <Summary handleFinished={() => {
             setCurrentMode("Question")
-            statementIndex.current = 0
+            setStatementIndex(0)
         }}></Summary>,
         Question:
             <>
@@ -120,13 +149,13 @@ export default function Page({searchParams: {id}}: { searchParams: { id: string 
         <div className={"absolute flex flex-col h-full w-full"}>
             <div className={"relative flex justify-between px-8 py-4 border-t border-b"}>
                 <div>
-                    <button className={"mr-8"} ref={courseButtonRef}
-                            onClick={() => setLessonShow(!lessonShow)}>
-                        {currentCourse.name}
+                    <button className={"mr-8 hover:text-blue-500"} ref={courseButtonRef}
+                            onClick={() => setShowCourseList(!showCourseList)}>
+                        {currentCourse.title}
                     </button>
-                    <button className={"hover:text-fuchsia-400"} ref={wordButtonRef}
-                            onClick={() => setMenuShow(!menuShow)}>
-                        {`(${statementIndex.current + 1 + "/" + currentCourse.statements.length})`}
+                    <button className={"hover:text-fuchsia-400"} ref={statementButtonRef}
+                            onClick={() => setShowWordList(!showWordList)}>
+                        {`(${statementIndex + 1 + "/" + currentCourse.statements.length})`}
                     </button>
                 </div>
                 <button>排行榜</button>
@@ -137,37 +166,42 @@ export default function Page({searchParams: {id}}: { searchParams: { id: string 
                     className={`absolute left-0 top-20 w-80 overflow-x-hidden 
                     overflow-y-auto bg-white border-l-4 shadow select-none 
                     border-blue-800 dark:bg-slate-800 px-2
-                    transition-height
-                    ${lessonShow ? 'h-64' : 'h-0'}`}
+                    duration-300
+                    ${showCourseList ? 'h-64' : 'h-0'}
+                    ${showCourseList ? 'opacity-100' : 'opacity-0'}`}
                     style={{scrollbarWidth: "none"}}>
-                    <div>123</div>
-                    <div>456</div>
-                    <div>35</div>
-                    <div>443</div>
-                    <div>123</div>
-                    <div>123</div>
-                    <div>423</div>
+                    {courseList.sort().map((item, index) => {
+                        return (
+                            <div
+                                className={"flex py-1 border-b whitespace-pre-wrap hover:text-blue-500 cursor-pointer"}
+                                onClick={() => handleCourse(item)}
+                                key={index}>
+                                <div className={"font-semibold pl-6 font-mono"}>Lesson {item}</div>
+                            </div>
+                        )
+                    })}
                 </div>
                 <div
-                    ref={wordRef}
+                    ref={statementRef}
                     className={`absolute left-0 top-20 w-80 overflow-x-hidden 
                     overflow-y-auto bg-white border-l-4 shadow select-none 
                     border-fuchsia-400 dark:bg-slate-800 px-2
-                    transition-height
-                    ${menuShow ? 'h-64' : 'h-0'}`}
+                    duration-300
+                    ${showWordList ? 'opacity-100' : 'opacity-0'}
+                    ${showWordList ? 'h-64' : 'h-0'}`}
                     style={{scrollbarWidth: "none"}}>
                     {currentCourse.statements.map((item, index) => {
                         return (
                             <div
                                 className={"flex py-1 border-b whitespace-pre-wrap hover:text-fuchsia-400 cursor-pointer"}
                                 onClick={() => {
-                                    statementIndex.current = index
+                                    setStatementIndex(index)
                                     setCurrentMode("Question")
-                                    setMenuShow(false)
+                                    setShowWordList(false)
                                 }}
                                 key={index}>
                                 <div className={"w-12 text-center"}>{index + 1}</div>
-                                <div>{item.chinese}</div>
+                                <div className={"w-[17rem]"}>{item.chinese}</div>
                             </div>
                         )
                     })}

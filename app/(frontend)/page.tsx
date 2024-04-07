@@ -71,7 +71,7 @@ export default function FrontendPage() {
                 </div>
             </section>
             <section>
-                <h2 className={"text-center text-xl font-bold tracking-tight sm:text-4xl text-gray-800 dark:text-white mb-4"}>开发日志</h2>
+                <h2 className={"text-center text-xl font-bold tracking-tight sm:text-4xl bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-gray-200 dark:from-purple-600 dark:to-gray-100 mb-4"}>开发日志</h2>
                 <div className={"flex justify-center flex-wrap"}>
                     {logList.map((log, index) => {
                         return (
