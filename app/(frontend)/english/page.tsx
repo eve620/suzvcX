@@ -4,6 +4,7 @@ import Answer from "@/app/(frontend)/english/component/Answer";
 import {Summary} from "@/app/(frontend)/english/component/Summary";
 import {useOnClickOutside} from "next/dist/client/components/react-dev-overlay/internal/hooks/use-on-click-outside";
 import Question from "@/app/(frontend)/english/component/Question";
+import Tool from "@/app/(frontend)/english/component/Tool";
 
 const courseDate = [
     {
@@ -36,10 +37,7 @@ const courseDate = [
 
 export default function Page() {
     const [currentCourse, setCurrentCourse] = useState(courseDate[0])
-    const [courseList, setCourseList] = useState([])
     const [statementIndex, setStatementIndex] = useState(0)
-    const [showCourseList, setShowCourseList] = useState(false)
-    const [showWordList, setShowWordList] = useState(false)
     const [currentMode, setCurrentMode] =
         useState<"Question" | "Answer" | "Summary">("Question")
 
@@ -66,18 +64,6 @@ export default function Page() {
         }
     }, [word])
 
-    useEffect(() => {
-        const getCourseList = async () => {
-            const response = await fetch("/api/course/files");
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const data = await response.json();
-            setCourseList(data)
-        }
-        getCourseList()
-    }, [])
-
     function handleNext() {
         if (statementIndex < currentCourse.statements.length - 1) {
             setCurrentMode("Question")
@@ -95,7 +81,6 @@ export default function Page() {
             const data = await response.json();
             console.log(data)
             setCurrentCourse(data)
-            setShowCourseList(false)
             setStatementIndex(0)
             setCurrentMode("Question")
         } else {
@@ -133,16 +118,11 @@ export default function Page() {
         setStatementIndex(0)
     }
 
-    useOnClickOutside(courseRef.current, (event) => {
-        if (courseButtonRef.current && !courseButtonRef.current.contains(event.target as Node)) {
-            setShowCourseList(false)
-        }
-    })
-    useOnClickOutside(statementRef.current, (event) => {
-        if (statementButtonRef.current && !statementButtonRef.current.contains(event.target as Node)) {
-            setShowWordList(false)
-        }
-    })
+    function handleWord(index: number) {
+        setStatementIndex(index)
+        setCurrentMode("Question")
+    }
+
 
     const viewMap = {
         Summary: <Summary handleFinished={handleFinished}></Summary>,
@@ -155,67 +135,11 @@ export default function Page() {
 
 
     return (
-        <div className={"absolute flex flex-col h-full w-full"}>
-            <div className={"relative flex justify-between px-8 py-4 border-t border-b"}>
-                <div>
-                    <button className={"mr-8 hover:text-blue-500"} ref={courseButtonRef}
-                            onClick={() => setShowCourseList(!showCourseList)}>
-                        {currentCourse.title}
-                    </button>
-                    <button className={"hover:text-fuchsia-400"} ref={statementButtonRef}
-                            onClick={() => setShowWordList(!showWordList)}>
-                        {`(${statementIndex + 1 + "/" + currentCourse.statements.length})`}
-                    </button>
-                </div>
-                <button>排行榜</button>
-                <div className={"absolute left-0 -bottom-3 h-3 bg-green-500 rounded rounded-l-none duration-200"}
-                     style={{width: `${currentMode === "Summary" ? "100%" : progress * 100 + "%"}`}}/>
-                <div
-                    ref={courseRef}
-                    className={`absolute left-0 top-20 w-80 overflow-x-hidden 
-                    overflow-y-auto bg-white border-l-4 shadow select-none 
-                    border-blue-800 dark:bg-slate-800 px-2
-                    duration-300
-                    ${showCourseList ? 'h-64' : 'h-0'}
-                    ${showCourseList ? 'opacity-100' : 'opacity-0'}`}
-                    style={{scrollbarWidth: "none"}}>
-                    {courseList.sort().map((item, index) => {
-                        return (
-                            <div
-                                className={"flex py-1 border-b whitespace-pre-wrap hover:text-blue-500 cursor-pointer"}
-                                onClick={() => handleCourse(item)}
-                                key={index}>
-                                <div className={"font-semibold pl-6 font-mono"}>Lesson {item}</div>
-                            </div>
-                        )
-                    })}
-                </div>
-                <div
-                    ref={statementRef}
-                    className={`absolute left-0 top-20 w-80 overflow-x-hidden 
-                    overflow-y-auto bg-white border-l-4 shadow select-none 
-                    border-fuchsia-400 dark:bg-slate-800 px-2
-                    duration-300
-                    ${showWordList ? 'opacity-100' : 'opacity-0'}
-                    ${showWordList ? 'h-64' : 'h-0'}`}
-                    style={{scrollbarWidth: "none"}}>
-                    {currentCourse.statements.map((item, index) => {
-                        return (
-                            <div
-                                className={"flex py-1 border-b whitespace-pre-wrap hover:text-fuchsia-400 cursor-pointer"}
-                                onClick={() => {
-                                    setStatementIndex(index)
-                                    setCurrentMode("Question")
-                                    setShowWordList(false)
-                                }}
-                                key={index}>
-                                <div className={"w-12 text-center"}>{index + 1}</div>
-                                <div className={"w-[17rem]"}>{item.chinese}</div>
-                            </div>
-                        )
-                    })}
-                </div>
-            </div>
+        <div className={"absolute h-full w-full flex flex-col"}>
+            <Tool currentCourse={currentCourse} statementIndex={statementIndex} handleCourse={handleCourse}
+                  handleWord={handleWord}/>
+            <div className={"h-3 bg-green-500 rounded rounded-l-none duration-200"}
+                 style={{width: `${currentMode === "Summary" ? "100%" : progress * 100 + "%"}`}}/>
             <div className={"flex flex-1 flex-col justify-center items-center"}>
                 {CurrentView}
             </div>
