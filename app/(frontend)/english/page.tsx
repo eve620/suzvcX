@@ -3,6 +3,7 @@ import React, {useEffect, useRef, useState} from "react";
 import Answer from "@/app/(frontend)/english/component/Answer";
 import {Summary} from "@/app/(frontend)/english/component/Summary";
 import {useOnClickOutside} from "next/dist/client/components/react-dev-overlay/internal/hooks/use-on-click-outside";
+import Question from "@/app/(frontend)/english/component/Question";
 
 const courseDate = [
     {
@@ -33,25 +34,37 @@ const courseDate = [
     }
 ]
 
-export default function Page({searchParams: {id}}: { searchParams: { id: string } }) {
+export default function Page() {
     const [currentCourse, setCurrentCourse] = useState(courseDate[0])
     const [courseList, setCourseList] = useState([])
     const [statementIndex, setStatementIndex] = useState(0)
     const [showCourseList, setShowCourseList] = useState(false)
     const [showWordList, setShowWordList] = useState(false)
-    const failedCount = useRef(0)
     const [currentMode, setCurrentMode] =
         useState<"Question" | "Answer" | "Summary">("Question")
-    const [inputValue, setInputValue] = useState<string>("")
 
-    const failedCountLimit: number = 3
-    const {chinese, english, soundmark} = currentCourse.statements[statementIndex]
+    const word = currentCourse.statements[statementIndex]
     const progress = statementIndex / currentCourse.statements.length
 
     const courseRef = useRef<HTMLDivElement | null>(null);
     const statementRef = useRef<HTMLDivElement | null>(null);
     const courseButtonRef = useRef<HTMLButtonElement | null>(null);
     const statementButtonRef = useRef<HTMLButtonElement | null>(null);
+    const audioRef = React.useRef<HTMLAudioElement>(null);
+    const [failedCount, setFailedCount] = useState(0);
+
+    function updateSource(src: string) {
+        if (audioRef.current) {
+            audioRef.current.src = src;
+            audioRef.current.load();
+        }
+    }
+
+    useEffect(() => {
+        if (word) {
+            updateSource(`https://dict.youdao.com/dictvoice?audio=${word.english}&type=2`)
+        }
+    }, [word])
 
     useEffect(() => {
         const getCourseList = async () => {
@@ -65,35 +78,13 @@ export default function Page({searchParams: {id}}: { searchParams: { id: string 
         getCourseList()
     }, [])
 
-    const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInputValue(e.target.value)
-    }
-
-    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === "Enter") {
-            if (inputValue.toLowerCase() === english.toLowerCase()) {
-                handleAnswer()
-            } else {
-                setInputValue("")
-                failedCount.current++
-                if (failedCount.current === failedCountLimit) {
-                    handleAnswer()
-                }
-            }
-        }
-    }
-
-    function handleAnswer() {
-        setInputValue("")
-        setCurrentMode("Answer")
-        failedCount.current = 0;
-    }
-
     function handleNext() {
         if (statementIndex < currentCourse.statements.length - 1) {
             setCurrentMode("Question")
+            setFailedCount(0)
             setStatementIndex(statementIndex + 1)
         } else {
+            setFailedCount(0)
             setCurrentMode("Summary")
         }
     }
@@ -113,6 +104,35 @@ export default function Page({searchParams: {id}}: { searchParams: { id: string 
         }
     }
 
+    const handlePlayClick = async () => {
+        const audioElement = audioRef.current;
+        if (audioElement) {
+            audioElement.pause();
+            audioElement.currentTime = 0;
+            await audioElement.play();
+        }
+    };
+
+    function showAnswer() {
+        if (currentMode === "Question" && failedCount < 3) {
+            console.log(111)
+            setFailedCount(3)
+        }
+    }
+
+    function handleFailedCount() {
+        setFailedCount(failedCount + 1)
+    }
+
+    function handleAnswer() {
+        setCurrentMode("Answer")
+    }
+
+    function handleFinished() {
+        setCurrentMode("Question")
+        setStatementIndex(0)
+    }
+
     useOnClickOutside(courseRef.current, (event) => {
         if (courseButtonRef.current && !courseButtonRef.current.contains(event.target as Node)) {
             setShowCourseList(false)
@@ -124,22 +144,11 @@ export default function Page({searchParams: {id}}: { searchParams: { id: string 
         }
     })
 
-
     const viewMap = {
-        Summary: <Summary handleFinished={() => {
-            setCurrentMode("Question")
-            setStatementIndex(0)
-        }}></Summary>,
-        Question:
-            <>
-                <div>{chinese}</div>
-                <input type="text" value={inputValue}
-                       onChange={handleInputValue}
-                       onKeyDown={handleKeyDown}
-                       className={"border-b-4 focus:border-pink-300 dark:focus:border-blue-300/80 bg-transparent outline-0 caret-transparent text-center"}
-                />
-            </>,
-        Answer: <Answer handleNext={handleNext} word={english} soundMark={soundmark}/>,
+        Summary: <Summary handleFinished={handleFinished}></Summary>,
+        Question: <Question word={word} failedCount={failedCount} handleFailedCount={handleFailedCount}
+                            handleAnswer={handleAnswer}/>,
+        Answer: <Answer word={word} handleNext={handleNext}/>,
     };
 
     const CurrentView = viewMap[currentMode];
@@ -211,8 +220,12 @@ export default function Page({searchParams: {id}}: { searchParams: { id: string 
                 {CurrentView}
             </div>
             <div className={"flex justify-around px-32 py-4"}>
-                <button>播放发音</button>
-                <button>显示答案</button>
+                <button onClick={handlePlayClick}>播放发音</button>
+                <audio ref={audioRef}>
+                    <source src={`https://dict.youdao.com/dictvoice?audio=${word.english}&type=1`}/>
+                </audio>
+                <button onClick={showAnswer}>显示答案
+                </button>
             </div>
         </div>
     )
