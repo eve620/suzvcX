@@ -1,10 +1,11 @@
 "use client"
-import React, {useEffect, useRef, useState} from "react";
+import React, {useState} from "react";
 import Answer from "@/app/(frontend)/english/component/Answer";
 import {Summary} from "@/app/(frontend)/english/component/Summary";
-import {useOnClickOutside} from "next/dist/client/components/react-dev-overlay/internal/hooks/use-on-click-outside";
 import Question from "@/app/(frontend)/english/component/Question";
 import Tool from "@/app/(frontend)/english/component/Tool";
+import Tips from "@/app/(frontend)/english/component/Tips";
+import Progress from "@/app/(frontend)/english/component/Progress";
 
 const courseDate = [
     {
@@ -38,31 +39,11 @@ const courseDate = [
 export default function Page() {
     const [currentCourse, setCurrentCourse] = useState(courseDate[0])
     const [statementIndex, setStatementIndex] = useState(0)
+    const [failedCount, setFailedCount] = useState(0);
     const [currentMode, setCurrentMode] =
         useState<"Question" | "Answer" | "Summary">("Question")
-
     const word = currentCourse.statements[statementIndex]
     const progress = statementIndex / currentCourse.statements.length
-
-    const courseRef = useRef<HTMLDivElement | null>(null);
-    const statementRef = useRef<HTMLDivElement | null>(null);
-    const courseButtonRef = useRef<HTMLButtonElement | null>(null);
-    const statementButtonRef = useRef<HTMLButtonElement | null>(null);
-    const audioRef = React.useRef<HTMLAudioElement>(null);
-    const [failedCount, setFailedCount] = useState(0);
-
-    function updateSource(src: string) {
-        if (audioRef.current) {
-            audioRef.current.src = src;
-            audioRef.current.load();
-        }
-    }
-
-    useEffect(() => {
-        if (word) {
-            updateSource(`https://dict.youdao.com/dictvoice?audio=${word.english}&type=2`)
-        }
-    }, [word])
 
     function handleNext() {
         if (statementIndex < currentCourse.statements.length - 1) {
@@ -85,22 +66,12 @@ export default function Page() {
             setCurrentMode("Question")
         } else {
             // Handle error
-            throw new Error('Network response was not ok');
+            throw new Error('Error');
         }
     }
 
-    const handlePlayClick = async () => {
-        const audioElement = audioRef.current;
-        if (audioElement) {
-            audioElement.pause();
-            audioElement.currentTime = 0;
-            await audioElement.play();
-        }
-    };
-
     function showAnswer() {
         if (currentMode === "Question" && failedCount < 3) {
-            console.log(111)
             setFailedCount(3)
         }
     }
@@ -113,11 +84,6 @@ export default function Page() {
         setCurrentMode("Answer")
     }
 
-    function handleFinished() {
-        setCurrentMode("Question")
-        setStatementIndex(0)
-    }
-
     function handleWord(index: number) {
         setStatementIndex(index)
         setCurrentMode("Question")
@@ -125,7 +91,7 @@ export default function Page() {
 
 
     const viewMap = {
-        Summary: <Summary handleFinished={handleFinished}></Summary>,
+        Summary: <Summary handleWord={handleWord}></Summary>,
         Question: <Question word={word} failedCount={failedCount} handleFailedCount={handleFailedCount}
                             handleAnswer={handleAnswer}/>,
         Answer: <Answer word={word} handleNext={handleNext}/>,
@@ -138,19 +104,11 @@ export default function Page() {
         <div className={"absolute h-full w-full flex flex-col"}>
             <Tool currentCourse={currentCourse} statementIndex={statementIndex} handleCourse={handleCourse}
                   handleWord={handleWord}/>
-            <div className={"h-3 bg-green-500 rounded rounded-l-none duration-200"}
-                 style={{width: `${currentMode === "Summary" ? "100%" : progress * 100 + "%"}`}}/>
+            <Progress currentMode={currentMode} progress={progress}/>
             <div className={"flex flex-1 flex-col justify-center items-center"}>
                 {CurrentView}
             </div>
-            <div className={"flex justify-around px-32 py-4"}>
-                <button onClick={handlePlayClick}>播放发音</button>
-                <audio ref={audioRef}>
-                    <source src={`https://dict.youdao.com/dictvoice?audio=${word.english}&type=1`}/>
-                </audio>
-                <button onClick={showAnswer}>显示答案
-                </button>
-            </div>
+            <Tips showAnswer={showAnswer} english={word.english}/>
         </div>
     )
 }

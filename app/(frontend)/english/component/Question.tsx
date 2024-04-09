@@ -17,9 +17,15 @@ function Question({word: {chinese, english, soundmark}, failedCount, handleFaile
     const failedCountLimit = 3;
     const audioRef = React.useRef<HTMLAudioElement>(null);
     const inputRef = React.useRef<HTMLInputElement>(null);
+    const rightAudio = new Audio();
 
     const handleInputValue = (event: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(event.target.value);
+        if (rightAudio) {
+            rightAudio.src = "/sounds/typing.mp3"
+            rightAudio.load()
+            rightAudio.play()
+        }
     };
     const handlePlayClick = async () => {
         const audioElement = audioRef.current;
@@ -32,9 +38,19 @@ function Question({word: {chinese, english, soundmark}, failedCount, handleFaile
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === "Enter") {
             if (inputValue.toLowerCase() === english.toLowerCase()) {
+                if (rightAudio) {
+                    rightAudio.src = "/sounds/right.mp3"
+                    rightAudio.load()
+                    rightAudio.play()
+                }
                 handleAnswer()
             } else {
                 setInputValue("")
+                if (rightAudio) {
+                    rightAudio.src = "/sounds/error.mp3"
+                    rightAudio.load()
+                    rightAudio.play()
+                }
                 handleFailedCount()
             }
         }
@@ -46,7 +62,7 @@ function Question({word: {chinese, english, soundmark}, failedCount, handleFaile
                 <div className={"flex flex-col items-center"}>
                     <Display chinese={chinese} soundmark={soundmark} english={english}
                              handlePlayClick={handlePlayClick}/>
-                    <audio ref={audioRef}>
+                    <audio ref={audioRef} autoPlay>
                         <source src={`https://dict.youdao.com/dictvoice?audio=${english}&type=1`}/>
                     </audio>
                 </div> :
