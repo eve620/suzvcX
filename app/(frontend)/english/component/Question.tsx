@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Display from "@/app/(frontend)/english/component/Display";
 
 interface QuestionProps {
@@ -17,14 +17,19 @@ function Question({word: {chinese, english, soundmark}, failedCount, handleFaile
     const failedCountLimit = 3;
     const audioRef = React.useRef<HTMLAudioElement>(null);
     const inputRef = React.useRef<HTMLInputElement>(null);
-    const rightAudio = new Audio();
+    const tipAudio = new Audio();
+    useEffect(() => {
+        if (inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, []);
 
     const handleInputValue = (event: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(event.target.value);
-        if (rightAudio) {
-            rightAudio.src = "/sounds/typing.mp3"
-            rightAudio.load()
-            rightAudio.play()
+        if (tipAudio) {
+            tipAudio.src = "/sounds/typing.mp3"
+            tipAudio.load()
+            tipAudio.play()
         }
     };
     const handlePlayClick = async () => {
@@ -38,18 +43,18 @@ function Question({word: {chinese, english, soundmark}, failedCount, handleFaile
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === "Enter") {
             if (inputValue.toLowerCase() === english.toLowerCase()) {
-                if (rightAudio) {
-                    rightAudio.src = "/sounds/right.mp3"
-                    rightAudio.load()
-                    rightAudio.play()
+                if (tipAudio) {
+                    tipAudio.src = "/sounds/right.mp3"
+                    tipAudio.load()
+                    tipAudio.play()
                 }
                 handleAnswer()
             } else {
                 setInputValue("")
-                if (rightAudio) {
-                    rightAudio.src = "/sounds/error.mp3"
-                    rightAudio.load()
-                    rightAudio.play()
+                if (tipAudio) {
+                    tipAudio.src = "/sounds/error.mp3"
+                    tipAudio.load()
+                    tipAudio.play()
                 }
                 handleFailedCount()
             }
@@ -62,7 +67,7 @@ function Question({word: {chinese, english, soundmark}, failedCount, handleFaile
                 <div className={"flex flex-col items-center"}>
                     <Display chinese={chinese} soundmark={soundmark} english={english}
                              handlePlayClick={handlePlayClick}/>
-                    <audio ref={audioRef} autoPlay>
+                    <audio autoPlay ref={audioRef}>
                         <source src={`https://dict.youdao.com/dictvoice?audio=${english}&type=1`}/>
                     </audio>
                 </div> :

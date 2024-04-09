@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React, {useEffect, useRef} from "react";
 import Display from "@/app/(frontend)/english/component/Display";
 
 interface AnswerProps {
@@ -12,6 +12,20 @@ interface AnswerProps {
 
 export default function Answer({word: {chinese, english, soundmark}, handleNext}: AnswerProps) {
     const audioRef = useRef<HTMLAudioElement>(null)
+
+    useEffect(() => {
+        function handleKeyPress(event: KeyboardEvent) {
+            if (event.key === 'Enter') {
+                handleNext();
+            }
+        }
+
+        document.addEventListener('keydown', handleKeyPress);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyPress);
+        };
+    }, [handleNext]);
     const handlePlayClick = async () => {
         const audioElement = audioRef.current;
         if (audioElement) {

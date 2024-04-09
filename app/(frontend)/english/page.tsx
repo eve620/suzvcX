@@ -89,7 +89,6 @@ export default function Page() {
         setCurrentMode("Question")
     }
 
-
     const viewMap = {
         Summary: <Summary handleWord={handleWord}></Summary>,
         Question: <Question word={word} failedCount={failedCount} handleFailedCount={handleFailedCount}

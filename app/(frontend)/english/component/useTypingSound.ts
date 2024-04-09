@@ -55,7 +55,6 @@ export function useTypingSound() {
     }
 
     function playTypingSound() {
-        console.log(111)
         const now = Date.now();
         if (now - lastPlayTime.current < PLAY_INTERVAL_TIME) return;
         if (!audioCtxRef || !audioBuffer) return;
