@@ -133,7 +133,7 @@ const Modal: React.FC<ModalProps> = ({
                             <div className="
                 flex 
                 items-center 
-                p-6
+                p-3
                 rounded-t
                 justify-center
                 relative
@@ -167,14 +167,10 @@ const Modal: React.FC<ModalProps> = ({
                             </div>
                             {/*footer*/}
                             <div className="flex flex-col gap-2 p-6">
-                                <div
-                                    className="
-                    flex
-                    flex-row
-                    items-center
-                    gap-4
-                    w-full
-                  "
+                                <div className="flex
+                                 items-center
+                                 gap-4
+                                 w-full"
                                 >
                                     {secondaryAction && secondaryActionLabel && (
                                         <FormButton

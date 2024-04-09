@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Display from "@/app/(frontend)/english/component/Display";
 
+// TODO:用户持久化信息api接入
 interface QuestionProps {
     word: {
         chinese: string,
@@ -17,19 +18,41 @@ function Question({word: {chinese, english, soundmark}, failedCount, handleFaile
     const failedCountLimit = 3;
     const audioRef = React.useRef<HTMLAudioElement>(null);
     const inputRef = React.useRef<HTMLInputElement>(null);
+    const words = english.split(" ");
+    const [inputWords, setInputWords] = useState<string[]>([""])
     const tipAudio = new Audio();
+
     useEffect(() => {
+        setInputValue("")
         if (inputRef.current) {
             inputRef.current.focus();
         }
-    }, []);
+    }, [chinese, english, soundmark]);
+
+    useEffect(() => {
+        // 当 inputValue 发生变化时，触发此回调函数
+        const words = inputValue.split(" ");
+        setInputWords(words);
+    }, [inputValue]);
+
+    const validateInput = (value: string) => {
+        return !(value.startsWith(" ") || value.endsWith("  ") || countSpaces(value) > english.split(" ").length - 1);
+
+    };
+
+    function countSpaces(str: string) {
+        // 使用正则表达式匹配字符串中的空格，并返回匹配结果的数量
+        return (str.match(/ /g) || []).length;
+    }
 
     const handleInputValue = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setInputValue(event.target.value);
-        if (tipAudio) {
-            tipAudio.src = "/sounds/typing.mp3"
-            tipAudio.load()
-            tipAudio.play()
+        if (validateInput(event.target.value)) {
+            setInputValue(event.target.value);
+            if (tipAudio) {
+                tipAudio.src = "/sounds/typing.mp3"
+                tipAudio.load()
+                tipAudio.play()
+            }
         }
     };
     const handlePlayClick = async () => {
@@ -74,12 +97,13 @@ function Question({word: {chinese, english, soundmark}, failedCount, handleFaile
                 <div className={"text-2xl"}>{chinese}</div>
             }
             <div className={"relative flex flex-wrap justify-center gap-2 transition-all"}>
-                {/* todo: 分词设计有思路了，将输入按照空格split成数组*/}
-                <div
-                    className="h-[4rem] text-center min-w-32 leading-none border-solid rounded-[2px] border-b-2 text-[3rem] transition-all"
-                >
-                    {inputValue}
-                </div>
+                {words.map((word, index) => (
+                    <div key={index}
+                         className={`h-[4rem] text-center min-w-16 leading-none border-solid rounded-[2px] border-b-2 text-[3rem] transition-all ${inputWords.length - 1 === index && "border-fuchsia-500"}`}
+                    >
+                        {inputWords[index]}
+                    </div>
+                ))}
                 <input type="text" value={inputValue}
                        onChange={handleInputValue}
                        onKeyDown={handleKeyDown}

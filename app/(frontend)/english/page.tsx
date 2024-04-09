@@ -43,7 +43,8 @@ export default function Page() {
     const [currentMode, setCurrentMode] =
         useState<"Question" | "Answer" | "Summary">("Question")
     const word = currentCourse.statements[statementIndex]
-    const progress = statementIndex / currentCourse.statements.length
+    const progress = ((statementIndex / currentCourse.statements.length) * 100).toFixed(2)
+
 
     function handleNext() {
         if (statementIndex < currentCourse.statements.length - 1) {
@@ -60,9 +61,9 @@ export default function Page() {
         const response = await fetch(`/api/course?id=${id}`);
         if (response.ok) {
             const data = await response.json();
-            console.log(data)
             setCurrentCourse(data)
             setStatementIndex(0)
+            setFailedCount(0)
             setCurrentMode("Question")
         } else {
             // Handle error
@@ -81,12 +82,16 @@ export default function Page() {
     }
 
     function handleAnswer() {
+        setFailedCount(0)
         setCurrentMode("Answer")
     }
 
     function handleWord(index: number) {
-        setStatementIndex(index)
-        setCurrentMode("Question")
+        if (index < currentCourse.statements.length && index >= 0) {
+            setStatementIndex(index)
+            setFailedCount(0)
+            setCurrentMode("Question")
+        }
     }
 
     const viewMap = {
@@ -107,7 +112,8 @@ export default function Page() {
             <div className={"flex flex-1 flex-col justify-center items-center"}>
                 {CurrentView}
             </div>
-            <Tips showAnswer={showAnswer} english={word.english}/>
+            <Tips statementIndex={statementIndex} handleWord={handleWord} showAnswer={showAnswer}
+                  english={word.english}/>
         </div>
     )
 }
