@@ -1,13 +1,12 @@
 "use client"
 import Link from "next/link";
-import {useState} from "react";
+import { useState} from "react";
 import showMessage from "@/app/components/Message";
 import MenuItem from "@/app/components/navbar/MenuItem";
 import {signOut} from "next-auth/react";
 import {useRouter} from "next/navigation";
 import {SafeUser} from "@/types";
 import Avatar from "@/app/components/Avatar";
-import useAvatarModal from "@/app/hooks/useAvatarModal";
 import useProfileModal from "@/app/hooks/useProfileModal";
 
 interface UserMenuProps {
@@ -16,6 +15,7 @@ interface UserMenuProps {
 
 const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+
     const router = useRouter()
     const profileModal = useProfileModal()
     return (

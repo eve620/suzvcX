@@ -4,7 +4,6 @@ import Modal from "@/app/components/modals/Modal";
 
 interface ToolProps {
     currentCourse: {
-        id: number;
         title: string;
         statements: { chinese: string; english: string; soundmark: string; }[];
     }

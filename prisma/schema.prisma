@@ -23,24 +23,24 @@ enum UserRole {
   Admin
 }
 
-model Project {
-  id        Int      @id @default(autoincrement())
-  title     String
-  time      String
-  job       String
-  stacks    String
-  describe  String
-  highlight String?
-  createdBy String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
+// model Project {
+//   id        Int      @id @default(autoincrement())
+//   title     String
+//   time      String
+//   job       String
+//   stacks    String
+//   describe  String
+//   highlight String?
+//   createdBy String
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
 
 model Progress {
   id        Int      @id @default(autoincrement())
   course    String
   wordIndex Int
-  createdBy String
+  userId    Int      @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
