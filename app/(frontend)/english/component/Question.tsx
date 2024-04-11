@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import Display from "@/app/(frontend)/english/component/Display";
 
 interface QuestionProps {
@@ -15,11 +15,11 @@ interface QuestionProps {
 function Question({word: {chinese, english, soundmark}, failedCount, handleFailedCount, handleAnswer}: QuestionProps) {
     const [inputValue, setInputValue] = useState("");
     const failedCountLimit = 3;
-    const audioRef = React.useRef<HTMLAudioElement>(null);
-    const inputRef = React.useRef<HTMLInputElement>(null);
+    const audioRef = useRef<HTMLAudioElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
     const words = english.split(" ");
     const [inputWords, setInputWords] = useState<string[]>([""])
-    const tipAudio = new Audio();
+
 
     useEffect(() => {
         setInputValue("")
@@ -47,11 +47,10 @@ function Question({word: {chinese, english, soundmark}, failedCount, handleFaile
     const handleInputValue = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (validateInput(event.target.value)) {
             setInputValue(event.target.value);
-            if (tipAudio) {
-                tipAudio.src = "/sounds/typing.mp3"
-                tipAudio.load()
-                tipAudio.play()
-            }
+            const tipAudio: HTMLAudioElement = new Audio();
+            tipAudio.src = "/sounds/typing.mp3"
+            tipAudio.load()
+            tipAudio.play()
         }
     };
     const handlePlayClick = async () => {
@@ -65,19 +64,17 @@ function Question({word: {chinese, english, soundmark}, failedCount, handleFaile
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === "Enter") {
             if (inputValue.toLowerCase() === english.toLowerCase()) {
-                if (tipAudio) {
-                    tipAudio.src = "/sounds/right.mp3"
-                    tipAudio.load()
-                    tipAudio.play()
-                }
+                const tipAudio: HTMLAudioElement = new Audio();
+                tipAudio.src = "/sounds/right.mp3"
+                tipAudio.load()
+                tipAudio.play()
                 handleAnswer()
             } else {
                 setInputValue("")
-                if (tipAudio) {
-                    tipAudio.src = "/sounds/error.mp3"
-                    tipAudio.load()
-                    tipAudio.play()
-                }
+                const tipAudio: HTMLAudioElement = new Audio();
+                tipAudio.src = "/sounds/error.mp3"
+                tipAudio.load()
+                tipAudio.play()
                 handleFailedCount()
             }
         }

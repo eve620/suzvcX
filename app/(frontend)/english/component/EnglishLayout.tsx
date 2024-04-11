@@ -7,13 +7,7 @@ import Tool from "@/app/(frontend)/english/component/Tool";
 import Tips from "@/app/(frontend)/english/component/Tips";
 import Progress from "@/app/(frontend)/english/component/Progress";
 
-// TODO:利用防抖定时存储数据
-
-interface EnglishLayoutProps {
-    currentUserId?: number
-}
-
-const EnglishLayout: React.FC<EnglishLayoutProps> = ({currentUserId}) => {
+const EnglishLayout: React.FC = () => {
     const [progress, setProgress] = useState({
             course: "01",
             wordIndex: 0
@@ -34,7 +28,7 @@ const EnglishLayout: React.FC<EnglishLayoutProps> = ({currentUserId}) => {
 
     useEffect(() => {
         const getUserProgress = async () => {
-            const response = await fetch(`/api/course/progress?id=${currentUserId}`);
+            const response = await fetch(`/api/course/progress`);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
@@ -45,7 +39,7 @@ const EnglishLayout: React.FC<EnglishLayoutProps> = ({currentUserId}) => {
             })
         }
         getUserProgress()
-    }, [currentUserId])
+    }, [])
 
     useEffect(() => {
         async function initProgress() {
@@ -63,19 +57,15 @@ const EnglishLayout: React.FC<EnglishLayoutProps> = ({currentUserId}) => {
                 body: JSON.stringify({
                     course: currentCourseId,
                     wordIndex: statementIndex,
-                    userId: currentUserId
                 })
             })
         }
 
-        const timeoutId = setTimeout(() => {
-            updateProgress()
-            console.log("定时器被执行")
-        }, 5000)
+        const timeoutId = setTimeout(() => updateProgress(), 5000)
         return () => {
             clearTimeout(timeoutId)
         }
-    }, [currentCourseId, statementIndex, currentUserId])
+    }, [currentCourseId, statementIndex])
 
 
     function handleNext() {
