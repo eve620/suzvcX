@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import Display from "@/app/(frontend)/english/component/Display";
 
-// TODO:用户持久化信息api接入
 interface QuestionProps {
     word: {
         chinese: string,

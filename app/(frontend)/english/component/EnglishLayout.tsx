@@ -7,6 +7,8 @@ import Tool from "@/app/(frontend)/english/component/Tool";
 import Tips from "@/app/(frontend)/english/component/Tips";
 import Progress from "@/app/(frontend)/english/component/Progress";
 
+// TODO:利用防抖定时存储数据
+
 interface EnglishLayoutProps {
     currentUserId?: number
 }
@@ -17,6 +19,7 @@ const EnglishLayout: React.FC<EnglishLayoutProps> = ({currentUserId}) => {
             wordIndex: 0
         }
     )
+    const [currentCourseId, setCurrentCourseId] = useState<string | null>(null)
     const [currentCourse, setCurrentCourse] = useState({
         title: "",
         statements: [{chinese: "", english: "", soundmark: ""}]
@@ -40,15 +43,40 @@ const EnglishLayout: React.FC<EnglishLayoutProps> = ({currentUserId}) => {
                 course: data.data.course,
                 wordIndex: data.data.wordIndex
             })
-            console.log(data.data)
         }
         getUserProgress()
     }, [currentUserId])
 
     useEffect(() => {
-        handleCourse(progress.course)
-        setStatementIndex(progress.wordIndex)
+        async function initProgress() {
+            await handleCourse(progress.course)
+            setStatementIndex(progress.wordIndex)
+        }
+
+        initProgress()
     }, [progress])
+
+    useEffect(() => {
+        async function updateProgress() {
+            const update = await fetch("http://localhost:3000/api/course/progress", {
+                method: "PUT",
+                body: JSON.stringify({
+                    course: currentCourseId,
+                    wordIndex: statementIndex,
+                    userId: currentUserId
+                })
+            })
+        }
+
+        const timeoutId = setTimeout(() => {
+            updateProgress()
+            console.log("定时器被执行")
+        }, 5000)
+        return () => {
+            clearTimeout(timeoutId)
+        }
+    }, [currentCourseId, statementIndex, currentUserId])
+
 
     function handleNext() {
         if (statementIndex < currentCourse.statements.length - 1) {
@@ -66,6 +94,7 @@ const EnglishLayout: React.FC<EnglishLayoutProps> = ({currentUserId}) => {
         if (response.ok) {
             const data = await response.json();
             setCurrentCourse(data)
+            setCurrentCourseId(id)
             setStatementIndex(0)
             setFailedCount(0)
             setCurrentMode("Question")

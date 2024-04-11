@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
         const jsonData = fs.readFileSync(filePath, 'utf8');
 
         // 将JSON内容发送给客户端
-        return NextResponse.json({id: Number(id), title: `Lesson ${id}`, statements: JSON.parse(jsonData)});
+        return NextResponse.json({id, title: `Lesson ${id}`, statements: JSON.parse(jsonData)});
     } catch (error) {
         // 如果发生错误，返回404
         return NextResponse.json({message: '数据不存在'}, {status: 404});
