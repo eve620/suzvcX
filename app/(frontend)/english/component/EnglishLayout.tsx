@@ -6,6 +6,7 @@ import Question from "@/app/(frontend)/english/component/Question";
 import Tool from "@/app/(frontend)/english/component/Tool";
 import Tips from "@/app/(frontend)/english/component/Tips";
 import Progress from "@/app/(frontend)/english/component/Progress";
+import Loading from "@/app/components/Loading";
 
 const EnglishLayout: React.FC = () => {
     const [progress, setProgress] = useState({
@@ -22,6 +23,7 @@ const EnglishLayout: React.FC = () => {
     const [failedCount, setFailedCount] = useState(0);
     const [currentMode, setCurrentMode] =
         useState<"Question" | "Answer" | "Summary">("Question")
+    const [isLoading, setIsLoading] = useState(true)
     const word = currentCourse.statements[statementIndex]
     const percent = ((statementIndex / currentCourse.statements.length) * 100).toFixed(2)
 
@@ -48,6 +50,7 @@ const EnglishLayout: React.FC = () => {
         }
 
         initProgress()
+        setIsLoading(false)
     }, [progress])
 
     useEffect(() => {
@@ -128,16 +131,21 @@ const EnglishLayout: React.FC = () => {
 
 
     return (
-        <div className={"absolute h-full w-full flex flex-col"}>
-            <Tool currentCourse={currentCourse} statementIndex={statementIndex} handleCourse={handleCourse}
-                  handleWord={handleWord}/>
-            <Progress currentMode={currentMode} percent={percent}/>
-            <div className={"flex flex-1 flex-col justify-center items-center"}>
-                {CurrentView}
-            </div>
-            <Tips statementIndex={statementIndex} handleWord={handleWord} showAnswer={showAnswer}
-                  english={word.english}/>
-        </div>
+        <>
+            {isLoading ?
+                <Loading/> :
+                <div className={"absolute h-full w-full flex flex-col"}>
+                    <Tool currentCourse={currentCourse} statementIndex={statementIndex} handleCourse={handleCourse}
+                          handleWord={handleWord}/>
+                    <Progress currentMode={currentMode} percent={percent}/>
+                    <div className={"flex flex-1 flex-col justify-center items-center"}>
+                        {CurrentView}
+                    </div>
+                    <Tips statementIndex={statementIndex} handleWord={handleWord} showAnswer={showAnswer}
+                          english={word.english}/>
+                </div>
+            }
+        </>
     )
 }
 
