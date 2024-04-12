@@ -8,57 +8,30 @@ import Tips from "@/app/(frontend)/english/component/Tips";
 import Progress from "@/app/(frontend)/english/component/Progress";
 import Loading from "@/app/components/Loading";
 
-const EnglishLayout: React.FC = () => {
-    const [progress, setProgress] = useState({
-            course: "01",
-            wordIndex: 0
-        }
-    )
-    const [currentCourseId, setCurrentCourseId] = useState<string | null>(null)
-    const [currentCourse, setCurrentCourse] = useState({
-        title: "",
-        statements: [{chinese: "", english: "", soundmark: ""}]
-    })
-    const [statementIndex, setStatementIndex] = useState(progress.wordIndex)
+interface EnglishLayoutProps {
+    courseData: {
+        id: string,
+        title: string,
+        statements: [{ chinese: string, english: string, soundmark: string }]
+    }
+    wordIndex: number
+}
+
+const EnglishLayout: React.FC<EnglishLayoutProps> = ({courseData, wordIndex}) => {
+    const [currentCourse, setCurrentCourse] = useState(courseData)
+    const [statementIndex, setStatementIndex] = useState(wordIndex)
     const [failedCount, setFailedCount] = useState(0);
     const [currentMode, setCurrentMode] =
         useState<"Question" | "Answer" | "Summary">("Question")
-    const [isLoading, setIsLoading] = useState(true)
     const word = currentCourse.statements[statementIndex]
     const percent = ((statementIndex / currentCourse.statements.length) * 100).toFixed(2)
-
-
-    useEffect(() => {
-        const getUserProgress = async () => {
-            const response = await fetch(`/api/course/progress`);
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const data = await response.json()
-            setProgress({
-                course: data.data.course,
-                wordIndex: data.data.wordIndex
-            })
-        }
-        getUserProgress()
-    }, [])
-
-    useEffect(() => {
-        async function initProgress() {
-            await handleCourse(progress.course)
-            setStatementIndex(progress.wordIndex)
-        }
-
-        initProgress()
-        setIsLoading(false)
-    }, [progress])
 
     useEffect(() => {
         async function updateProgress() {
             const update = await fetch("http://localhost:3000/api/course/progress", {
                 method: "PUT",
                 body: JSON.stringify({
-                    course: currentCourseId,
+                    course: currentCourse.id,
                     wordIndex: statementIndex,
                 })
             })
@@ -68,7 +41,7 @@ const EnglishLayout: React.FC = () => {
         return () => {
             clearTimeout(timeoutId)
         }
-    }, [currentCourseId, statementIndex])
+    }, [currentCourse, statementIndex])
 
 
     function handleNext() {
@@ -87,7 +60,6 @@ const EnglishLayout: React.FC = () => {
         if (response.ok) {
             const data = await response.json();
             setCurrentCourse(data)
-            setCurrentCourseId(id)
             setStatementIndex(0)
             setFailedCount(0)
             setCurrentMode("Question")
@@ -131,21 +103,16 @@ const EnglishLayout: React.FC = () => {
 
 
     return (
-        <>
-            {isLoading ?
-                <Loading/> :
-                <div className={"absolute h-full w-full flex flex-col"}>
-                    <Tool currentCourse={currentCourse} statementIndex={statementIndex} handleCourse={handleCourse}
-                          handleWord={handleWord}/>
-                    <Progress currentMode={currentMode} percent={percent}/>
-                    <div className={"flex flex-1 flex-col justify-center items-center"}>
-                        {CurrentView}
-                    </div>
-                    <Tips statementIndex={statementIndex} handleWord={handleWord} showAnswer={showAnswer}
-                          english={word.english}/>
-                </div>
-            }
-        </>
+        <div className={"absolute h-full w-full flex flex-col"}>
+            <Tool currentCourse={currentCourse} statementIndex={statementIndex} handleCourse={handleCourse}
+                  handleWord={handleWord}/>
+            <Progress currentMode={currentMode} percent={percent}/>
+            <div className={"flex flex-1 flex-col justify-center items-center"}>
+                {CurrentView}
+            </div>
+            <Tips statementIndex={statementIndex} handleWord={handleWord} showAnswer={showAnswer}
+                  english={word.english}/>
+        </div>
     )
 }
 

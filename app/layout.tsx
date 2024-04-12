@@ -1,6 +1,5 @@
 import type {Metadata} from "next";
 import "./globals.css";
-import {ThemeProvider} from "next-themes";
 
 // 字体问题
 // import {Nunito} from "next/font/google";

@@ -1,0 +1,45 @@
+'use client' // ErrorPage components must be Client Components
+
+import {useEffect} from 'react'
+import Button from "@/app/components/Button";
+import {useRouter} from "next/navigation";
+
+export default function ErrorPage({error}: {
+    error: Error & { digest?: string }
+    reset: () => void
+}) {
+    const router = useRouter()
+
+    useEffect(() => {
+        // Log the error to an error reporting service
+        console.error(error)
+    }, [error])
+
+    return (
+        <div
+            className="
+        absolute
+        h-full
+        w-full
+        flex
+        flex-col
+        gap-2
+        justify-center
+        items-center
+      "
+        >
+            <div className={'text-center'}>
+                <div className="text-2xl font-bold">
+                    {"Uh Oh"}
+                </div>
+                <div className="text-neutral-500 mt-2 mb-4">
+                    {"Something went wrong!"}
+                </div>
+            </div>
+            <Button
+                label="点击返回首页"
+                onClick={() => router.push('/')}
+            />
+        </div>
+    )
+}
