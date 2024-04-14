@@ -84,7 +84,7 @@ const Modal: React.FC<ModalProps> = ({
           duration-300
           ${showModal ? 'opacity-100' : 'opacity-0'}
         `}
-                onClick={() => {
+                onMouseDown={() => {
                     handleClose()
                 }}
             >
@@ -100,7 +100,7 @@ const Modal: React.FC<ModalProps> = ({
           lg:h-auto
           md:h-auto
           "
-                     onClick={(event) => {
+                     onMouseDown={(event) => {
                          event.stopPropagation()
                      }}
                 >
@@ -133,7 +133,7 @@ const Modal: React.FC<ModalProps> = ({
                             <div className="
                 flex 
                 items-center 
-                p-3
+                p-6
                 rounded-t
                 justify-center
                 relative

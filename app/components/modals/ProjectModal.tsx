@@ -2,9 +2,11 @@
 import Modal from "@/app/components/modals/Modal";
 import useProjectModal from "@/app/hooks/useProjectModal";
 import Input from "@/app/components/Input";
-import {useForm} from "react-hook-form";
+import {FieldValues, SubmitHandler, useForm} from "react-hook-form";
 import {GetProp, Modal as AntdModal, Upload, UploadFile, UploadProps} from "antd"
 import {useState} from "react";
+import {z} from "zod";
+import {zodResolver} from "@hookform/resolvers/zod";
 
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
@@ -17,13 +19,27 @@ const getBase64 = (file: FileType): Promise<string> =>
         reader.onerror = (error) => reject(error);
     });
 
+const schema = z.object({
+    title: z.string(),
+    job: z.string(),
+    startTime: z.string().regex(/^\d{4}\.\d{1,2}$/, { message: '时间格式必须为YYYY.M' }),
+    endTime: z.string().regex(/^\d{4}\.\d{1,2}$/, { message: '时间格式必须为YYYY.M' }),
+    stack: z.string(),
+    describe: z.string(),
+    highlight: z.string(),
+    image: z.string(),
+})
+
 const ProjectModal: React.FC = () => {
     const projectModal = useProjectModal()
     const {
         register,
         handleSubmit,
-        formState: {errors}
-    } = useForm()
+        formState: {errors},
+        reset
+    } = useForm<z.infer<typeof schema>>({
+        resolver: zodResolver(schema)
+    })
     const [previewOpen, setPreviewOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
     const [previewTitle, setPreviewTitle] = useState('');
@@ -44,6 +60,9 @@ const ProjectModal: React.FC = () => {
         setFileList(newFileList);
     }
 
+    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+
+    }
 
     const uploadButton = (
         <button style={{border: 0, background: 'none'}} type="button">
@@ -53,7 +72,8 @@ const ProjectModal: React.FC = () => {
     const bodyContent = (
         <form className={"space-y-3"}>
             <Input id={"title"} label={"标题"} register={register} errors={errors}/>
-            <Input id={"time"} label={"时间"} register={register} errors={errors}/>
+            <Input id={"startTime"} label={"开始时间"} register={register} errors={errors}/>
+            <Input id={"endTime"} label={"结束时间"} register={register} errors={errors}/>
             <Input id={"job"} label={"职责"} register={register} errors={errors}/>
             <Input id={"stack"} label={"技术栈"} register={register} errors={errors}/>
             <Input id={"describe"} label={"描述"} register={register} errors={errors}/>
@@ -78,10 +98,11 @@ const ProjectModal: React.FC = () => {
     return (
         <Modal isOpen={projectModal.isOpen}
                onClose={() => {
+                   reset()
                    projectModal.onClose()
                    setFileList([])
                }}
-               onSubmit={projectModal.onClose}
+               onSubmit={handleSubmit(onSubmit)}
                body={bodyContent}
                actionLabel={"添加"}/>
     )

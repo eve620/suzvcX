@@ -19,6 +19,7 @@ function Question({word: {chinese, english, soundmark}, failedCount, handleFaile
     const inputRef = useRef<HTMLInputElement>(null);
     const words = english.split(" ");
     const [inputWords, setInputWords] = useState<string[]>([""])
+    const tipAudioRef = useRef<HTMLAudioElement | null>(null)
 
     function inputWidth(word: string) {
         // 单词宽度
@@ -111,10 +112,10 @@ function Question({word: {chinese, english, soundmark}, failedCount, handleFaile
     const handleInputValue = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (validateInput(event.target.value)) {
             setInputValue(event.target.value);
-            const tipAudio: HTMLAudioElement = new Audio();
-            tipAudio.src = "/sounds/typing.mp3"
-            tipAudio.load()
-            tipAudio.play()
+            tipAudioRef.current = new Audio()
+            tipAudioRef.current.src = "/sounds/typing.mp3"
+            tipAudioRef.current.load()
+            tipAudioRef.current.play()
         }
     };
     const handlePlayClick = async () => {
@@ -128,17 +129,17 @@ function Question({word: {chinese, english, soundmark}, failedCount, handleFaile
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === "Enter") {
             if (inputValue.toLowerCase() === english.toLowerCase()) {
-                const tipAudio: HTMLAudioElement = new Audio();
-                tipAudio.src = "/sounds/right.mp3"
-                tipAudio.load()
-                tipAudio.play()
+                tipAudioRef.current = new Audio()
+                tipAudioRef.current.src = "/sounds/right.mp3"
+                tipAudioRef.current.load()
+                tipAudioRef.current.play()
                 handleAnswer()
             } else {
                 setInputValue("")
-                const tipAudio: HTMLAudioElement = new Audio();
-                tipAudio.src = "/sounds/error.mp3"
-                tipAudio.load()
-                tipAudio.play()
+                tipAudioRef.current = new Audio()
+                tipAudioRef.current.src = "/sounds/error.mp3"
+                tipAudioRef.current.load()
+                tipAudioRef.current.play()
                 handleFailedCount()
             }
         }
