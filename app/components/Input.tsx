@@ -48,7 +48,7 @@ const Input: React.FC<InputProps> = ({
             />
             <label className={"absolute right-5 text-sm text-rose-500"}>{errors[id]?.message as string}</label>
         </div>
-        // old
+        // old input
         // <div className="w-full relative">
         //     <input
         //         id={id}

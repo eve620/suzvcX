@@ -1,10 +1,10 @@
-import Link from "next/link";
-import Image from "next/image";
 import DevLog from "@/app/components/Home/DevLog";
 import Guide from "@/app/components/Home/Guide";
 import TopBar from "@/app/components/Home/TopBar";
+import getCurrentUser from "@/actions/getCurrentUser";
 
-export default function FrontendPage() {
+export default async function FrontendPage() {
+    const currentUser = await getCurrentUser()
     return (
         <div>
             <section className="
@@ -19,7 +19,7 @@ export default function FrontendPage() {
                 <Guide/>
             </section>
             <section>
-                <DevLog/>
+                <DevLog currentUser={currentUser}/>
             </section>
         </div>
     );
