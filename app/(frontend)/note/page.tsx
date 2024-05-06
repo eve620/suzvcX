@@ -1,6 +1,7 @@
 import Button from "@/app/components/Button";
 import Link from "next/link";
 import Back from "@/app/components/Back";
+import Breadcrumb from "@/app/components/Breadcrumb";
 
 const dirMenu = [
     {id: 1, name: "分类1"},
@@ -25,55 +26,24 @@ const menu = [
 export default function Page({searchParams: {dir, id}}: { searchParams: { dir: string, id: string } }) {
     return (
         <>
-            <ol className="flex flex-wrap text-gray-500 dark:text-gray-300 font-mono items-center gap-1.5 break-words text-sm text-muted-foreground sm:gap-2.5">
-                {dir ?
-                    <>{id ?
-                        <>
-                            <li className={"hover:text-gray-900 dark:hover:text-gray-100"}>
-                                <Link className={""} href={"note"}>Home</Link>
-                            </li>
-                            <li className={"cursor-default"}>{">"}</li>
-                            <li className={"hover:text-gray-900 dark:hover:text-gray-100"}>
-                                <Link className={""}
-                                      href={`note?dir=${dir}`}>{dirMenu.find(item => item.id === Number(dir))?.name}</Link>
-                            </li>
-                            <li className={"cursor-default"}>{">"}</li>
-                            <li className={""}>
-                                <span
-                                    className={"cursor-default"}>{menu.find(item => item.id === Number(id))?.title}</span>
-                            </li>
-                        </> :
-                        <>
-                            <li className={"hover:text-gray-900 dark:hover:text-gray-100"}>
-                                <Link className={""} href={"note"}>Home</Link>
-                            </li>
-                            <li className={"cursor-default"}>{">"}</li>
-                            <li className={""}>
-                                <span
-                                    className={"cursor-default"}>{dirMenu.find(item => item.id === Number(dir))?.name}</span>
-                            </li>
-                        </>}
-                    </> :
-                    <>
-                        <li className={""}>
-                            <span className={"cursor-default"}>Home</span>
-                        </li>
-                    </>}
-            </ol>
+            <Breadcrumb first={dir} second={id} firstMenu={dirMenu} secondMenu={menu}/>
             <div className={"flex flex-wrap w-full"}>
-                <div className={"w-1/4 min-w-fit flex flex-col pt-20"}>
+                <div className={"w-1/4 min-w-fit flex flex-col py-12"}>
                     {dirMenu.map((item, index) => {
                         return (
-                            <Link key={item.id}
-                                  style={{zIndex: `${9999 - index}`,transitionProperty:"margin"}}
-                                  className={"border-2 duration-300 py-2 first:mt-0 -mt-3 hover:mt-0 border-black bg-blue-100 dark:bg-gray-800 w-28 mx-auto text-center rounded-full"}
-                                  href={{pathname: "/note", search: `dir=${item.id}`}}>{item.name}</Link>
+                            <div key={item.id} style={{zIndex: `${30 - index}`, transitionProperty: "margin"}}
+                                 className={`duration-300 skew-y-6 first:mt-0 hover:mt-0 hover:pt-1 ${item.id === Number(dir) ? "pt-1 mt-0" : "-mt-3"} 
+                                    mx-auto text-center`}>
+                                <Link
+                                    className={"block py-2 w-28 font-bold bg-fuchsia-200 border-black border-4 dark:bg-slate-700 rounded-xl"}
+                                    href={{pathname: "/note", search: `dir=${item.id}`}}>{item.name}</Link>
+                            </div>
                         )
                     })}
                 </div>
-                <div className={"w-3/4"}>
+                <div className={"w-3/4 bg-pink-100 p-4"}>
                     {dir ?
-                        <div className={"pt-4"}>
+                        <div className={""}>
                             {id ?
                                 <>
                                     <Back url={`/note/?dir=${dir}`}/>

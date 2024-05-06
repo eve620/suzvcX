@@ -1,17 +1,18 @@
 "use client"
 import {SafeUser} from "@/types";
-import {useEffect, useRef, useState} from "react";
+import {useRef, useState} from "react";
 import {useOnClickOutside} from "next/dist/client/components/react-dev-overlay/internal/hooks/use-on-click-outside";
 import {FieldValues, SubmitHandler, useForm} from "react-hook-form";
 
 interface DevLogProps {
     currentUser?: SafeUser | null
+    list: { time: string, content: string }[]
 }
 
-const DevLog: React.FC<DevLogProps> = ({currentUser}) => {
+const DevLog: React.FC<DevLogProps> = ({currentUser, list}) => {
     const [isAdd, setIsAdd] = useState(false)
     const addRef = useRef<HTMLDivElement>(null)
-    const [logList, setLogList] = useState<{ time: string, content: string }[]>([])
+    const [logList, setLogList] = useState<{ time: string, content: string }[]>(list)
     const {register, handleSubmit, formState: {errors}, reset} = useForm()
 
     function getLogList() {
@@ -21,10 +22,6 @@ const DevLog: React.FC<DevLogProps> = ({currentUser}) => {
             console.log(err)
         })
     }
-
-    useEffect(() => {
-        getLogList()
-    }, [])
 
     useOnClickOutside(addRef.current, () => {
         if (isAdd) setIsAdd(false)

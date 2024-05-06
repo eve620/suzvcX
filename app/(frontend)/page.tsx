@@ -5,6 +5,13 @@ import getCurrentUser from "@/actions/getCurrentUser";
 
 export default async function FrontendPage() {
     const currentUser = await getCurrentUser()
+    const response = await fetch("http://localhost:3000/api/devlog")
+    let logList = []
+    if (response.ok) {
+        const json = await response.json()
+        logList = json.data
+    }
+
     return (
         <div>
             <section className="
@@ -19,7 +26,7 @@ export default async function FrontendPage() {
                 <Guide/>
             </section>
             <section>
-                <DevLog currentUser={currentUser}/>
+                <DevLog currentUser={currentUser} list={logList}/>
             </section>
         </div>
     );

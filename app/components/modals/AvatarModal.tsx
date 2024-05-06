@@ -33,6 +33,7 @@ const AvatarModal: React.FC = () => {
     const avatarModal = useAvatarModal()
     const handleChange: UploadProps['onChange'] = (info) => {
         if (info.file.status === 'uploading') {
+            console.log(info.file.originFileObj)
             return;
         }
         if (info.file.status === 'done') {

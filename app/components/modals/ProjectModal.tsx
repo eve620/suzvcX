@@ -7,7 +7,12 @@ import {GetProp, Modal as AntdModal, Upload, UploadFile, UploadProps} from "antd
 import {useState} from "react";
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
+import {SafeUser} from "@/types";
+import {useRouter} from "next/navigation";
 
+interface ProjectModalProps {
+    currentUser?: SafeUser | null
+}
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
@@ -22,22 +27,31 @@ const getBase64 = (file: FileType): Promise<string> =>
 const schema = z.object({
     title: z.string(),
     job: z.string(),
-    startTime: z.string().regex(/^\d{4}\.\d{1,2}$/, { message: '时间格式必须为YYYY.M' }),
-    endTime: z.string().regex(/^\d{4}\.\d{1,2}$/, { message: '时间格式必须为YYYY.M' }),
+    startTime: z.string().regex(/^\d{4}\.\d{1,2}$/, {message: '时间格式必须为YYYY.M'}),
+    endTime: z.string().regex(/^\d{4}\.\d{1,2}$/, {message: '时间格式必须为YYYY.M'}),
     stack: z.string(),
     describe: z.string(),
     highlight: z.string(),
-    image: z.string(),
 })
 
-const ProjectModal: React.FC = () => {
+const ProjectModal: React.FC<ProjectModalProps> = ({currentUser}) => {
     const projectModal = useProjectModal()
+    const router = useRouter()
     const {
         register,
         handleSubmit,
         formState: {errors},
         reset
     } = useForm<z.infer<typeof schema>>({
+        defaultValues: {
+            title: '',
+            job: '',
+            startTime: '',
+            endTime: '',
+            stack: '',
+            describe: '',
+            highlight: '',
+        },
         resolver: zodResolver(schema)
     })
     const [previewOpen, setPreviewOpen] = useState(false);
@@ -56,11 +70,34 @@ const ProjectModal: React.FC = () => {
     };
 
     const handleChange: UploadProps['onChange'] = ({file, fileList: newFileList}) => {
-        console.log(newFileList)
         setFileList(newFileList);
     }
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+        // @ts-ignore
+        if (!currentUser) return
+        const formData = new FormData()
+        formData.append('title', data.title || "")
+        formData.append('job', data.job || "")
+        formData.append('stack', JSON.stringify(data.stack.trim().split(" ")) || "[]")
+        formData.append('startTime', data.startTime || "")
+        formData.append('endTime', data.endTime || "")
+        formData.append('describe', data.describe || "")
+        formData.append('highlight', data.highlight || "")
+        formData.append('createdBy', currentUser.name || "")
+        fileList.forEach((item, index) => {
+            formData.append(`image${index}`, item.originFileObj as FileType)
+        })
+        const res = await fetch('/api/project', {
+            method: 'POST',
+            body: formData
+        })
+        if (res.ok) {
+            projectModal.onClose()
+            reset()
+            setFileList([])
+            router.refresh()
+        }
 
     }
 
@@ -90,7 +127,7 @@ const ProjectModal: React.FC = () => {
                 <AntdModal open={previewOpen} title={previewTitle} footer={null} onCancel={() => {
                     setPreviewOpen(false)
                 }}>
-                    <img alt="example" style={{width: '100%'}} src={previewImage}/>
+                    <img alt="example" style={{width: '100%'}} className={"hover:hidden"} src={previewImage}/>
                 </AntdModal>
             </>
         </form>
