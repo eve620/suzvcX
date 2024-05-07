@@ -1,10 +1,9 @@
 import {useEffect, useState} from "react";
 import {createRoot} from "react-dom/client";
-import {clearTimeout} from "timers";
 
 type Props = {
     message: string
-    onClose?: void
+    onClose?: void | undefined
 }
 
 const Message = (props: Props) => {
@@ -20,20 +19,36 @@ const Message = (props: Props) => {
     }, []);
     return (
         <div
-            className={`absolute text-sm bg-pink-600 rounded-xl shadow-lg shadow-pink-900 z-10 top-10 left-1/2 -translate-x-1/2 text-center text-neutral-200 p-1 px-6 ${isShow ? 'opacity-100' : 'opacity-0'} duration-300`}>
+            className={`text-sm bg-pink-600 rounded-xl mb-2 shadow-lg shadow-pink-900 -translate-x-1/2 text-center text-neutral-200 p-1 px-6 ${isShow ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-3'} duration-300`}>
             {props.message}
         </div>
     )
 };
 
+let container: (HTMLDivElement | null) = null;
+let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
 const showMessage = (message: string) => {
+    if (!container) {
+        container = document.createElement('div');
+        container.className = 'absolute top-10 left-1/2 z-20'
+        document.body.appendChild(container);
+    }
     const messageElement = <Message message={message}/>;
-    const container = document.createElement('div');
-    document.body.appendChild(container);
-    const root = createRoot(container);
+    const messageDiv = document.createElement('div');
+    container.appendChild(messageDiv);
+    const root = createRoot(messageDiv);
     root.render(messageElement);
-    setTimeout(() => {
-        document.body.removeChild(container)
-    }, 1000)
+
+    if (timeoutId) {
+        clearTimeout(timeoutId);
+    }
+
+    timeoutId = setTimeout(() => {
+        document.body.removeChild(container!);
+        // 重置 container 和 timeoutId
+        container = null;
+        timeoutId = null;
+    }, 1000);
 }
 export default showMessage;
