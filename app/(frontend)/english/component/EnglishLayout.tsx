@@ -37,7 +37,7 @@ const EnglishLayout: React.FC<EnglishLayoutProps> = ({courseData, wordIndex}) =>
             })
         }
 
-        const timeoutId = setTimeout(() => updateProgress(), 5000)
+        const timeoutId = setTimeout(() => updateProgress(), 3000)
         return () => {
             clearTimeout(timeoutId)
         }

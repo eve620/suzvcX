@@ -19,7 +19,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({first, second, firstMenu, second
                         <li className={"cursor-default"}>{">"}</li>
                         <li className={"hover:text-gray-900 dark:hover:text-gray-100"}>
                             <Link className={""}
-                                  href={`note?first=${first}`}>{firstMenu.find(item => item.id === Number(first))?.name}</Link>
+                                  href={`note?dir=${first}`}>{firstMenu.find(item => item.id === Number(first))?.name}</Link>
                         </li>
                         <li className={"cursor-default"}>{">"}</li>
                         <li className={""}>

@@ -1,9 +1,13 @@
+"use client"
 import Button from "@/app/components/Button";
 import Link from "next/link";
 import Back from "@/app/components/Back";
 import Breadcrumb from "@/app/components/Breadcrumb";
+import {useEffect, useRef, useState} from "react";
+import {useOnClickOutside} from "next/dist/client/components/react-dev-overlay/internal/hooks/use-on-click-outside";
+import {useRouter} from "next/navigation";
 
-const dirMenu = [
+const dirMenu1 = [
     {id: 1, name: "分类1"},
     {id: 2, name: "分类2"},
     {id: 3, name: "分类3"},
@@ -24,6 +28,23 @@ const menu = [
 ]
 
 export default function Page({searchParams: {dir, id}}: { searchParams: { dir: string, id: string } }) {
+    const [isAdd, setIsAdd] = useState(false)
+    const [dirMenu, setDirMenu] = useState(dirMenu1)
+    const [newName, setNewName] = useState("")
+    const addRef = useRef<HTMLDivElement | null>(null)
+    const inputRef = useRef<HTMLInputElement | null>(null)
+    const router = useRouter()
+    useEffect(() => {
+        if (isAdd && inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, [isAdd]);
+    useOnClickOutside(addRef.current, (event) => {
+        if (addRef.current && !addRef.current.contains(event.target as Node)) {
+            setNewName("")
+            setIsAdd(false)
+        }
+    })
     return (
         <>
             <Breadcrumb first={dir} second={id} firstMenu={dirMenu} secondMenu={menu}/>
@@ -32,14 +53,35 @@ export default function Page({searchParams: {dir, id}}: { searchParams: { dir: s
                     {dirMenu.map((item, index) => {
                         return (
                             <div key={item.id} style={{zIndex: `${30 - index}`, transitionProperty: "margin"}}
-                                 className={`duration-300 skew-y-6 first:mt-0 hover:mt-0 hover:pt-1 ${item.id === Number(dir) ? "pt-1 mt-0" : "-mt-3"} 
+                                 className={`duration-300 first:mt-0 hover:mt-0 ${index !== 0 && 'hover:pt-1'} ${index !== 0 && item.id === Number(dir) ? "pt-1 mt-0" : "-mt-3"} 
                                     mx-auto text-center`}>
                                 <Link
-                                    className={"block py-2 w-28 font-bold bg-fuchsia-200 border-black border-4 dark:bg-slate-700 rounded-xl"}
+                                    className={"block py-2 w-28 font-bold bg-slate-700 text-gray-200 border-2 border-blue-500/80 dark:bg-slate-700 rounded-full"}
                                     href={{pathname: "/note", search: `dir=${item.id}`}}>{item.name}</Link>
                             </div>
                         )
                     })}
+                    <div style={{transitionProperty: "margin"}} ref={addRef}
+                         className={`duration-300 first:mt-0 hover:mt-0 hover:pt-1 ${isAdd ? "pt-1 mt-0" : "-mt-3"} 
+                                    mx-auto text-center`}>
+
+                        <div
+                            className={`block ${isAdd ? "w-28" : "w-20"} duration-200 font-bold bg-slate-700 text-gray-200 border-2 border-blue-500/80 dark:bg-slate-700 ${!isAdd && "cursor-pointer"} rounded-full`}>
+                            {isAdd ? <input ref={inputRef} value={newName} onKeyDown={(e) => {
+                                    if (e.key === "Enter") {
+                                        setDirMenu([...dirMenu, {id: dirMenu.length + 1, name: newName}])
+                                        setIsAdd(false)
+                                        setNewName("")
+                                        router.push(`/note?dir=${dirMenu.length + 1}`)
+                                    }
+                                }} onChange={(e) => {
+                                    setNewName(e.target.value)
+                                }} className={"w-full my-2 px-3 bg-transparent mr-2 text-center outline-none"}/> :
+                                <button className={"w-full py-2 h-full"} onClick={() => {
+                                    setIsAdd(true)
+                                }}>add</button>}
+                        </div>
+                    </div>
                 </div>
                 <div className={"w-3/4 bg-pink-100 p-4"}>
                     {dir ?
