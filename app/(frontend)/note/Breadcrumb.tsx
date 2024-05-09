@@ -1,17 +1,17 @@
 import Link from "next/link";
 
 interface BreadcrumbProps {
-    first: string | undefined
-    second: string | undefined
-    firstMenu: any[]
-    secondMenu: any[]
+    dir: string | undefined
+    id: string | undefined
+    dirMenu: any[]
+    menu: any[]
 }
 
-const Breadcrumb: React.FC<BreadcrumbProps> = ({first, second, firstMenu, secondMenu}) => {
+const Breadcrumb: React.FC<BreadcrumbProps> = ({dir, id, dirMenu, menu}) => {
     return (
         <ol className="flex flex-wrap text-gray-500 dark:text-gray-300 font-mono items-center gap-1.5 break-words text-sm text-muted-foreground sm:gap-2.5">
-            {first ?
-                <>{second ?
+            {dir ?
+                <>{id ?
                     <>
                         <li className={"hover:text-gray-900 dark:hover:text-gray-100"}>
                             <Link className={""} href={"note"}>Home</Link>
@@ -19,12 +19,12 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({first, second, firstMenu, second
                         <li className={"cursor-default"}>{">"}</li>
                         <li className={"hover:text-gray-900 dark:hover:text-gray-100"}>
                             <Link className={""}
-                                  href={`note?dir=${first}`}>{firstMenu.find(item => item.id === Number(first))?.name}</Link>
+                                  href={`note?dir=${dir}`}>{dirMenu.find(item => item.id === Number(dir))?.name}</Link>
                         </li>
                         <li className={"cursor-default"}>{">"}</li>
                         <li className={""}>
                         <span
-                            className={"cursor-default"}>{secondMenu.find(item => item.id === Number(second))?.title}</span>
+                            className={"cursor-default"}>{menu.find(item => item.id === Number(id))?.title}</span>
                         </li>
                     </> :
                     <>
@@ -34,7 +34,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({first, second, firstMenu, second
                         <li className={"cursor-default"}>{">"}</li>
                         <li className={""}>
                         <span
-                            className={"cursor-default"}>{firstMenu.find(item => item.id === Number(first))?.name}</span>
+                            className={"cursor-default"}>{dirMenu.find(item => item.id === Number(dir))?.name}</span>
                         </li>
                     </>}
                 </> :

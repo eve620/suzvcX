@@ -64,7 +64,7 @@ model Note {
   id        Int      @id @default(autoincrement())
   type      NoteType
   name      String
-  content   String   @default("")
+  content   String?
   createdBy String
   parent    String   @default("")
   createdAt DateTime @default(now())
