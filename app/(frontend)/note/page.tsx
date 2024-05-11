@@ -1,6 +1,5 @@
 import Breadcrumb from "@/app/(frontend)/note/Breadcrumb";
 import Notes from "@/app/(frontend)/note/Notes";
-
 export default function Page({searchParams: {dir, id}}: { searchParams: { dir: string, id: string } }) {
     const dirMenu = [
         {id: 1, name: "分类1"},

@@ -1,6 +1,8 @@
+"use client"
+
 const AdminPage: React.FC = () => {
     return (
-        <div>AdminPage</div>
+        <div>首页</div>
     )
 }
 

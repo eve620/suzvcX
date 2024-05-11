@@ -1,6 +1,6 @@
 "use client"
 import Link from "next/link";
-import { useState} from "react";
+import {useState} from "react";
 import showMessage from "@/app/components/Message";
 import MenuItem from "@/app/components/navbar/MenuItem";
 import {signOut} from "next-auth/react";
@@ -31,6 +31,9 @@ const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
                             <div
                                 className={"absolute right-0 shadow-sm rounded-2xl border dark:border-0 overflow-hidden"}>
                                 <MenuItem label={"详情"} onClick={profileModal.onOpen}/>
+                                {currentUser.role === "Admin" && <MenuItem label={"管理"} onClick={() => {
+                                    router.push("/admin")
+                                }}/>}
                                 <MenuItem label={"退出"} onClick={() => {
                                     signOut({redirect: false}).then(() => {
                                         setIsDropdownOpen(false)
