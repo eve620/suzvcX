@@ -8,6 +8,7 @@ import {useRouter} from "next/navigation";
 import {SafeUser} from "@/types";
 import Avatar from "@/app/components/Avatar";
 import useProfileModal from "@/app/hooks/useProfileModal";
+import useUserStore from "@/app/hooks/useUserStore";
 
 interface UserMenuProps {
     currentUser?: SafeUser | null
@@ -15,7 +16,7 @@ interface UserMenuProps {
 
 const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-
+    const useUser = useUserStore()
     const router = useRouter()
     const profileModal = useProfileModal()
     return (
@@ -36,7 +37,9 @@ const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
                                 }}/>}
                                 <MenuItem label={"退出"} onClick={() => {
                                     signOut({redirect: false}).then(() => {
+                                        console.log(useUser.user)
                                         setIsDropdownOpen(false)
+                                        useUser.clearUser
                                         router.refresh()
                                         showMessage("退出成功！")
                                     })

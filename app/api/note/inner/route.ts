@@ -2,6 +2,11 @@ import {NextRequest, NextResponse} from "next/server";
 import prisma from "@/prisma/client";
 
 export async function GET(request: NextRequest) {
-    console.log(11111)
-    return NextResponse.json({message: "hhhhh"})
+    const data = await prisma.note.findMany({
+        where: {
+            type: "Note",
+            createdBy: "123"
+        }
+    })
+    return NextResponse.json({data}, {status: 200})
 }

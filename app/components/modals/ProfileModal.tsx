@@ -3,7 +3,7 @@ import Modal from "@/app/components/modals/Modal";
 import useProfileModal from "@/app/hooks/useProfileModal";
 import {SafeUser} from "@/types";
 import {useForm} from "react-hook-form";
-import {useState} from "react";
+import { useState} from "react";
 import ImgCrop from "antd-img-crop";
 import {GetProp, Upload, UploadProps} from "antd";
 import Image from "next/image";

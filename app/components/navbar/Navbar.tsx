@@ -4,6 +4,7 @@ import UserMenu from "@/app/components/navbar/UserMenu";
 import {SafeUser} from "@/types";
 import SideBar from "@/app/components/navbar/SideBar";
 import ThemeToggle from "@/app/components/navbar/ThemeToggle";
+import useUserStore from "@/app/hooks/useUserStore";
 
 interface NavbarProps {
     currentUser?: SafeUser | null

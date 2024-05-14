@@ -22,7 +22,6 @@ export async function POST(request: NextRequest) {
         })
         return NextResponse.json({message: "添加成功"}, {status: 200});
     } catch (error) {
-        // 如果发生错误，返回404
         return NextResponse.json({message: '添加失败'}, {status: 500});
     }
 }

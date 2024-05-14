@@ -24,7 +24,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({dir, id, dirMenu, menu}) => {
                         <li className={"cursor-default"}>{">"}</li>
                         <li className={""}>
                         <span
-                            className={"cursor-default"}>{menu.find(item => item.id === Number(id))?.title}</span>
+                            className={"cursor-default"}>{menu.find(item => item.id === Number(id))?.name}</span>
                         </li>
                     </> :
                     <>

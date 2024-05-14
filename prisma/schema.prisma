@@ -66,7 +66,7 @@ model Note {
   name      String
   content   String?
   createdBy String
-  parent    String   @default("")
+  parent    Int?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
