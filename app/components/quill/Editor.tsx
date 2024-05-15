@@ -5,7 +5,7 @@ import 'react-quill/dist/quill.snow.css';
 import {ControllerRenderProps, FieldValues} from "react-hook-form";
 
 interface EditorProps {
-    field: ControllerRenderProps<FieldValues,"value">;
+    field: ControllerRenderProps<FieldValues,"content">;
 }
 
 const Editor: React.FC<EditorProps> = ({field}) => {

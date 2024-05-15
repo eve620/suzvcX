@@ -6,7 +6,7 @@ interface AddButtonProps {
     refreshDir: () => void;
 }
 
-const AddButton: React.FC<AddButtonProps> = ({refreshDir}) => {
+const AddDirButton: React.FC<AddButtonProps> = ({refreshDir}) => {
     const [isAdd, setIsAdd] = useState(false)
     const [dirName, setDirName] = useState("")
     const addRef = useRef<HTMLDivElement | null>(null)
@@ -73,4 +73,4 @@ const AddButton: React.FC<AddButtonProps> = ({refreshDir}) => {
     );
 };
 
-export default AddButton
+export default AddDirButton

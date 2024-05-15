@@ -1,4 +1,4 @@
-import DirItem from "@/app/(frontend)/note/DirItem";
+import DirItem from "@/app/(frontend)/note/components/DirItem";
 
 interface DirListProps {
     dirList: Array<any>;
