@@ -1,0 +1,42 @@
+.App {
+    display: flex;
+}
+
+.event-bar {
+    flex-shrink: 1;
+    text-align: center;
+    border-right: 2px solid #ededed;
+}
+
+.task-box {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.add-button {
+    width: 80%;
+    height: 45px;
+    font-size: 1.3em;
+    line-height: 45px;
+    background-color: #eaf1f0;
+    margin: 0 auto;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    outline: none;
+}
+
+.dark .add-button {
+    background-color: #2a387c;
+}
+
+.add-button:hover {
+    transition: 0.5s;
+    background-color: #dfe2e2;
+}
+
+.dark .add-button:hover {
+    transition: 0.5s;
+    background-color: #35479b;
+}
