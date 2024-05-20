@@ -9,15 +9,15 @@ import "./component/task.css"
 const KanbanBoard: React.FC = () => {
     const initEvent = useMemo(() => [
         {
-            title: 'Add a new Event',
-            ['To do']: [],
-            ['In progress']: [],
-            ['Completed']: [],
+            title: 'Default Event',
+            'To do': [],
+            'In progress': [],
+            'Completed': [],
         },
     ], []);
 
     const [events, setEvents] = useState(() => {
-        return  initEvent;
+        return initEvent;
     });
 
     const [currentEvent, setCurrentEvent] = useState(events[0]);

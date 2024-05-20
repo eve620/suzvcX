@@ -60,13 +60,11 @@
 .add-task-button {
     height: 40px;
     width: 100%;
-    font-size: 1.3em;
     line-height: 40px;
     background-color: #ebf1f1;
     border-radius: 10px;
-    margin-bottom: 20px;
     cursor: pointer;
-    transition: 0.5s;
+    /*transition: 0.5s;*/
     outline: none;
     text-align: center;
     font-style: normal;
@@ -95,7 +93,6 @@
     border-radius: 10px;
     margin-bottom: 18px;
     cursor: pointer;
-    transition: 0.2s;
     user-select: none;
     border: 1px solid #ccc;
     outline: none;

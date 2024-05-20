@@ -1,7 +1,7 @@
 "use client"
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import Column from './Column';
-import {DragDropContext} from "@hello-pangea/dnd";
+import {DragDropContext, Draggable, Droppable} from "@hello-pangea/dnd";
 
 interface TaskBoxProps {
     events: any[];
@@ -21,7 +21,7 @@ const TaskBox: React.FC<TaskBoxProps> = ({events, setEvents, currentEvent, setCu
                     // init the event
                     const initEvent = [
                         {
-                            title: 'Add a new Event',
+                            title: 'Default Event',
                             ['To do']: [],
                             ['In progress']: [],
                             ['Completed']: [],
@@ -38,7 +38,7 @@ const TaskBox: React.FC<TaskBoxProps> = ({events, setEvents, currentEvent, setCu
     }, [events, setEvents, currentEvent, setCurrentEvent]);
 
     const handleDragEnd = useCallback((result) => {
-        if (!result.destination) return;
+        if (!result.destination) return
         const {source, destination} = result;
         const curEvent = events.find((item) => item.title === currentEvent.title);
         const taskCopy = curEvent[source.droppableId][source.index];
