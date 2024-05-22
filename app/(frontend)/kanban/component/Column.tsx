@@ -77,14 +77,14 @@ const Column: React.FC<ColumnProps> = ({tag, currentEvent, events, setEvents}) =
     };
 
     return (
-        <div className='column'>
+        <div className='column text-nowrap'>
             {tag}
             <AddTaskButton handleClick={handleAdd}/>
             <Droppable droppableId={tag}>
                 {(provided, snapshot) => {
                     return (
                         <div
-                            className='task-container'
+                            className='task-container min-h-16 max-h-[40vh] overflow-y-auto'
                             ref={provided.innerRef}
                             {...provided.droppableProps}
                         >

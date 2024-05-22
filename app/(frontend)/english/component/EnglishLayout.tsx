@@ -103,7 +103,7 @@ const EnglishLayout: React.FC<EnglishLayoutProps> = ({courseData, wordIndex}) =>
 
 
     return (
-        <div className={"absolute h-full w-full flex flex-col"}>
+        <div className={"min-h-80 flex-1 flex flex-col"}>
             <Tool currentCourse={currentCourse} statementIndex={statementIndex} handleCourse={handleCourse}
                   handleWord={handleWord}/>
             <Progress currentMode={currentMode} percent={percent}/>

@@ -23,7 +23,7 @@ const KanbanBoard: React.FC = () => {
     const [currentEvent, setCurrentEvent] = useState(events[0]);
 
     return (
-        <div className='App absolute h-full w-full'>
+        <div className='App flex-1 min-w-fit'>
             <EventBar
                 events={events}
                 setEvents={setEvents}
