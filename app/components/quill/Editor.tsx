@@ -5,11 +5,10 @@ import 'react-quill/dist/quill.snow.css';
 import {ControllerRenderProps, FieldValues} from "react-hook-form";
 
 interface EditorProps {
-    field: ControllerRenderProps<FieldValues,"content">;
+    field: ControllerRenderProps<FieldValues, "content">;
 }
 
 const Editor: React.FC<EditorProps> = ({field}) => {
-
     const options = {
         modules: {
             toolbar: true,
@@ -19,7 +18,9 @@ const Editor: React.FC<EditorProps> = ({field}) => {
     };
     return (
         <ReactQuill
-            {...field}
+            onBlur={field.onBlur}
+            value={field.value}
+            onChange={field.onChange}
             {...options}/>
     );
 };

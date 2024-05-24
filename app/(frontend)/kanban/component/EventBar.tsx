@@ -26,9 +26,9 @@ const EventBar: React.FC<EventBarProps> = ({events, setEvents, currentEvent, set
                 ...prev,
                 {
                     title,
-                    ['To do']: [],
-                    ['In progress']: [],
-                    ['Completed']: [],
+                    toDo: [],
+                    inProgress: [],
+                    completed: [],
                 },
             ]);
     }, [events, setEvents]);

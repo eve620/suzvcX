@@ -1,5 +1,5 @@
 "use client"
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Column from './Column';
 import {DragDropContext, Draggable, Droppable} from "@hello-pangea/dnd";
 
@@ -22,9 +22,9 @@ const TaskBox: React.FC<TaskBoxProps> = ({events, setEvents, currentEvent, setCu
                     const initEvent = [
                         {
                             title: 'Default Event',
-                            ['To do']: [],
-                            ['In progress']: [],
-                            ['Completed']: [],
+                            toDo: [],
+                            inProgress: [],
+                            completed: [],
                         },
                     ];
                     setEvents(initEvent);
@@ -62,6 +62,11 @@ const TaskBox: React.FC<TaskBoxProps> = ({events, setEvents, currentEvent, setCu
         );
     }, [events, setEvents, currentEvent]);
 
+    useEffect(() => {
+        // console.log(JSON.stringify(events))
+        // console.log(JSON.parse(JSON.stringify(events))[0]?.toDo[0]?.name)
+    }, [events])
+
     return (
         <div className='task-box'>
             <header className='task-box-header'>
@@ -73,7 +78,7 @@ const TaskBox: React.FC<TaskBoxProps> = ({events, setEvents, currentEvent, setCu
             <DragDropContext onDragEnd={(result) => handleDragEnd(result)}>
                 <div className='task-box-body'>
                     {
-                        ['To do', 'In progress', 'Completed'].map(tag => (
+                        ['toDo', 'inProgress', 'completed'].map(tag => (
                             <Column
                                 key={tag}
                                 tag={tag}

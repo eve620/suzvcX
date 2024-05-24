@@ -19,6 +19,7 @@ const AddNote: React.FC<AddNoteProps> = ({onSubmit, onCancel}) => {
         name: 'content',
         control
     })
+    let content = watch("content")
     return (
         <form className={"space-y-2"}>
             <div>
@@ -31,7 +32,9 @@ const AddNote: React.FC<AddNoteProps> = ({onSubmit, onCancel}) => {
             </div>
             <div className={"flex justify-end gap-3"}>
                 <Button onClick={onCancel} label={"取消"}/>
-                <Button label={"保存"}/>
+                <Button onClick={() => {
+                    console.log(content)
+                }} label={"保存"}/>
             </div>
         </form>
     )

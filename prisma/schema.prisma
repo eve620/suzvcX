@@ -8,14 +8,18 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  name      String   @unique
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
   password  String
   image     String?
   bio       String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  role      UserRole @default(User)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  role      UserRole  @default(User)
+  event     Event[]
+  note      Note[]
+  project   Project[]
+  progress  Progress?
 }
 
 enum UserRole {
@@ -29,27 +33,29 @@ enum NoteType {
 }
 
 model Project {
-  id        Int      @id @default(autoincrement())
-  title     String
-  startTime String
-  endTime   String
-  job       String
-  stacks    String
-  describe  String
-  highlight String?
-  imageUrl  String?
-  createdBy String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          Int      @id @default(autoincrement())
+  title       String
+  startTime   String
+  endTime     String
+  job         String
+  stacks      String
+  describe    String
+  highlight   String?
+  imageUrl    String?
+  createdById Int
+  createdBy   User     @relation(fields: [createdById], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Progress {
-  id        Int      @id @default(autoincrement())
-  course    String
-  wordIndex Int
-  userId    Int      @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          Int      @id @default(autoincrement())
+  course      String
+  wordIndex   Int
+  createdById Int      @unique
+  createdBy   User     @relation(fields: [createdById], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model DevLog {
@@ -61,22 +67,25 @@ model DevLog {
 }
 
 model Note {
-  id        Int      @id @default(autoincrement())
-  type      NoteType
-  name      String
-  content   String?
-  createdBy String
-  parent    Int?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          Int      @id @default(autoincrement())
+  type        NoteType
+  name        String
+  content     String?
+  createdById Int
+  createdBy   User     @relation(fields: [createdById], references: [id], onDelete: Cascade)
+  parent      Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Event {
-  id         Int      @id @default(autoincrement())
-  toDo       String
-  inProgress String   @default("[]")
-  completed  String   @default("[]")
-  createdBy  String   @default("[]")
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id          Int      @id @default(autoincrement())
+  title       String
+  toDo        String   @default("[]")
+  inProgress  String   @default("[]")
+  completed   String   @default("[]")
+  createdById Int
+  createdBy   User     @relation(fields: [createdById], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

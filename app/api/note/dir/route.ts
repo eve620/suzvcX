@@ -6,7 +6,7 @@ export async function GET(request: NextRequest) {
         const data = await prisma.note.findMany({
             where: {
                 type: "Dir",
-                createdBy: "123"
+                createdById: 1
             }
         })
         return NextResponse.json({data}, {status: 200})
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
             data: {
                 name: dirName,
                 type: "Dir",
-                createdBy: "123"
+                createdById: 1
             }
         })
         return NextResponse.json({message: "添加成功"}, {status: 200})

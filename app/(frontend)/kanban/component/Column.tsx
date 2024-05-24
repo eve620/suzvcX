@@ -78,7 +78,7 @@ const Column: React.FC<ColumnProps> = ({tag, currentEvent, events, setEvents}) =
 
     return (
         <div className='column text-nowrap'>
-            {tag}
+            {tag === 'toDo' ? 'To do' : tag === 'inProgress' ? 'In progress' : tag === 'completed' ? 'Completed' : null}
             <AddTaskButton handleClick={handleAdd}/>
             <Droppable droppableId={tag}>
                 {(provided, snapshot) => {

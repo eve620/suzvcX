@@ -10,9 +10,9 @@ const KanbanBoard: React.FC = () => {
     const initEvent = useMemo(() => [
         {
             title: 'Default Event',
-            'To do': [],
-            'In progress': [],
-            'Completed': [],
+            toDo: [],
+            inProgress: [],
+            completed: [],
         },
     ], []);
 

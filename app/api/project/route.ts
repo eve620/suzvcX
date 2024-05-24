@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
         const endTime = formData.get("endTime") as string;
         const describe = formData.get("describe") as string;
         const highlight = formData.get("highlight") as string;
-        const createdBy = formData.get("createdBy") as string;
+        const createdById = formData.get("createdBy") as string;
         const files: File[] = [];
         for (const [name, value] of formData.entries()) {
             if (name.startsWith("image") && value instanceof File) {
@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
                 endTime,
                 describe,
                 highlight,
-                createdBy,
+                createdById: Number(createdById),
                 imageUrl: JSON.stringify(imageUrl)
             }
         });

@@ -12,15 +12,15 @@ export async function GET(request: NextRequest) {
     const id = searchParams.get("id")
     try {
         if (id) {
-            let progress = await prisma.progress.findUnique({
+            let progress = await prisma.progress.findFirst({
                 where: {
-                    userId: Number(id)
+                    createdById: Number(id)
                 }
             })
             if (!progress) {
                 progress = await prisma.progress.create({
                     data: {
-                        userId: Number(id),
+                        createdBy: {connect: {id: Number(id)}},
                         course: defaultCourse,
                         wordIndex: defaultWordIndex
                     }
@@ -39,12 +39,15 @@ export async function GET(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
     const currentUser = await getCurrentUser()
+    if (!currentUser || !currentUser.id) {
+        throw new Error('Current user ID is undefined or user is not authenticated');
+    }
     try {
         const {course, wordIndex} = await request.json()
 
         const updatedProgress = await prisma.progress.update({
             where: {
-                userId: currentUser?.id // 使用唯一标识符来定位用户
+                createdById: currentUser.id // 使用唯一标识符来定位用户
             },
             data: {
                 course,

@@ -84,7 +84,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({currentUser}) => {
         formData.append('endTime', data.endTime || "")
         formData.append('describe', data.describe || "")
         formData.append('highlight', data.highlight || "")
-        formData.append('createdBy', currentUser.name || "")
+        formData.append('createdBy', currentUser.id.toString())
         fileList.forEach((item, index) => {
             formData.append(`image${index}`, item.originFileObj as FileType)
         })
