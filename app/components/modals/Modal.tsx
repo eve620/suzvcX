@@ -71,7 +71,7 @@ const Modal: React.FC<ModalProps> = ({
             <div
                 className={`
           justify-center 
-          items-center 
+          items-center
           flex 
           overflow-x-hidden 
           overflow-y-auto 
@@ -124,8 +124,9 @@ const Modal: React.FC<ModalProps> = ({
               flex 
               flex-col 
               w-full 
-              bg-white 
-              outline-none 
+              bg-white
+              dark:text-gray-600
+              outline-none
               focus:outline-none
             "
                         >
@@ -143,7 +144,7 @@ const Modal: React.FC<ModalProps> = ({
                                 <button
                                     className="
                     p-1
-                    border-0 
+                    border-0
                     hover:opacity-70
                     transition
                     absolute

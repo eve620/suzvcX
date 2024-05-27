@@ -18,14 +18,12 @@ export default function ErrorPage({error}: {
     return (
         <div
             className="
-        absolute
-        h-full
-        w-full
+        flex-1
         flex
         flex-col
-        gap-2
-        justify-center
         items-center
+        justify-center
+        gap-2
       "
         >
             <div className={'text-center'}>

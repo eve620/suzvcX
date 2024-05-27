@@ -19,7 +19,7 @@ export default async function FrontLayout({children}: Readonly<{ children: React
                 <ProjectModal currentUser={currentUser}/>
             </ClientContainer>
             <Navbar currentUser={currentUser}/>
-            <div className={"h-16 md:h-20 bg-pink-950"}/>
+            <div className={"h-16 md:h-20"}/>
             {/*mt-28 md:mt-36*/}
             <main className={"flex-1 flex flex-col w-2/3 mx-auto my-16"} style={{minHeight: "calc(min(100vh - 20rem))",height:"auto"}}>
                 {children}

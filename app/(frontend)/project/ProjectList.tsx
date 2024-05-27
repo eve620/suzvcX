@@ -52,7 +52,7 @@ const ProjectList: React.FC<ProjectListProps> = ({projectList}) => {
                             <div className={"flex justify-between text-xs"}>
                                 <p className={"text-gray-400"}>{item.startTime + "-" + item.endTime}</p>
                                 <p className={"text-blue-500 cursor-pointer"} onClick={() => {
-                                    if (!item.imageUrl) {
+                                    if (!JSON.parse(item.imageUrl).length) {
                                         showMessage("无图片")
                                         return
                                     }

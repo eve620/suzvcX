@@ -5,8 +5,13 @@ import EventBar from "@/app/(frontend)/kanban/component/EventBar";
 import "./App.css"
 import "./component/event.css"
 import "./component/task.css"
+import {eventDataProps} from "@/app/(frontend)/kanban/page";
 
-const KanbanBoard: React.FC = () => {
+export interface KanbanBoardProps {
+    eventData: eventDataProps[]
+}
+
+const KanbanBoard: React.FC<KanbanBoardProps> = ({eventData}) => {
     const initEvent = useMemo(() => [
         {
             title: 'Default Event',
@@ -16,11 +21,8 @@ const KanbanBoard: React.FC = () => {
         },
     ], []);
 
-    const [events, setEvents] = useState(() => {
-        return initEvent;
-    });
-
-    const [currentEvent, setCurrentEvent] = useState(events[0]);
+    const [events, setEvents] = useState(eventData);
+    const [currentEvent, setCurrentEvent] = useState(events[0] || {});
 
     return (
         <div className='App flex-1 min-w-fit'>
@@ -30,12 +32,12 @@ const KanbanBoard: React.FC = () => {
                 currentEvent={currentEvent}
                 setCurrentEvent={setCurrentEvent}
             />
-            <TaskBox
+            {events.length ? <TaskBox
                 setEvents={setEvents}
                 currentEvent={currentEvent}
                 events={events}
                 setCurrentEvent={setCurrentEvent}
-            />
+            /> : <div className={"flex-1 flex justify-center items-center text-3xl font-bold"}>please add first</div>}
         </div>
     );
 }
