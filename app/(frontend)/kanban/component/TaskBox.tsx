@@ -11,31 +11,24 @@ interface TaskBoxProps {
 }
 
 const TaskBox: React.FC<TaskBoxProps> = ({events, setEvents, currentEvent, setCurrentEvent}) => {
-    const handleRemove = useCallback(() => {
+    const handleRemove = useCallback(async () => {
         if (confirm('You really want to remove it?')) {
+            const removeEvent = await fetch("http://localhost:3000/api/kanban", {
+                method: "DELETE",
+                body: JSON.stringify({title: currentEvent.title}),
+            })
+            if (removeEvent.ok) {
+                setEvents((prev) => {
+                    const result = prev.filter((item) => item.title != currentEvent.title);
+                    if (result.length) {
+                        setCurrentEvent(result[0]);
+                    }
+                    return result;
+                });
+            }
             // update events
-            setEvents((prev) => {
-                const result = prev.filter((item) => item.title != currentEvent.title);
-                // if event is empty
-                if (!result.length) {
-                    // init the event
-                    const initEvent = [
-                        {
-                            title: 'Default Event',
-                            toDo: [],
-                            inProgress: [],
-                            completed: [],
-                        },
-                    ];
-                    setEvents(initEvent);
-                } else {
-                    // set the first event as current
-                    setCurrentEvent(result[0]);
-                }
-                return result;
-            });
         }
-    }, [events, setEvents, currentEvent, setCurrentEvent]);
+    }, [setEvents, currentEvent, setCurrentEvent]);
 
     const handleDragEnd = useCallback((result) => {
         if (!result.destination) return

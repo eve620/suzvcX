@@ -1,5 +1,5 @@
 "use client"
-import {useMemo, useState} from "react";
+import {useCallback, useEffect, useMemo, useState} from "react";
 import TaskBox from "@/app/(frontend)/kanban/component/TaskBox";
 import EventBar from "@/app/(frontend)/kanban/component/EventBar";
 import "./App.css"
@@ -12,17 +12,34 @@ export interface KanbanBoardProps {
 }
 
 const KanbanBoard: React.FC<KanbanBoardProps> = ({eventData}) => {
-    const initEvent = useMemo(() => [
-        {
-            title: 'Default Event',
-            toDo: [],
-            inProgress: [],
-            completed: [],
-        },
-    ], []);
-
     const [events, setEvents] = useState(eventData);
-    const [currentEvent, setCurrentEvent] = useState(events[0] || {});
+    const [currentEvent, setCurrentEvent] = useState(events[0] || null);
+    const [prevLength, setPrevLength] = useState(events.length);
+    const updateProgress = useCallback(async () => {
+        const response = await fetch("http://localhost:3000/api/kanban", {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({events})
+        });
+
+        if (!response.ok) {
+            console.error("Failed to update progress:", response.statusText);
+        }
+    }, [events]);
+    useEffect(() => {
+        const currentLength = events.length;
+        if (currentLength !== prevLength) {
+            // Length has changed, execute different logic
+            updateProgress()
+            setPrevLength(currentLength);
+        } else {
+            // Length has not changed, set a timeout
+            const timeoutId = setTimeout(() => updateProgress(), 3000);
+            return () => clearTimeout(timeoutId);
+        }
+    }, [updateProgress, events]);
 
     return (
         <div className='App flex-1 min-w-fit'>
@@ -32,12 +49,13 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({eventData}) => {
                 currentEvent={currentEvent}
                 setCurrentEvent={setCurrentEvent}
             />
-            {events.length ? <TaskBox
+            {events.length && currentEvent ? <TaskBox
                 setEvents={setEvents}
                 currentEvent={currentEvent}
                 events={events}
                 setCurrentEvent={setCurrentEvent}
-            /> : <div className={"flex-1 flex justify-center items-center text-3xl font-bold"}>please add first</div>}
+            /> : <div className={"text-nowrap flex-1 flex justify-center items-center text-3xl font-bold px-8"}>please add and select
+                first</div>}
         </div>
     );
 }

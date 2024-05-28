@@ -11,6 +11,7 @@ interface EventBarProps {
 }
 
 const EventBar: React.FC<EventBarProps> = ({events, setEvents, currentEvent, setCurrentEvent}) => {
+
     const handleAdd = useCallback(() => {
         const title = prompt('Enter the Title:') || "";
         // Prevent Duplicated
@@ -21,7 +22,7 @@ const EventBar: React.FC<EventBarProps> = ({events, setEvents, currentEvent, set
             return;
         }
         // Add new event
-        if (title)
+        if (title) {
             setEvents((prev) => [
                 ...prev,
                 {
@@ -31,6 +32,7 @@ const EventBar: React.FC<EventBarProps> = ({events, setEvents, currentEvent, set
                     completed: [],
                 },
             ]);
+        }
     }, [events, setEvents]);
 
     return (
@@ -41,7 +43,7 @@ const EventBar: React.FC<EventBarProps> = ({events, setEvents, currentEvent, set
                 {events.map((item) => (
                     <div
                         key={item.title}
-                        className={`event over-hide ${currentEvent.title === item.title ? 'selected-event' : ''
+                        className={`event over-hide ${currentEvent && currentEvent.title === item.title ? 'selected-event' : ''
                         }`}
                         onClick={() => setCurrentEvent(item)}
                     >
