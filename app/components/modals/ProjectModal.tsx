@@ -1,7 +1,7 @@
 "use client"
 import Modal from "@/app/components/modals/Modal";
 import useProjectModal from "@/app/hooks/useProjectModal";
-import Input from "@/app/components/Input";
+import FormInput from "@/app/components/FormInput";
 import {FieldValues, SubmitHandler, useForm} from "react-hook-form";
 import {GetProp, Modal as AntdModal, Upload, UploadFile, UploadProps} from "antd"
 import {useState} from "react";
@@ -108,13 +108,13 @@ const ProjectModal: React.FC<ProjectModalProps> = ({currentUser}) => {
     );
     const bodyContent = (
         <form className={"space-y-3"}>
-            <Input id={"title"} label={"标题"} register={register} errors={errors}/>
-            <Input id={"startTime"} label={"开始时间"} register={register} errors={errors}/>
-            <Input id={"endTime"} label={"结束时间"} register={register} errors={errors}/>
-            <Input id={"job"} label={"职责"} register={register} errors={errors}/>
-            <Input id={"stack"} label={"技术栈"} register={register} errors={errors}/>
-            <Input id={"describe"} label={"描述"} register={register} errors={errors}/>
-            <Input id={"highlight"} label={"亮点"} register={register} errors={errors}/>
+            <FormInput id={"title"} label={"标题"} register={register} errors={errors}/>
+            <FormInput id={"startTime"} label={"开始时间"} register={register} errors={errors}/>
+            <FormInput id={"endTime"} label={"结束时间"} register={register} errors={errors}/>
+            <FormInput id={"job"} label={"职责"} register={register} errors={errors}/>
+            <FormInput id={"stack"} label={"技术栈"} register={register} errors={errors}/>
+            <FormInput id={"describe"} label={"描述"} register={register} errors={errors}/>
+            <FormInput id={"highlight"} label={"亮点"} register={register} errors={errors}/>
             <>
                 <Upload
                     listType="picture-card"

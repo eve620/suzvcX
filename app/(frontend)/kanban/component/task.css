@@ -123,21 +123,21 @@
     margin-top: 10px;
 }
 
-/*.remove-bar {*/
-/*    position: absolute;*/
-/*    bottom: 15px;*/
-/*    right: 15px;*/
-/*    text-align: end;*/
-/*    font-size: 3.5em;*/
-/*    font-weight: 300;*/
-/*    color: #888;*/
-/*    line-height: 0.1em;*/
-/*    transition: 0.5s;*/
-/*}*/
+.remove-bar {
+    overflow: hidden;
+    cursor: pointer;
+    position: absolute;
+    bottom: 6px;
+    right: 10px;
+    text-align: center;
+    font-size: 3.5em;
+    font-weight: 300;
+    color: #888;
+    transition: 0.3s;
+}
 
-/*.remove-bar:hover {*/
-/*    color: red;*/
-/*    font-size: 4em;*/
-/*    line-height: 0.01em;*/
-/*    transition: 0.5s;*/
-/*}*/
+.remove-bar:hover {
+    color: red;
+    font-size: 4em;
+    transition: 0.3s;
+}

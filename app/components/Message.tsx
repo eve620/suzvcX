@@ -31,7 +31,7 @@ let timeoutId: ReturnType<typeof setTimeout> | null = null;
 const showMessage = (message: string) => {
     if (!container) {
         container = document.createElement('div');
-        container.className = 'absolute top-10 left-1/2 z-20'
+        container.className = 'absolute top-10 left-1/2 z-50'
         document.body.appendChild(container);
     }
     const messageElement = <Message message={message}/>;

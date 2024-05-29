@@ -28,7 +28,7 @@ const FormButton: React.FC<ButtonProps> = ({
         transition
         w-full
         'border-black' 
-        ${outline ? 'bg-gray-200' : 'bg-black'}
+        ${outline ? 'bg-gray-100' : 'bg-black'}
         ${outline ? 'text-black' : 'text-white'}
         ${small ? 'text-sm' : 'text-md'}
         ${small ? 'py-1' : 'py-3'}

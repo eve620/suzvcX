@@ -1,7 +1,10 @@
 "use client"
 
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import AddEventButton from './AddEventButton';
+import Modal from "@/app/components/modals/Modal";
+import Input from "@/app/components/Input";
+import showMessage from "@/app/components/Message";
 
 interface EventBarProps {
     events: any
@@ -11,34 +14,41 @@ interface EventBarProps {
 }
 
 const EventBar: React.FC<EventBarProps> = ({events, setEvents, currentEvent, setCurrentEvent}) => {
-
+    const [isAddEvent, setIsAddEvent] = useState(false)
+    const [newEventName, setNewEventName] = useState('')
+    const modalBody = (
+        <Input value={newEventName} onChange={(e) => setNewEventName(e.target.value)}/>
+    )
     const handleAdd = useCallback(() => {
-        const title = prompt('Enter the Title:') || "";
         // Prevent Duplicated
         if (
-            events.find((event) => event.title.toLowerCase() === title.toLowerCase())
+            events.find((event) => event.title.toLowerCase() === newEventName.trim().toLowerCase())
         ) {
-            alert('Event Already Existed');
+            showMessage(`${newEventName.trim()}已存在`);
             return;
         }
+        if (!newEventName) showMessage("名称不能为空")
         // Add new event
-        if (title) {
+        if (newEventName) {
             setEvents((prev) => [
                 ...prev,
                 {
-                    title,
+                    title: newEventName.trim(),
                     toDo: [],
                     inProgress: [],
                     completed: [],
                 },
             ]);
         }
-    }, [events, setEvents]);
+        setNewEventName("")
+        setIsAddEvent(false)
+    }, [newEventName, events, setEvents]);
 
     return (
         <div className='event-bar'>
             <h1 className='event-bar-title'>.kanban</h1>
-            <AddEventButton handleClick={handleAdd}/>
+            <AddEventButton handleClick={() => setIsAddEvent(true)}/>
+            {/*<AddEventButton handleClick={handleAdd}/>*/}
             <div className='event-container'>
                 {events.map((item) => (
                     <div
@@ -51,6 +61,12 @@ const EventBar: React.FC<EventBarProps> = ({events, setEvents, currentEvent, set
                     </div>
                 ))}
             </div>
+            <Modal title={"请输入名称"} body={modalBody} isOpen={isAddEvent} onClose={() => {
+                setIsAddEvent(false)
+                setNewEventName("")
+            }}
+                   onSubmit={handleAdd}
+                   actionLabel={"确定"}/>
         </div>
     );
 };

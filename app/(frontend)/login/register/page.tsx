@@ -1,7 +1,7 @@
 "use client"
 
 import {FieldValues, SubmitHandler, useForm} from "react-hook-form";
-import Input from "@/app/components/Input";
+import FormInput from "@/app/components/FormInput";
 import {z} from "zod"
 import {zodResolver} from "@hookform/resolvers/zod";
 import showMessage from "@/app/components/Message";
@@ -35,8 +35,8 @@ export default function RegisterPage() {
     return (
         <main className="font-bold w-48">
             <div>register page</div>
-            <Input label={"用户名"} id={"name"} register={register} errors={errors}/>
-            <Input label={"密码"} id={"password"} register={register} errors={errors}/>
+            <FormInput label={"用户名"} id={"name"} register={register} errors={errors}/>
+            <FormInput label={"密码"} id={"password"} register={register} errors={errors}/>
             <button onClick={handleSubmit(onSubmit)}>submit</button>
         </main>
     );

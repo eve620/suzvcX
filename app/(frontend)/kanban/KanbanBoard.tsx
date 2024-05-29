@@ -12,7 +12,7 @@ export interface KanbanBoardProps {
 }
 
 const KanbanBoard: React.FC<KanbanBoardProps> = ({eventData}) => {
-    const [events, setEvents] = useState(eventData);
+    const [events, setEvents] = useState<eventDataProps[]>(eventData);
     const [currentEvent, setCurrentEvent] = useState(events[0] || null);
     const [prevLength, setPrevLength] = useState(events.length);
     const updateProgress = useCallback(async () => {
@@ -54,7 +54,8 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({eventData}) => {
                 currentEvent={currentEvent}
                 events={events}
                 setCurrentEvent={setCurrentEvent}
-            /> : <div className={"text-nowrap flex-1 flex justify-center items-center text-3xl font-bold px-8"}>please add and select
+            /> : <div className={"text-nowrap flex-1 flex justify-center items-center text-3xl font-bold px-8"}>please
+                add and select
                 first</div>}
         </div>
     );

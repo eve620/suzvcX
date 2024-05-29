@@ -1,7 +1,9 @@
 "use client"
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import Column from './Column';
-import {DragDropContext, Draggable, Droppable} from "@hello-pangea/dnd";
+import {DragDropContext, Draggable, Droppable, DropResult} from "@hello-pangea/dnd";
+import {eventDataProps} from "@/app/(frontend)/kanban/page";
+import Modal from "@/app/components/modals/Modal";
 
 interface TaskBoxProps {
     events: any[];
@@ -11,29 +13,30 @@ interface TaskBoxProps {
 }
 
 const TaskBox: React.FC<TaskBoxProps> = ({events, setEvents, currentEvent, setCurrentEvent}) => {
+    const [isRemove, setIsRemove] = useState(false);
+
     const handleRemove = useCallback(async () => {
-        if (confirm('You really want to remove it?')) {
-            const removeEvent = await fetch("http://localhost:3000/api/kanban", {
-                method: "DELETE",
-                body: JSON.stringify({title: currentEvent.title}),
-            })
-            if (removeEvent.ok) {
-                setEvents((prev) => {
-                    const result = prev.filter((item) => item.title != currentEvent.title);
-                    if (result.length) {
-                        setCurrentEvent(result[0]);
-                    }
-                    return result;
-                });
-            }
-            // update events
+        const removeEvent = await fetch("http://localhost:3000/api/kanban", {
+            method: "DELETE",
+            body: JSON.stringify({title: currentEvent.title}),
+        })
+        if (removeEvent.ok) {
+            setEvents((prev) => {
+                const result = prev.filter((item) => item.title != currentEvent.title);
+                if (result.length) {
+                    setCurrentEvent(result[0]);
+                }
+                return result;
+            });
+            setIsRemove(false)
         }
     }, [setEvents, currentEvent, setCurrentEvent]);
 
-    const handleDragEnd = useCallback((result) => {
+    const handleDragEnd = useCallback((result: DropResult) => {
         if (!result.destination) return
         const {source, destination} = result;
         const curEvent = events.find((item) => item.title === currentEvent.title);
+        if (!curEvent) return;
         const taskCopy = curEvent[source.droppableId][source.index];
         setEvents((prev) =>
             prev.map((event) => {
@@ -55,35 +58,40 @@ const TaskBox: React.FC<TaskBoxProps> = ({events, setEvents, currentEvent, setCu
         );
     }, [events, setEvents, currentEvent]);
 
-    useEffect(() => {
-        // console.log(JSON.stringify(events))
-        // console.log(JSON.parse(JSON.stringify(events))[0]?.toDo[0]?.name)
-    }, [events])
 
     return (
-        <div className='task-box'>
-            <header className='task-box-header'>
-                <h1 className='task-box-title'>All Tasks</h1>
-                <button className='remove-button' onClick={handleRemove}>
-                    Remove this Event
-                </button>
-            </header>
-            <DragDropContext onDragEnd={(result) => handleDragEnd(result)}>
-                <div className='task-box-body'>
-                    {
-                        ['toDo', 'inProgress', 'completed'].map(tag => (
-                            <Column
-                                key={tag}
-                                tag={tag}
-                                events={events}
-                                setEvents={setEvents}
-                                currentEvent={currentEvent}
-                            />
-                        ))
-                    }
-                </div>
-            </DragDropContext>
-        </div>
+        <>
+            <div className='task-box'>
+                <header className='task-box-header'>
+                    <h1 className='task-box-title'>All Tasks</h1>
+                    <button className='remove-button' onClick={() => {
+                        setIsRemove(true)
+                    }}>
+                        Remove this Event
+                    </button>
+                </header>
+                <DragDropContext onDragEnd={(result) => handleDragEnd(result)}>
+                    <div className='task-box-body'>
+                        {
+                            ['toDo', 'inProgress', 'completed'].map((tag) => (
+                                <Column
+                                    key={tag}
+                                    tag={tag}
+                                    events={events}
+                                    setEvents={setEvents}
+                                    currentEvent={currentEvent}
+                                />
+                            ))
+                        }
+                    </div>
+                </DragDropContext>
+            </div>
+            <Modal title={"确定删除吗？"} isOpen={isRemove} secondaryAction={() => {
+                setIsRemove(false)
+            }} secondaryActionLabel={"取消"} onClose={() => {
+                setIsRemove(false)
+            }} onSubmit={handleRemove} actionLabel={"确认"}/>
+        </>
     );
 };
 

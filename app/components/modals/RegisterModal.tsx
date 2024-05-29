@@ -1,7 +1,7 @@
 "use client"
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import Modal from "@/app/components/modals/Modal";
-import Input from "@/app/components/Input";
+import FormInput from "@/app/components/FormInput";
 import {FieldValues, SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
@@ -49,8 +49,8 @@ const RegisterModal = () => {
     }
     const bodyContent = (
         <form className={"space-y-6"}>
-            <Input label={"用户名"} id={"name"} register={register} errors={errors}/>
-            <Input label={"密码"} id={"password"} register={register} errors={errors}/>
+            <FormInput label={"用户名"} id={"name"} register={register} errors={errors}/>
+            <FormInput label={"密码"} id={"password"} register={register} errors={errors}/>
         </form>
     )
     return (<Modal isOpen={registerModal.isOpen}

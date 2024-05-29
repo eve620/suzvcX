@@ -77,7 +77,7 @@ const Modal: React.FC<ModalProps> = ({
           overflow-y-auto 
           fixed 
           inset-0 
-          z-50
+          z-40
           outline-none 
           focus:outline-none
           bg-neutral-800/90
@@ -132,22 +132,22 @@ const Modal: React.FC<ModalProps> = ({
                         >
                             {/*header*/}
                             <div className="
-                flex 
+                flex
+                justify-between
                 items-center 
-                p-6
+                p-2
                 rounded-t
-                justify-center
                 relative
                 border-b-[1px]
                 "
                             >
                                 <button
                                     className="
-                    p-1
+                    py-2
+                    px-5
                     border-0
                     hover:opacity-70
                     transition
-                    absolute
                     left-9
                   "
                                     onClick={handleClose}
@@ -158,16 +158,17 @@ const Modal: React.FC<ModalProps> = ({
                                             fill="#707070"></path>
                                     </svg>
                                 </button>
-                                <div className="text-lg font-semibold">
+                                <div className=" font-semibold italic">
                                     {title}
                                 </div>
+                                <div className={"w-12"}/>
                             </div>
                             {/*body*/}
-                            <div className="relative p-6 flex-auto">
+                            <div className="relative p-5 flex-auto">
                                 {body}
                             </div>
                             {/*footer*/}
-                            <div className="flex flex-col gap-2 p-6">
+                            <div className="flex flex-col gap-2 p-5 pt-0">
                                 <div className="flex
                                  items-center
                                  gap-4
