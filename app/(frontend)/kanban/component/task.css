@@ -5,16 +5,16 @@
 }
 
 .task-box-title {
-    font-size: 2em;
-    padding: 25px 0;
+    font-size: 1.5em;
+    padding: 10px 0;
     font-weight: 500;
 }
 
 .remove-button {
-    font-size: 1em;
+    font-size: 0.8em;
     font-style: italic;
     margin-left: 35px;
-    padding: 5px;
+    padding: 4px;
     background: none;
     border: 2px solid red;
     border-radius: 10px;

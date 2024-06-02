@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
     }
 }
 
-export async function PUT(request: NextRequest) {
+export async function PUT(request: NextRequest,response: NextResponse) {
     const currentUser = await getCurrentUser()
     if (!currentUser || !currentUser.id) {
         return NextResponse.json({message: '未登录'}, {status: 200});

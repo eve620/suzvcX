@@ -2,7 +2,7 @@ import KanbanBoard from "@/app/(frontend)/kanban/KanbanBoard";
 import getCurrentUser from "@/actions/getCurrentUser";
 
 export interface eventDataProps {
-    id?:number,
+    id?: number,
     title: string,
     toDo: string[],
     inProgress: string[],

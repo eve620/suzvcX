@@ -33,6 +33,7 @@ const Column: React.FC<ColumnProps> = ({tag, currentEvent, events, setEvents}) =
         setOperation("ADD")
         setIsModalShow(true)
     };
+
     const handleRemove = (id: number, e: Event) => {
         // 禁止冒泡到上层:修改task
         e.stopPropagation();
@@ -122,7 +123,7 @@ const Column: React.FC<ColumnProps> = ({tag, currentEvent, events, setEvents}) =
 
     return (
         <>
-            <div className='column text-nowrap'>
+            <div className='column'>
                 {tagTextMap[tag as ("toDo" | "inProgress" | "completed")]}
                 <AddTaskButton handleClick={handleAdd}/>
                 <Droppable droppableId={tag}>

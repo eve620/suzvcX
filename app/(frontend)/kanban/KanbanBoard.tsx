@@ -36,7 +36,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({eventData}) => {
             setPrevLength(currentLength);
         } else {
             // Length has not changed, set a timeout
-            const timeoutId = setTimeout(() => updateProgress(), 3000);
+            const timeoutId = setTimeout(() => updateProgress(), 1000);
             return () => clearTimeout(timeoutId);
         }
     }, [updateProgress, events]);

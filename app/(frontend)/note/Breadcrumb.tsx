@@ -1,4 +1,5 @@
 import Link from "next/link";
+import {SafeUser} from "@/types";
 
 interface BreadcrumbProps {
     dir: string | undefined

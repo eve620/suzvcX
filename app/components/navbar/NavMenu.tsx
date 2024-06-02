@@ -8,23 +8,23 @@ const NavMenu = () => {
     return (
         <div
             className="rounded-full shadow-sm hover:shadow-md border cursor-pointer hidden py-1 md:py-3 w-1/2 justify-around md:flex">
-            <Link href={"/about"}
+            <Link href={"/about"} prefetch={false}
                   className={`flex-1 text-center border-r hover:underline ${isActive('/about') && 'underline'}`}>
                 关于
             </Link>
-            <Link href={"/note"}
+            <Link href={"/note"} prefetch={false}
                   className={`flex-1 text-center border-r hover:underline ${isActive('/note') && 'underline'}`}>
                 笔记
             </Link>
-            <Link href={"/project"}
+            <Link href={"/project"} prefetch={false}
                   className={`flex-1 text-center border-r hover:underline ${isActive('/project') && 'underline'}`}>
                 项目
             </Link>
-            <Link href={"/english"}
+            <Link href={"/english"} prefetch={false}
                   className={`flex-1 text-center border-r hover:underline ${isActive('/english') && 'underline'}`}>
                 英语
             </Link>
-            <Link href={"/kanban"}
+            <Link href={"/kanban"} prefetch={false}
                   className={`flex-1 text-center hover:underline ${isActive('/kanban') && 'underline'}`}>
                 看板
             </Link>

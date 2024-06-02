@@ -15,7 +15,7 @@ const Avatar = (props: { avatar?: string }) => {
         <div
             className={"w-10 h-10 bg-blue-300 rounded-full overflow-hidden mr-2 cursor-pointer hover:opacity-80"}
             onClick={avatarModal.onOpen}>
-            <Image priority={true} src={getAvatar(props.avatar)} alt="avatar" width={100} height={100}/>
+            <Image src={getAvatar(props.avatar)} alt="avatar" width={100} height={100}/>
         </div>
 
     )

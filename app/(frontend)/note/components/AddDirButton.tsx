@@ -1,6 +1,7 @@
 import {useEffect, useRef, useState} from "react";
 import {useOnClickOutside} from "next/dist/client/components/react-dev-overlay/internal/hooks/use-on-click-outside";
 import showMessage from "@/app/components/Message";
+import {revalidatePath} from "next/cache";
 
 interface AddButtonProps {
     refreshDir: () => void;

@@ -1,8 +1,7 @@
 "use client"
 import React, {useCallback, useState} from 'react';
 import Column from './Column';
-import {DragDropContext, Draggable, Droppable, DropResult} from "@hello-pangea/dnd";
-import {eventDataProps} from "@/app/(frontend)/kanban/page";
+import {DragDropContext, DropResult} from "@hello-pangea/dnd";
 import Modal from "@/app/components/modals/Modal";
 
 interface TaskBoxProps {
