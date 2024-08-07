@@ -11,6 +11,7 @@ import Viewer from "@/app/components/quill/Viewer";
 import AddNote from "@/app/(frontend)/note/components/AddNote";
 import {SafeUser} from "@/types";
 import Breadcrumb from "@/app/(frontend)/note/Breadcrumb";
+import {constructor} from "autoprefixer";
 
 interface NotesProps {
     dir: string | undefined
@@ -18,9 +19,11 @@ interface NotesProps {
     dirMenu: any[]
     menu: any[]
     currentUser: SafeUser
+    test: any
 }
 
-const Notes: React.FC<NotesProps> = ({dir, id, dirMenu, menu, currentUser}) => {
+
+const Notes: React.FC<NotesProps> = ({dir, id, dirMenu, menu, currentUser, test}) => {
     const [isEdit, setIsEdit] = useState(false)
     const [isAddNote, setIsAddNote] = useState(false)
     const [dirList, setDirList] = useState<any[]>(dirMenu)
@@ -98,7 +101,6 @@ const Notes: React.FC<NotesProps> = ({dir, id, dirMenu, menu, currentUser}) => {
             </div>
         )
     }
-
     return (
         <div className={"flex flex-col w-full flex-nowrap min-h-[65vh]"}>
             <div className={"flex items-center gap-3 h-10 pl-20 pr-6"}>
