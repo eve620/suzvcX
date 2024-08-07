@@ -32,6 +32,7 @@ const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
                             <div
                                 className={"absolute right-0 shadow-sm rounded-2xl border dark:border-0 overflow-hidden"}>
                                 <MenuItem label={"详情"} onClick={profileModal.onOpen}/>
+                                <MenuItem label={"站内信"}/>
                                 {currentUser.role === "Admin" && <MenuItem label={"管理"} onClick={() => {
                                     router.push("/admin")
                                 }}/>}
