@@ -22,7 +22,7 @@ const EventBar: React.FC<EventBarProps> = ({events, setEvents, currentEvent, set
     const handleAdd = useCallback(() => {
         // Prevent Duplicated
         if (
-            events.find((event) => event.title.toLowerCase() === newEventName.trim().toLowerCase())
+            events.find((event:any) => event.title.toLowerCase() === newEventName.trim().toLowerCase())
         ) {
             showMessage(`${newEventName.trim()}已存在`);
             return;
@@ -30,7 +30,7 @@ const EventBar: React.FC<EventBarProps> = ({events, setEvents, currentEvent, set
         if (!newEventName) showMessage("名称不能为空")
         // Add new event
         if (newEventName) {
-            setEvents((prev) => [
+            setEvents((prev:any) => [
                 ...prev,
                 {
                     title: newEventName.trim(),
@@ -46,11 +46,11 @@ const EventBar: React.FC<EventBarProps> = ({events, setEvents, currentEvent, set
 
     return (
         <div className='event-bar'>
-            <h1 className='event-bar-title'>.kanban</h1>
+            <h1 className='event-bar-title'>代办事项</h1>
             <AddEventButton handleClick={() => setIsAddEvent(true)}/>
             {/*<AddEventButton handleClick={handleAdd}/>*/}
             <div className='event-container'>
-                {events.map((item) => (
+                {events.map((item:any) => (
                     <div
                         key={item.title}
                         className={`event over-hide ${currentEvent && currentEvent.title === item.title ? 'selected-event' : ''

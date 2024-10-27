@@ -4,8 +4,15 @@ import * as fs from "fs";
 import path from "path";
 
 export async function GET(request: NextRequest) {
+    const {searchParams} = new URL(request.url);
+    const id = Number(searchParams.get("id"))
+    if (!id) return NextResponse.json({message: "无用户"}, {status: 200});
     try {
-        const data = await prisma.project.findMany()
+        const data = await prisma.project.findMany({
+            where: {
+                createdById: id,
+            }
+        })
         return NextResponse.json({data}, {status: 200});
     } catch (error) {
         // 如果发生错误，返回404

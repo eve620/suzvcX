@@ -9,7 +9,6 @@ interface ProjectListProps {
 
 const ProjectList: React.FC<ProjectListProps> = ({projectList}) => {
     const [previewOpen, setPreviewOpen] = useState(false);
-    const [previewImage, setPreviewImage] = useState('');
     const [previewTitle, setPreviewTitle] = useState('');
     const [images, setImages] = useState<string[]>([""])
     const [imageIndex, setImageIndex] = useState(0)
@@ -27,12 +26,13 @@ const ProjectList: React.FC<ProjectListProps> = ({projectList}) => {
                              sm:break-inside-avoid
                              rounded-xl
                              shadow-lg
+                             duration-200
                              transition-shadow
                              dark:bg-gray-700 dark:hover:shadow-blue-400/40
                              hover:shadow-2xl hover:shadow-purple-400/50">
                         <div className={"flex flex-col p-6"}>
                             <div className={"flex flex-wrap justify-between text-nowrap"}>
-                                <span className={"font-bold text-black dark:text-white"}>{item.title}</span>
+                                <span className={"font-bold duration-200 text-black dark:text-white"}>{item.title}</span>
                                 <span className={"text-sm"}>{item.job}</span>
                             </div>
                             <div className={"mt-4 w-full"}>

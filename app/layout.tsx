@@ -2,10 +2,10 @@ import type {Metadata} from "next";
 import "./globals.css";
 
 // 字体问题
-// import {Nunito} from "next/font/google";
-// const font = Nunito({
-//     subsets: ['latin'],
-// });
+import {Nunito} from "next/font/google";
+const font = Nunito({
+    subsets: ['latin'],
+});
 
 export const metadata: Metadata = {
     title: "My Blog",

@@ -54,9 +54,9 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({eventData}) => {
                 currentEvent={currentEvent}
                 events={events}
                 setCurrentEvent={setCurrentEvent}
-            /> : <div className={"text-nowrap flex-1 flex justify-center items-center text-3xl font-bold px-8"}>please
-                add and select
-                first</div>}
+            /> : <div className={"text-nowrap flex-1 flex justify-center items-center text-3xl font-bold px-8"}>
+                点击左侧➕添加事件
+            </div>}
         </div>
     );
 }

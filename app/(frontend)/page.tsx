@@ -1,4 +1,5 @@
 import DevLog from "@/app/components/Home/DevLog";
+import About from "@/app/components/Home/About";
 import Guide from "@/app/components/Home/Guide";
 import TopBar from "@/app/components/Home/TopBar";
 import getCurrentUser from "@/actions/getCurrentUser";
@@ -27,6 +28,9 @@ export default async function FrontendPage() {
             </section>
             <section>
                 <DevLog currentUser={currentUser} list={logList}/>
+            </section>
+            <section id="aboutSection">
+                <About/>
             </section>
         </div>
     );

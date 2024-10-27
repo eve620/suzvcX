@@ -1,6 +1,6 @@
 "use client"
 import Link from "next/link";
-import {useEffect, useRef, useState} from "react";
+import {useRef, useState} from "react";
 import {useOnClickOutside} from "next/dist/client/components/react-dev-overlay/internal/hooks/use-on-click-outside";
 
 const SideBar: React.FC = () => {
@@ -37,8 +37,6 @@ const SideBar: React.FC = () => {
             <div ref={menuRef}
                  className={`h-32 z-20 theme-color absolute text-center rounded-br-2xl duration-200 -left-14 top-12 w-14 md:hidden ${isMenuShow && "translate-x-14"}`}>
                 <ul>
-                    <Link href={"/about"} className={"block cursor-pointer bg-white"}>关于
-                    </Link>
                     <Link href={"/note"} className={"block cursor-pointer bg-white"}>笔记
                     </Link>
                     <Link href={"/project"} className={"block cursor-pointer bg-white"}>项目

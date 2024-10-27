@@ -1,0 +1,9 @@
+.ql-toolbar {
+    border-start-end-radius: 10px;
+    border-start-start-radius: 10px;
+    background-color: rgba(245, 245, 245, 0.9); /* 设置工具栏背景颜色 */
+}
+.ql-container{
+    border-end-end-radius: 10px;
+    border-end-start-radius: 10px;
+}

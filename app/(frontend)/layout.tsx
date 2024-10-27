@@ -7,6 +7,7 @@ import AvatarModal from "@/app/components/modals/AvatarModal";
 import ProfileModal from "@/app/components/modals/ProfileModal";
 import ProjectModal from "@/app/components/modals/ProjectModal";
 import MessageBox from "@/app/components/messagebox/MessageBox";
+import TagModal from "@/app/components/modals/TagModal";
 
 export default async function FrontLayout({children}: Readonly<{ children: React.ReactNode; }>) {
     const currentUser = await getCurrentUser()
@@ -14,11 +15,12 @@ export default async function FrontLayout({children}: Readonly<{ children: React
     return (
         <div className={"flex flex-col min-h-screen"}>
             <ClientContainer currentUser={currentUser}>
-                <MessageBox/>
+                {/*<MessageBox/>*/}
                 <RegisterModal/>
                 <AvatarModal/>
                 <ProfileModal currentUser={currentUser}/>
                 <ProjectModal currentUser={currentUser}/>
+                <TagModal/>
             </ClientContainer>
             <Navbar currentUser={currentUser}/>
             <div className={"h-16 md:h-20"}/>

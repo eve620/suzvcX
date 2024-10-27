@@ -1,135 +1,91 @@
 "use client"
-import Link from "next/link";
-import Back from "@/app/components/Back";
 import Button from "@/app/components/Button";
-import {useEffect, useState} from "react";
-import showMessage from "@/app/components/Message";
 import {useRouter} from "next/navigation";
-import DirList from "@/app/(frontend)/note/components/DirList";
-import AddDirButton from "@/app/(frontend)/note/components/AddDirButton";
-import Viewer from "@/app/components/quill/Viewer";
-import AddNote from "@/app/(frontend)/note/components/AddNote";
-import {SafeUser} from "@/types";
-import Breadcrumb from "@/app/(frontend)/note/Breadcrumb";
-import {constructor} from "autoprefixer";
-
-interface NotesProps {
-    dir: string | undefined
-    id: string | undefined
-    dirMenu: any[]
-    menu: any[]
-    currentUser: SafeUser
-    test: any
-}
-
-
-const Notes: React.FC<NotesProps> = ({dir, id, dirMenu, menu, currentUser, test}) => {
-    const [isEdit, setIsEdit] = useState(false)
-    const [isAddNote, setIsAddNote] = useState(false)
-    const [dirList, setDirList] = useState<any[]>(dirMenu)
-    const [contentList, setContentList] = useState<any[]>(menu)
+import { useRef, useState} from "react";
+import {useOnClickOutside} from "next/dist/client/components/react-dev-overlay/internal/hooks/use-on-click-outside";
+import NoteList from "@/app/(frontend)/note/components/NoteList";
+import useTagModal from "@/app/hooks/useTagModal";
+const Notes:React.FC = () => {
+    const tagModal = useTagModal()
     const router = useRouter()
-    const refreshDir = async () => {
-        const dirResponse = await fetch(`/api/note/dir?id=${currentUser.id}`)
-        if (dirResponse.ok) {
-            setDirList(await dirResponse.json().then(data => data.data))
-        }
-    }
-    useEffect(() => {
-        setIsAddNote(false)
-    }, [dir, id])
-    const onDelete = async (id: number) => {
-        const deleteDir = await fetch(`/api/note/dir?id=${id}`, {
-            method: "DELETE",
-        })
-        if (deleteDir.ok) {
-            if (dir === id.toString()) {
-                router.push("/note")
-            }
-            const res = await deleteDir.json()
-            await refreshDir()
-            showMessage(res.message)
-        } else {
-            const res = await deleteDir.json()
-            showMessage(res.message)
-        }
-    }
-
-    const renderContent = () => {
-        if (!dir) {
-            return (
-                <div className="flex justify-center items-center h-full text-3xl font-bold">
-                    Please add and select a directory first.
-                </div>
-            )
-        }
-
-        if (id) {
-            const note = contentList.find(item => item.id === Number(id))
-            return <Viewer value={note?.content}/>
-        }
-
-        if (isAddNote) {
-            return <AddNote onSubmit={() => {
-            }} onCancel={() => setIsAddNote(false)}/>
-        }
-
-        const notes = contentList.filter(item => item.parent === Number(dir))
-
-        if (notes.length === 0) {
-            return (
-                <div className="flex flex-col justify-center items-center h-full">
-                    <svg viewBox="0 0 1024 1024" width="148" height="148" fill="#cdcdcd">
-                        <path
-                            d="M469.333333 234.666667V106.666667h85.333334v128h-85.333334z m-161.834666-94.165334l85.333333 85.333334-60.330667 60.330666-85.333333-85.333333 60.330667-60.330667z m469.333333 60.330667l-85.333333 85.333333-60.330667-60.330666 85.333333-85.333334 60.330667 60.330667z m-548.693333 182.826667A85.333333 85.333333 0 0 1 301.845333 341.333333H722.133333a85.333333 85.333333 0 0 1 73.706667 42.346667l131.2 224.853333A85.333333 85.333333 0 0 1 938.666667 651.541333V832a85.333333 85.333333 0 0 1-85.333334 85.333333H170.666667a85.333333 85.333333 0 0 1-85.333334-85.333333v-180.48a85.333333 85.333333 0 0 1 11.626667-42.986667l131.178667-224.853333zM722.133333 426.666667H301.866667l-99.562667 170.666666h255.146667l9.6 28.8a58.602667 58.602667 0 0 0 2.133333 4.778667c1.92 3.84 4.906667 8.896 8.96 13.781333 7.829333 9.408 18.133333 16.64 33.877333 16.64 15.744 0 26.026667-7.232 33.898667-16.64a72.469333 72.469333 0 0 0 11.050667-18.453333l0.021333-0.106667 9.6-28.8h255.146667l-99.562667-170.666666zM853.333333 682.666667H623.509333a154.730667 154.730667 0 0 1-12.074666 16.64C592.64 721.92 560.256 746.666667 512 746.666667c-48.256 0-80.64-24.768-99.434667-47.36a154.730667 154.730667 0 0 1-12.074666-16.64H170.666667v149.333333h682.666666v-149.333333z"></path>
-                    </svg>
-                    <span className="text-gray-300 font-bold">Empty</span>
-                </div>
-            )
-        }
-        return (
-            <div className="space-x-5 h-full text-wrap">
-                {notes.map(note => (
-                    <Link
-                        key={note.id}
-                        className="inline-block text-sm font-bold border-2 py-1 rounded-xl px-2"
-                        href={{pathname: "/note", search: `dir=${dir}&id=${note.id}`}}
-                    >
-                        {note.name}
-                    </Link>
-                ))}
-            </div>
-        )
-    }
+    const noteList = [{id:1,title:"abc"}]
+    const tagList = ["react",'vue','ts','js','css','html','java','python','go','c','c++','c#','php','ruby','swift','kotlin','dart','scala','groovy','r','matlab','lua','perl','bash','sql','nosql','mongodb','redis','mysql','oracle','sqlserver','postgresql','sqlite','elasticsearch','kafka','rabbitmq','rocketmq','dubbo','spring','springboot','spring']
+    const [currentTag,setCurrentTag] = useState<String[]>([])
+    const [isTagListShow,setIsTagListShow] = useState(false)
+    const tagRef = useRef(null)
+    useOnClickOutside(tagRef.current, (event) => {
+        setIsTagListShow(false)
+    })
     return (
-        <div className={"flex flex-col w-full flex-nowrap min-h-[65vh]"}>
-            <div className={"flex items-center gap-3 h-10 pl-20 pr-6"}>
-                <Breadcrumb dir={dir} id={id} dirMenu={dirMenu} menu={menu}/>
-                {/*{dir && id && <Back url={`/note/?dir=${dir}`}/>}*/}
+        <div>
+            <div className="flex gap-4">
+                <span  className="flex flex-wrap text-gray-500 dark:text-gray-300 font-mono items-center gap-1.5 break-words text-2xl text-muted-foreground sm:gap-2.5">Home</span>
                 <div className={"flex-1"}></div>
-                {!id && <>
-                    {isEdit ?
-                        <Button label={"取消"} onClick={() => setIsEdit(false)
-                        }/> :
-                        <Button label={"编辑"} onClick={() => setIsEdit(true)}/>}
-                </>}
-                {dir && !id && <Button onClick={() => {
-                    setIsAddNote(true)
-                }} label={"添加笔记"}/>}
+                <Button label={"添加笔记"} onClick={() => {router.push("/note/new")}
+                }/>
+                <Button label={"编辑标签"} onClick={tagModal.onOpen}/>
             </div>
-            <div className={"flex flex-1"}>
-                <div className={"w-1/5 min-w-fit flex flex-col py-8 px-2"}>
-                    <DirList dirList={dirList} isEdit={isEdit} onDelete={onDelete}/>
-                    {(isEdit || dirList.length === 0) && <AddDirButton refreshDir={refreshDir}/>}
+            <div className={"flex mt-4"}>
+                <div className={"w-1/2 flex flex-col pr-4"}>
+                    <label
+                        className={"text-nowrap"}
+                    >
+                        标题
+                    </label>
+                    <input
+                        placeholder=""
+                        className={"bg-transparent dark:focus:border-white py-1 px-2 mt-1 border-2 rounded-md outline-none disabled:opacity-70 disabled:cursor-n border-neutral-300 focus:border-black"}
+                    />
                 </div>
-                <div className={"w-4/5 min-w-fit p-4 border"}>
-                    <div className="h-full ">
-                        {renderContent()}
+                <div className={"w-1/2 flex flex-col pl-4"}>
+                    <label
+                        className={"flex items-center text-nowrap"}
+                    >
+                        标签
+                        {currentTag.length!==0 &&
+                            <svg onClick={()=>setCurrentTag([])} className="h-4 w-4 ml-2 cursor-pointer inline-block align-middle" viewBox="0 0 1024 1024" fill="currentColor">
+                                <path d="M909.1 209.3l-56.4 44.1C775.8 155.1 656.2 92 521.9 92 290 92 102.3 279.5 102 511.5 101.7 743.7 289.8 932 521.9 932c181.3 0 335.8-115 394.6-276.1 1.5-4.2-0.7-8.9-4.9-10.3l-56.7-19.5c-4.1-1.4-8.6 0.7-10.1 4.8-1.8 5-3.8 10-5.9 14.9-17.3 41-42.1 77.8-73.7 109.4-31.6 31.6-68.4 56.4-109.3 73.8-42.3 17.9-87.4 27-133.8 27-46.5 0-91.5-9.1-133.8-27-40.9-17.3-77.7-42.1-109.3-73.8-31.6-31.6-56.4-68.4-73.7-109.4-17.9-42.4-27-87.4-27-133.9s9.1-91.5 27-133.9c17.3-41 42.1-77.8 73.7-109.4 31.6-31.6 68.4-56.4 109.3-73.8 42.3-17.9 87.4-27 133.8-27 46.5 0 91.5 9.1 133.8 27 40.9 17.3 77.7 42.1 109.3 73.8 9.9 9.9 19.2 20.4 27.8 31.4l-60.2 47c-5.3 4.1-3.5 12.5 3 14.1l175.6 43c5 1.2 9.9-2.6 9.9-7.7l0.8-180.9c-0.1-6.6-7.8-10.3-13-6.2z"></path>
+                            </svg>
+                        }
+                    </label>
+                    <div className="relative" ref={tagRef}>
+                        <button onClick={()=>setIsTagListShow(!isTagListShow)} className="relative w-full bg-transparent dark:focus:border-white py-1 px-2 mt-1 border-2 rounded-md outline-none disabled:opacity-70 disabled:cursor-n border-neutral-300 focus:border-black">
+                            <div className="w-11/12 text-left truncate">
+                                {currentTag.length ? currentTag.map((item,index)=><span key={index} className="ml-2 bg-pink-300/20 dark:bg-blue-300/30 px-2 rounded-lg">{item}</span>)
+                                    :<span className="ml-3">...</span>
+                                }
+                            </div>
+                            <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
+                                  <svg className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                      <path d="M10.53 3.47a.75.75 0 0 0-1.06 0L6.22 6.72a.75.75 0 0 0 1.06 1.06L10 5.06l2.72 2.72a.75.75 0 1 0 1.06-1.06l-3.25-3.25Zm-4.31 9.81 3.25 3.25a.75.75 0 0 0 1.06 0l3.25-3.25a.75.75 0 1 0-1.06-1.06L10 14.94l-2.72-2.72a.75.75 0 0 0-1.06 1.06Z" />
+                                  </svg>
+                              </span>
+                        </button>
+                        {isTagListShow&&
+                            <ul className="absolute dark:ring-white bg-white dark:bg-slate-900 z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-transparent py-1 text-base shadow-lg dark:shadow-white/10 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm" tabIndex={-1} role="listbox">
+                                {tagList.length? tagList.map((item,index)=>
+                                        <li key={index} onClick={()=>{
+                                            currentTag.includes(item)?setCurrentTag(currentTag.filter((item1)=>item1!==item)):setCurrentTag([...currentTag,item])
+                                        }} className="relative  hover:bg-pink-200/20 dark:hover:bg-blue-300/30 cursor-default select-none py-2 pl-3 pr-9">
+                                            <div className="flex items-center">
+                                                <span className="ml-3 block truncate font-normal">{item}</span>
+                                            </div>
+                                            {currentTag.includes(item)&&
+                                                <span className="absolute inset-y-0 right-0 flex items-center pr-4">
+                                                  <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                      <path d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z"/>
+                                                  </svg>
+                                              </span>}
+                                        </li>):
+                                    <li className="select-none text-center py-2 text-gray-400">无标签...</li>
+                                }
+                            </ul>
+                        }
                     </div>
                 </div>
             </div>
+            <NoteList notes={noteList}/>
         </div>
     )
 }
-
 export default Notes

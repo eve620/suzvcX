@@ -20,8 +20,8 @@ const TaskBox: React.FC<TaskBoxProps> = ({events, setEvents, currentEvent, setCu
             body: JSON.stringify({title: currentEvent.title}),
         })
         if (removeEvent.ok) {
-            setEvents((prev) => {
-                const result = prev.filter((item) => item.title != currentEvent.title);
+            setEvents((prev:any) => {
+                const result = prev.filter((item:any) => item.title != currentEvent.title);
                 if (result.length) {
                     setCurrentEvent(result[0]);
                 }
@@ -37,8 +37,8 @@ const TaskBox: React.FC<TaskBoxProps> = ({events, setEvents, currentEvent, setCu
         const curEvent = events.find((item) => item.title === currentEvent.title);
         if (!curEvent) return;
         const taskCopy = curEvent[source.droppableId][source.index];
-        setEvents((prev) =>
-            prev.map((event) => {
+        setEvents((prev:any) =>
+            prev.map((event:any) => {
                 if (event.title === currentEvent.title) {
                     let eventCopy = {...event};
                     // Remove from source

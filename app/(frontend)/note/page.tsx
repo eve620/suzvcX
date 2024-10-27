@@ -1,8 +1,7 @@
-import Notes from "@/app/(frontend)/note/Notes";
 import getCurrentUser from "@/actions/getCurrentUser";
-import prisma from "@/prisma/client";
+import Notes from "@/app/(frontend)/note/Notes";
 
-export default async function Page({searchParams: {dir, id}}: { searchParams: { dir: string, id: string } }) {
+export default async function Page() {
     const currentUser = await getCurrentUser()
     let dirMenu = []
     let menu = []
@@ -17,17 +16,8 @@ export default async function Page({searchParams: {dir, id}}: { searchParams: { 
     if (menuResponse.ok) {
         menu = await menuResponse.json().then(data => data.data);
     }
-
-    async function get() {
-        "use server"
-        return new Date()
-    }
-
     return (
-        <>
-            {/*<Breadcrumb dir={dir} id={id} dirMenu={dirMenu} menu={menu}/>*/}
-            <Notes dir={dir} id={id} currentUser={currentUser} dirMenu={dirMenu} menu={menu} test={get}/>
-        </>
+        <Notes/>
     );
 }
 

@@ -8,10 +8,6 @@ const NavMenu = () => {
     return (
         <div
             className="rounded-full shadow-sm hover:shadow-md border cursor-pointer hidden py-1 md:py-3 w-1/2 justify-around md:flex">
-            <Link href={"/about"} prefetch={false}
-                  className={`flex-1 text-center border-r hover:underline ${isActive('/about') && 'underline'}`}>
-                关于
-            </Link>
             <Link href={"/note"} prefetch={false}
                   className={`flex-1 text-center border-r hover:underline ${isActive('/note') && 'underline'}`}>
                 笔记

@@ -13,10 +13,10 @@ const DevLog: React.FC<DevLogProps> = ({currentUser, list}) => {
     const [isAdd, setIsAdd] = useState(false)
     const addRef = useRef<HTMLDivElement>(null)
     const [logList, setLogList] = useState<{ time: string, content: string }[]>(list)
-    const {register, handleSubmit, formState: {errors}, reset} = useForm()
-
+    const {register, handleSubmit,watch, formState: {errors}, reset} = useForm()
     function getLogList() {
         fetch("/api/devlog").then(res => res.json()).then(data => {
+            console.log(data.data)
             setLogList(data.data)
         }).catch(err => {
             console.log(err)
@@ -53,7 +53,7 @@ const DevLog: React.FC<DevLogProps> = ({currentUser, list}) => {
                                 ">
                                 <div className={"overflow-y-auto pr-2 h-32"}>
                                     <span>{log.time}</span>
-                                    <p>{log.content}</p>
+                                    <p className={"whitespace-pre-wrap"}>{log.content}</p>
                                 </div>
                             </div>
                         </div>

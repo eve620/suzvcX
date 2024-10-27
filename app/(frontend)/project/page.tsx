@@ -4,7 +4,10 @@ import getCurrentUser from "@/actions/getCurrentUser";
 
 export default async function Page() {
     const currentUser = await getCurrentUser()
-    const response = await fetch("http://localhost:3000/api/project")
+    let requestUrl = 'http://localhost:3000/api/project/default'
+    if(currentUser) requestUrl = `http://localhost:3000/api/project?id=${currentUser?.id}`
+    const response = await fetch(requestUrl)
+    console.log(requestUrl)
     let projectList = []
     if (response.ok) {
         const json = await response.json()
@@ -12,7 +15,7 @@ export default async function Page() {
     }
     return (
         <div className={"flex flex-col"}>
-            <OperationBar/>
+            {currentUser && <OperationBar/>}
             <ProjectList projectList={projectList}/>
         </div>
     );

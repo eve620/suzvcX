@@ -5,7 +5,7 @@ import getCurrentUser from "@/actions/getCurrentUser";
 
 export async function GET(request: NextRequest) {
     const {searchParams} = new URL(request.url)
-    let id = Number(searchParams.get('id'))
+    const id = Number(searchParams.get('id'))
     if (!id) return NextResponse.json({message: "无用户"}, {status: 200});
     try {
         let events = await prisma.event.findMany({
