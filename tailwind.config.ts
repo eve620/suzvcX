@@ -9,6 +9,9 @@ const config: Config = {
     ],
     theme: {
         extend: {
+            colors: {
+                dark: ''
+            },
             transitionProperty: {
                 'height': 'height',
             },

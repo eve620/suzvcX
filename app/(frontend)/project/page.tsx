@@ -1,18 +1,23 @@
 import ProjectList from "@/app/(frontend)/project/ProjectList";
 import OperationBar from "@/app/(frontend)/project/OperationBar";
-import getCurrentUser from "@/actions/getCurrentUser";
+import getCurrentUser from "@/app/actions/getCurrentUser";
+import getProjectList from "@/app/actions/getProjectList";
 
+export type Project = {
+    id: number;
+    title: string;
+    startTime: string;
+    endTime: string;
+    job: string;
+    stacks: string;
+    describe: string;
+    highlight: string;
+    imageUrl: string;
+    createdById: number;
+}
 export default async function Page() {
     const currentUser = await getCurrentUser()
-    let requestUrl = 'http://localhost:3000/api/project/default'
-    if(currentUser) requestUrl = `http://localhost:3000/api/project?id=${currentUser?.id}`
-    const response = await fetch(requestUrl)
-    console.log(requestUrl)
-    let projectList = []
-    if (response.ok) {
-        const json = await response.json()
-        projectList = json.data
-    }
+    const projectList: Project[] = await getProjectList() || []
     return (
         <div className={"flex flex-col"}>
             {currentUser && <OperationBar/>}

@@ -16,7 +16,7 @@ const TopBar: React.FC = () => {
                       text-center text-sm font-medium text-purple-600 transition
                       hover:bg-white/90 hover:text-pink-500
                       focus:outline-none focus:ring active:text-pink-500 sm:mt-0">
-                About Me
+                关于我
             </span>
         </>
     )

@@ -1,5 +1,5 @@
 import React from 'react';
-import getCurrentUser from "@/actions/getCurrentUser";
+import getCurrentUser from "@/app/actions/getCurrentUser";
 import AuthMessage from "@/app/components/AuthMessage";
 
 export default async function AdminLayout({children}: Readonly<{ children: React.ReactNode; }>) {

@@ -1,23 +1,23 @@
-import getCurrentUser from "@/actions/getCurrentUser";
+import getCurrentUser from "@/app/actions/getCurrentUser";
 import Notes from "@/app/(frontend)/note/Notes";
+import getNoteList from "@/app/actions/getNoteList";
+
+export type Note = {
+    id:number,
+    title:string,
+    tags:string,
+    content:string,
+    createdById:number
+}
 
 export default async function Page() {
     const currentUser = await getCurrentUser()
-    let dirMenu = []
-    let menu = []
     if (!currentUser) {
         return <div>请先登录</div>
     }
-    const dirResponse = await fetch(`http://localhost:3000/api/note/dir?id=${currentUser.id}`, {cache: "no-store"})
-    if (dirResponse.ok) {
-        dirMenu = await dirResponse.json().then(data => data.data);
-    }
-    const menuResponse = await fetch(`http://localhost:3000/api/note/inner?id=${currentUser.id}`, {cache: "no-store"})
-    if (menuResponse.ok) {
-        menu = await menuResponse.json().then(data => data.data);
-    }
+    const noteList:Note[] = await getNoteList() || []
     return (
-        <Notes/>
+        <Notes notes={noteList}/>
     );
 }
 

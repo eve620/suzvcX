@@ -2,9 +2,11 @@
 import {Modal as AntdModal} from "antd";
 import React, {useState} from "react";
 import showMessage from "@/app/components/Message";
+import Empty from "@/app/components/Empty";
+import {Project} from "@/app/(frontend)/project/page";
 
 interface ProjectListProps {
-    projectList: any[]
+    projectList: Project[]
 }
 
 const ProjectList: React.FC<ProjectListProps> = ({projectList}) => {
@@ -18,7 +20,7 @@ const ProjectList: React.FC<ProjectListProps> = ({projectList}) => {
     }
     return (
         <div className="sm:columns-2 sm:gap-6 lg:columns-3 lg:gap-8">
-            {projectList.map(item => {
+            {projectList.length ? projectList.map(item => {
                 return (
                     <div key={item.id}
                          className="
@@ -32,7 +34,8 @@ const ProjectList: React.FC<ProjectListProps> = ({projectList}) => {
                              hover:shadow-2xl hover:shadow-purple-400/50">
                         <div className={"flex flex-col p-6"}>
                             <div className={"flex flex-wrap justify-between text-nowrap"}>
-                                <span className={"font-bold duration-200 text-black dark:text-white"}>{item.title}</span>
+                                <span
+                                    className={"font-bold duration-200 text-black dark:text-white"}>{item.title}</span>
                                 <span className={"text-sm"}>{item.job}</span>
                             </div>
                             <div className={"mt-4 w-full"}>
@@ -62,7 +65,7 @@ const ProjectList: React.FC<ProjectListProps> = ({projectList}) => {
                         </div>
                     </div>
                 )
-            })}
+            }) : <Empty/>}
             <AntdModal open={previewOpen} title={previewTitle} footer={null} width={800} onCancel={() => {
                 setPreviewOpen(false)
             }}>

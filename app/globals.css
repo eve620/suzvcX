@@ -1,5 +1,7 @@
 @tailwind base;
 @tailwind components;
+@tailwind utilities;
+
 @layer components {
     .normalButton {
         @apply text-pink-300 bg-black px-3 py-1;
@@ -15,12 +17,11 @@
         hover:bg-pink-300 dark:hover:bg-blue-400 duration-200
         text-gray-700 rounded-xl px-2 mb-3 inline-block cursor-default;
     }
-    body{
+
+    body {
         font-family: "Noto Sans SC", sans-serif;
     }
 }
-
-@tailwind utilities;
 
 body {
     @apply
@@ -30,67 +31,15 @@ body {
     box-border
 }
 
-[data-theme="dark"] body {
+.dark body {
     @apply
     bg-slate-900
     text-gray-300
 }
 
-@font-face {
-    font-family: "Noto Sans SC";
-    src: url('/fonts/noto/NotoSansSC-Thin.ttf') format('truetype');
-    font-weight: 100; /* Regular */
-    font-style: normal;
-}
-@font-face {
-    font-family: "Noto Sans SC";
-    src: url('/fonts/noto/NotoSansSC-ExtraLight.ttf') format('truetype');
-    font-weight: 200; /* Regular */
-    font-style: normal;
-}
-@font-face {
-    font-family: "Noto Sans SC";
-    src: url('/fonts/noto/NotoSansSC-Light.ttf') format('truetype');
-    font-weight: 300; /* Regular */
-    font-style: normal;
-}
-@font-face {
-    font-family: "Noto Sans SC";
-    src: url('/fonts/noto/NotoSansSC-Regular.ttf') format('truetype');
-    font-weight: 400; /* Regular */
-    font-style: normal;
-}
-@font-face {
-    font-family: "Noto Sans SC";
-    src: url('/fonts/noto/NotoSansSC-Medium.ttf') format('truetype');
-    font-weight: 500; /* Regular */
-    font-style: normal;
-}
-@font-face {
-    font-family: "Noto Sans SC";
-    src: url('/fonts/noto/NotoSansSC-SemiBold.ttf') format('truetype');
-    font-weight: 600; /* Regular */
-    font-style: normal;
-}
-@font-face {
-    font-family: "Noto Sans SC";
-    src: url('/fonts/noto/NotoSansSC-Bold.ttf') format('truetype');
-    font-weight: 700; /* Regular */
-    font-style: normal;
-}
-@font-face {
-    font-family: "Noto Sans SC";
-    src: url('/fonts/noto/NotoSansSC-ExtraLight.ttf') format('truetype');
-    font-weight: 800; /* Regular */
-    font-style: normal;
-}
-@font-face {
-    font-family: "Noto Sans SC";
-    src: url('/fonts/noto/NotoSansSC.ttf') format('truetype');
-    font-weight: 900; /* Regular */
-    font-style: normal;
-}
+/*主题变量*/
 
+/*滚动条*/
 ::-webkit-scrollbar {
     width: 7px;
 }
@@ -106,4 +55,68 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
     background: #cecacac7;
+}
+
+/*字体*/
+@font-face {
+    font-family: "Noto Sans SC";
+    src: url('/fonts/noto/NotoSansSC-Thin.ttf') format('truetype');
+    font-weight: 100; /* Regular */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Noto Sans SC";
+    src: url('/fonts/noto/NotoSansSC-ExtraLight.ttf') format('truetype');
+    font-weight: 200; /* Regular */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Noto Sans SC";
+    src: url('/fonts/noto/NotoSansSC-Light.ttf') format('truetype');
+    font-weight: 300; /* Regular */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Noto Sans SC";
+    src: url('/fonts/noto/NotoSansSC-Regular.ttf') format('truetype');
+    font-weight: 400; /* Regular */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Noto Sans SC";
+    src: url('/fonts/noto/NotoSansSC-Medium.ttf') format('truetype');
+    font-weight: 500; /* Regular */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Noto Sans SC";
+    src: url('/fonts/noto/NotoSansSC-SemiBold.ttf') format('truetype');
+    font-weight: 600; /* Regular */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Noto Sans SC";
+    src: url('/fonts/noto/NotoSansSC-Bold.ttf') format('truetype');
+    font-weight: 700; /* Regular */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Noto Sans SC";
+    src: url('/fonts/noto/NotoSansSC-ExtraLight.ttf') format('truetype');
+    font-weight: 800; /* Regular */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Noto Sans SC";
+    src: url('/fonts/noto/NotoSansSC.ttf') format('truetype');
+    font-weight: 900; /* Regular */
+    font-style: normal;
 }

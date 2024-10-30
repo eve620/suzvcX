@@ -1,8 +1,9 @@
 import KanbanBoard from "@/app/(frontend)/kanban/KanbanBoard";
-import getCurrentUser from "@/actions/getCurrentUser";
+import getCurrentUser from "@/app/actions/getCurrentUser";
+import getEventList from "@/app/actions/getEventList";
 
 export interface eventDataProps {
-    id?: number,
+    id: number,
     title: string,
     toDo: string[],
     inProgress: string[],
@@ -10,15 +11,7 @@ export interface eventDataProps {
 }
 
 export default async function Page() {
-    const currentUser = await getCurrentUser()
-    let eventData: eventDataProps[] = []
-    if (currentUser) {
-        const kanbanResponse = await fetch(`http://localhost:3000/api/kanban?id=${currentUser.id}`, {cache: "no-store"});
-        if (kanbanResponse.ok) {
-            const kanbanData = await kanbanResponse.json()
-            eventData = kanbanData.data
-        }
-    }
+    let eventData: eventDataProps[] = await getEventList() || []
     return (
         <KanbanBoard eventData={eventData}/>
     );

@@ -40,8 +40,8 @@ model Project {
   job         String
   stacks      String
   describe    String
-  highlight   String?
-  imageUrl    String?
+  highlight   String   @default("")
+  imageUrl    String   @default("")
   createdById Int
   createdBy   User     @relation(fields: [createdById], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
@@ -68,12 +68,11 @@ model DevLog {
 
 model Note {
   id          Int      @id @default(autoincrement())
-  type        NoteType
-  name        String
-  content     String?
+  title       String
+  tags        String   @default("[]")
+  content     String   @default("")
   createdById Int
   createdBy   User     @relation(fields: [createdById], references: [id], onDelete: Cascade)
-  parent      Int?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

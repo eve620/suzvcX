@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
 import prisma from "@/prisma/client";
-import getCurrentUser from "@/actions/getCurrentUser";
+import getCurrentUser from "@/app/actions/getCurrentUser";
 
 
 // 假设您的默认 course 和 wordIndex 值是 0

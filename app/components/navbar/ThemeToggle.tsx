@@ -1,25 +1,22 @@
 "use client"
 import {useEffect, useState} from "react";
 
-const ThemeToggle:React.FC=()=>{
+const ThemeToggle: React.FC = () => {
     const [isLight, setIsLight] = useState(true);
 
     useEffect(() => {
         if (isLight) {
             document.documentElement.classList.remove("dark");
-            document.documentElement.dataset.theme = "light"; // 添加这行
         } else {
             document.documentElement.classList.add("dark");
-            document.documentElement.dataset.theme = "dark"; // 添加这行
         }
     }, [isLight]);
 
     const changeTheme = () => {
         setIsLight((prevIsLight) => !prevIsLight);
-        document.documentElement.dataset.theme = isLight ? "dark" : "light"; // 在这里同步修改data-theme
     };
 
-    return(
+    return (
         <div id={"mode"} className={"pr-2"} onClick={changeTheme}>
             {isLight ?
                 <svg viewBox="0 0 1024 1024" width="20" height="20">

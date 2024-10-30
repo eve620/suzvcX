@@ -1,7 +1,7 @@
 import {NextRequest, NextResponse} from "next/server";
 
 import prisma from "@/prisma/client";
-import getCurrentUser from "@/actions/getCurrentUser";
+import getCurrentUser from "@/app/actions/getCurrentUser";
 
 export async function GET(request: NextRequest) {
     const {searchParams} = new URL(request.url)

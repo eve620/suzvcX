@@ -5,7 +5,6 @@ import showMessage from "@/app/components/Message";
 import {signIn} from "next-auth/react";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import Input from "@/app/components/Input";
-import FormInput from "@/app/components/FormInput";
 import Password from "@/app/components/Password";
 
 export default function LoginForm() {

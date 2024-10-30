@@ -16,7 +16,6 @@ const DevLog: React.FC<DevLogProps> = ({currentUser, list}) => {
     const {register, handleSubmit,watch, formState: {errors}, reset} = useForm()
     function getLogList() {
         fetch("/api/devlog").then(res => res.json()).then(data => {
-            console.log(data.data)
             setLogList(data.data)
         }).catch(err => {
             console.log(err)

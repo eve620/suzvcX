@@ -1,4 +1,4 @@
-import getCurrentUser from "@/actions/getCurrentUser";
+import getCurrentUser from "@/app/actions/getCurrentUser";
 import Navbar from "@/app/components/navbar/Navbar";
 import Footer from "@/app/components/Footer";
 import RegisterModal from "@/app/components/modals/RegisterModal";

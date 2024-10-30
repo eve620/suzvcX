@@ -2,17 +2,12 @@ import DevLog from "@/app/components/Home/DevLog";
 import About from "@/app/components/Home/About";
 import Guide from "@/app/components/Home/Guide";
 import TopBar from "@/app/components/Home/TopBar";
-import getCurrentUser from "@/actions/getCurrentUser";
+import getCurrentUser from "@/app/actions/getCurrentUser";
+import getDevLogList from "@/app/actions/getDevLogList";
 
 export default async function FrontendPage() {
     const currentUser = await getCurrentUser()
-    const response = await fetch("http://localhost:3000/api/devlog")
-    let logList = []
-    if (response.ok) {
-        const json = await response.json()
-        logList = json.data
-    }
-
+    let logList = await getDevLogList() || []
     return (
         <div>
             <section className="
