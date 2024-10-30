@@ -16,16 +16,15 @@
     margin-left: 35px;
     padding: 4px;
     background: none;
-    border: 2px solid red;
+    border: 2px solid #e30000;
     border-radius: 10px;
     cursor: pointer;
-    transition: 0.3s;
     outline: none;
 }
 
 .remove-button:hover {
     color: #fff;
-    background-color: red;
+    background-color: #e30000;
     transition: 0.3s;
 }
 
@@ -51,10 +50,11 @@
 }
 
 .dark .column {
-    background-color: #36839b;
+    background-color: #2a387c;
 }
 
 .add-task-button {
+    color: #6b6b6b;
     height: 40px;
     width: 100%;
     line-height: 40px;
@@ -68,6 +68,10 @@
     margin: 15px auto;
     font-size: 1.1em;
 }
+.dark .add-task-button {
+    background-color: rgba(235, 241, 241, 0.9);
+}
+
 
 .add-task-button:hover {
     background-color: #dee4e4;
@@ -95,16 +99,20 @@
     outline: none;
 }
 
+.dark .task {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
 .task:hover {
     /*background-color: rgba(0, 119, 256, 0.014);*/
-    background-color: rgba(255, 255, 255, 0.81);
+    opacity: 80%;
     transition: 0.2s;
 }
 
 .task-name {
+    color: #6b6b6b;
     font-style: normal;
-    font-size: 0.9em;
-    font-weight: 300;
+    font-size: 0.8em;
 }
 
 .task-name::before {
@@ -116,8 +124,7 @@
 
 .task-details {
     font-style: normal;
-    font-weight: 300;
-    font-size: 0.8em;
+    font-size: 0.7em;
     color: #9c9c9c;
     word-wrap: break-word;
     margin-top: 10px;

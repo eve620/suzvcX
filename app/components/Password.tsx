@@ -10,7 +10,8 @@ const Password: React.FC<PasswordProps> = ({
                                          value}) => {
     const [isPasswordShow, setIsPasswordShow] = useState(false)
     const passwordRef = useRef<HTMLInputElement>(null)
-    const showPwd = () => {
+    const showPwd = (e:any) => {
+        e.preventDefault()
         const password = passwordRef.current;
         // 记录光标位置
         const cursorPosition = password?.selectionStart;
@@ -28,6 +29,7 @@ const Password: React.FC<PasswordProps> = ({
                 type={`${isPasswordShow ? "text" : "password"}`}
                 onChange={onChange}
                 value={value}
+                autoComplete="current-password"
                 placeholder=""
                 className={`
                  w-full

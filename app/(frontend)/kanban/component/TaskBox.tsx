@@ -62,11 +62,11 @@ const TaskBox: React.FC<TaskBoxProps> = ({events, setEvents, currentEvent, setCu
         <>
             <div className='task-box'>
                 <header className='task-box-header'>
-                    <h1 className='task-box-title'>All Tasks</h1>
-                    <button className='remove-button' onClick={() => {
+                    <h1 className='task-box-title'>所有任务</h1>
+                    <button className='remove-button tracking-wider' onClick={() => {
                         setIsRemove(true)
                     }}>
-                        Remove this Event
+                        删除事件
                     </button>
                 </header>
                 <DragDropContext onDragEnd={(result) => handleDragEnd(result)}>

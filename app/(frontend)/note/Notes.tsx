@@ -34,8 +34,7 @@ const Notes: React.FC<NotesProps> = ({notes}) => {
                 }
                 }/>
                 <Button label={"编辑标签"} onClick={() => {
-                    router.refresh()
-                    tagModal.onOpen
+                    tagModal.onOpen()
                 }}/>
             </div>
             <div className={"flex mt-4"}>

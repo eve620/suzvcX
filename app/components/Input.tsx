@@ -22,6 +22,7 @@ const Input: React.FC<InputProps> = ({
                 onChange={onChange}
                 value={value}
                 placeholder=""
+                autoComplete="current-password"
                 className={`
                 ${label&&type!=='focus'?"w-5/6":"w-full"}
                   py-2
