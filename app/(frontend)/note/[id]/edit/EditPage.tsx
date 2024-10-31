@@ -3,38 +3,42 @@ import Button from "@/app/components/Button";
 import {useRouter} from "next/navigation";
 import {useRef, useState} from "react";
 import {useOnClickOutside} from "next/dist/client/components/react-dev-overlay/internal/hooks/use-on-click-outside";
-import NoteList from "@/app/(frontend)/note/components/NoteList";
-import useTagModal from "@/app/hooks/useTagModal";
-import {Note} from "@/app/(frontend)/note/page";
+import Tiptap from "@/app/components/tiptap/Tiptap";
 
-interface NotesProps {
-    notes: Note[]
+interface EditPageProps {
+    note: NoteContent
 }
 
-const Notes: React.FC<NotesProps> = ({notes}) => {
-    const tagModal = useTagModal()
+type NoteContent = {
+    id: number,
+    content: string,
+    title: string,
+    tags: string
+}
+const EditPage: React.FC<EditPageProps> = ({note}) => {
+
     const router = useRouter()
-    const noteList: Note[] = notes
-    const tagList = ["react", 'vue', 'ts', 'js', 'css', 'html', 'java', 'python', 'go', 'c', 'c++', 'c#', 'php', 'ruby', 'swift', 'kotlin', 'dart', 'scala', 'groovy', 'r', 'matlab', 'lua', 'perl', 'bash', 'sql', 'nosql', 'mongodb', 'redis', 'mysql', 'oracle', 'sqlserver', 'postgresql', 'sqlite', 'elasticsearch', 'kafka', 'rabbitmq', 'rocketmq', 'dubbo', 'spring', 'springboot', 'spring']
-    const [currentTag, setCurrentTag] = useState<String[]>([])
+    const tagList = "[\"c++\", \"springboot\", \"spring\"]"
     const [isTagListShow, setIsTagListShow] = useState(false)
     const tagRef = useRef(null)
+    const [title, setTitle] = useState(note.title)
+    const [tags, setTags] = useState<String[]>(JSON.parse(note.tags))
+    const [content, setContent] = useState(note.content)
+
+    function contentChange(value) {
+        setContent(value)
+    }
+
     useOnClickOutside(tagRef.current, (event) => {
         setIsTagListShow(false)
     })
     return (
         <div>
-            <div className="flex gap-4">
+            <div>
                 <span
-                    className="flex flex-wrap text-gray-500 dark:text-gray-300 items-center gap-1.5 break-words text-2xl text-muted-foreground sm:gap-2.5">Home</span>
-                <div className={"flex-1"}></div>
-                <Button label={"添加笔记"} onClick={() => {
-                    router.push("/note/new")
-                }
-                }/>
-                <Button label={"编辑标签"} onClick={() => {
-                    tagModal.onOpen()
-                }}/>
+                    className="flex flex-wrap text-gray-500 dark:text-gray-300 items-center gap-1.5 break-words text-2xl text-muted-foreground sm:gap-2.5">
+                Edit
+                </span>
             </div>
             <div className={"flex mt-4"}>
                 <div className={"w-1/2 flex flex-col pr-4"}>
@@ -44,7 +48,8 @@ const Notes: React.FC<NotesProps> = ({notes}) => {
                         标题
                     </label>
                     <input
-                        placeholder=""
+                        placeholder="" value={title}
+                        onChange={(e) => setTitle(e.target.value)}
                         className={"bg-transparent dark:focus:border-white py-1 px-2 mt-1 border-2 rounded-md outline-none disabled:opacity-70 disabled:cursor-n border-neutral-300 focus:border-black"}
                     />
                 </div>
@@ -53,8 +58,8 @@ const Notes: React.FC<NotesProps> = ({notes}) => {
                         className={"flex items-center text-nowrap"}
                     >
                         标签
-                        {currentTag.length !== 0 &&
-                            <svg onClick={() => setCurrentTag([])}
+                        {tags.length !== 0 &&
+                            <svg onClick={() => setTags([])}
                                  className="h-4 w-4 ml-2 cursor-pointer inline-block align-middle"
                                  viewBox="0 0 1024 1024" fill="currentColor">
                                 <path
@@ -66,8 +71,8 @@ const Notes: React.FC<NotesProps> = ({notes}) => {
                         <button onClick={() => setIsTagListShow(!isTagListShow)}
                                 className="relative w-full bg-transparent dark:focus:border-white py-1 px-2 mt-1 border-2 rounded-md outline-none disabled:opacity-70 disabled:cursor-n border-neutral-300 focus:border-black">
                             <div className="w-11/12 text-left truncate">
-                                {currentTag.length ? currentTag.map((item, index) => <span key={index}
-                                                                                           className="ml-2 bg-pink-300/20 dark:bg-blue-300/30 px-2 rounded-lg">{item}</span>)
+                                {tags.length ? tags.map((item, index) => <span key={index}
+                                                                               className="ml-2 bg-pink-300/20 dark:bg-blue-300/30 px-2 rounded-lg">{item}</span>)
                                     : <span className="ml-3">...</span>
                                 }
                             </div>
@@ -82,15 +87,15 @@ const Notes: React.FC<NotesProps> = ({notes}) => {
                         {isTagListShow &&
                             <ul className="absolute dark:ring-white bg-white dark:bg-slate-900 z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-transparent py-1 text-base shadow-lg dark:shadow-white/10 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
                                 tabIndex={-1} role="listbox">
-                                {tagList.length ? tagList.map((item, index) =>
+                                {JSON.parse(tagList).length ? JSON.parse(tagList).map((item, index) =>
                                         <li key={index} onClick={() => {
-                                            currentTag.includes(item) ? setCurrentTag(currentTag.filter((item1) => item1 !== item)) : setCurrentTag([...currentTag, item])
+                                            tags.includes(item) ? setTags(tags.filter((item1) => item1 !== item)) : setTags([...tags, item])
                                         }}
                                             className="relative  hover:bg-pink-200/20 dark:hover:bg-blue-300/30 cursor-default select-none py-2 pl-3 pr-9">
                                             <div className="flex items-center">
                                                 <span className="ml-3 block truncate font-normal">{item}</span>
                                             </div>
-                                            {currentTag.includes(item) &&
+                                            {tags.includes(item) &&
                                                 <span className="absolute inset-y-0 right-0 flex items-center pr-4">
                                                   <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                                       <path
@@ -105,8 +110,25 @@ const Notes: React.FC<NotesProps> = ({notes}) => {
                     </div>
                 </div>
             </div>
-            <NoteList notes={noteList}/>
+            <div>
+                <div className={"my-2"}>内容</div>
+                <Tiptap content={content} onChange={contentChange}/>
+            </div>
+            <div className="flex gap-4 mt-4">
+                <div className={"flex-1"}></div>
+                <Button label={"保存"} onClick={() => {
+                    router.push("/note")
+                }
+                }/>
+                <Button label={"取消"} onClick={() => {
+                    router.push(`/note/${note.id}`)
+                    router.refresh()
+                }}/>
+            </div>
         </div>
-    )
+    );
 }
-export default Notes
+
+export default EditPage
+
+

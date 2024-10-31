@@ -1,16 +1,16 @@
-"use client"
-import ContentPage from "@/app/(frontend)/note/components/ContentPage";
+import ContentPage from "@/app/(frontend)/note/[id]/ContentPage";
+import prisma from "@/prisma/client";
+
 interface Props {
     params: { id: string }
 }
 
-export default function Page({params}: Props) {
-    const note = {
-        id: Number(params.id),
-        title: "Note Title",
-        content: "Note Content",
-        tags: ["tag1", "tag2"]
-    }
+export default async function Page({params}: Props) {
+    const note = await prisma.note.findUnique({
+        where: {
+            id: Number(params.id)
+        }
+    })
     return (
         <ContentPage note={note}/>
     )

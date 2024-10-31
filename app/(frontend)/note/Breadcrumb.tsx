@@ -1,5 +1,4 @@
 import Link from "next/link";
-import {SafeUser} from "@/types";
 
 interface BreadcrumbProps {
     dir: string | undefined
@@ -10,7 +9,7 @@ interface BreadcrumbProps {
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({dir, id, dirMenu, menu}) => {
     return (
-        <ol className="flex flex-wrap text-gray-500 dark:text-gray-300 font-mono items-center gap-1.5 break-words text-sm text-muted-foreground sm:gap-2.5">
+        <ol className="flex flex-wrap text-gray-500 dark:text-gray-300 items-center gap-1.5 break-words text-sm text-muted-foreground sm:gap-2.5">
             {dir ?
                 <>{id ?
                     <>

@@ -11,7 +11,7 @@ interface DevLogProps {
 
 const DevLog: React.FC<DevLogProps> = ({currentUser, list}) => {
     const [isAdd, setIsAdd] = useState(false)
-    const addRef = useRef<HTMLDivElement>(null)
+    const addRef = useRef(null)
     const [logList, setLogList] = useState<{ time: string, content: string }[]>(list)
     const {register, handleSubmit,watch, formState: {errors}, reset} = useForm()
     function getLogList() {

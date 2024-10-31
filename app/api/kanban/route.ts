@@ -6,7 +6,7 @@ import getCurrentUser from "@/app/actions/getCurrentUser";
 export async function GET(request: NextRequest) {
     const {searchParams} = new URL(request.url)
     const id = Number(searchParams.get('id'))
-    if (!id) return NextResponse.json({message: "无用户"}, {status: 200});
+    if (!id) throw new Error('无用户')
     try {
         let events = await prisma.event.findMany({
             where: {
@@ -22,17 +22,17 @@ export async function GET(request: NextRequest) {
                 completed: JSON.parse(item.completed),
             }
         })
-        return NextResponse.json({data}, {status: 200});
+        return NextResponse.json({data});
     } catch (error) {
         // 如果发生错误，返回404
-        return NextResponse.json({message: '查询失败'}, {status: 500});
+        return throw new Error('查询失败')
     }
 }
 
 export async function PUT(request: NextRequest,response: NextResponse) {
     const currentUser = await getCurrentUser()
     if (!currentUser || !currentUser.id) {
-        return NextResponse.json({message: '未登录'}, {status: 200});
+        return throw new Error('未登录')
     }
     try {
         const {events} = await request.json()
@@ -61,18 +61,15 @@ export async function PUT(request: NextRequest,response: NextResponse) {
                 },
             });
         }
-        return NextResponse.json({message: 'ok'}, {status: 200})
+        return NextResponse.json({message: 'ok'})
     } catch (e) {
-        console.error(e)
-        return NextResponse.json({error: '服务器内部错误'}, {status: 500});
+        throw new Error('查询失败')
     }
 }
 
 export async function DELETE(request: NextRequest) {
     const currentUser = await getCurrentUser()
-    if (!currentUser || !currentUser.id) {
-        return NextResponse.json({message: '未登录'}, {status: 200});
-    }
+    if (!currentUser || !currentUser.id) throw new Error('未登录')
     try {
         const {title} = await request.json()
         const deleteEvent = await prisma.event.delete({
@@ -83,9 +80,8 @@ export async function DELETE(request: NextRequest) {
                 }
             }
         })
-        return NextResponse.json({message: 'ok'}, {status: 200})
+        return NextResponse.json({message: 'ok'})
     } catch (e) {
-        console.error(e)
-        return NextResponse.json({error: '服务器内部错误'}, {status: 500});
+        throw new Error('删除失败')
     }
 }

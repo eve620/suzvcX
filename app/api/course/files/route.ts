@@ -6,11 +6,10 @@ export async function GET(request: NextRequest) {
     const folderPath = path.join(process.cwd(), 'app', 'scripts', 'courses');
     try {
         const jsonFiles = fs.readdirSync(folderPath).filter(file => file.endsWith('.json')).map(file => path.parse(file).name);
-
         return NextResponse.json(jsonFiles);
     } catch (error) {
         // 如果发生错误，返回404
-        return NextResponse.json({message: '数据不存在'}, {status: 404});
+        throw new Error("查询失败")
     }
 
 }

@@ -4,7 +4,6 @@ import AddTaskButton from './AddTaskButton';
 import Task from './Task';
 import {Droppable, Draggable} from '@hello-pangea/dnd';
 
-import uuid from 'react-uuid';
 import Modal from "@/app/components/modals/Modal";
 import React, {useEffect, useState} from "react";
 import Input from "@/app/components/Input";
@@ -41,7 +40,7 @@ const Column: React.FC<ColumnProps> = ({tag, currentEvent, events, setEvents}) =
             prev.map((event) => {
                 if (event.title === currentEvent.title) {
                     const taskList = event[tag];
-                    const index = taskList.findIndex((item:any) => item.id === id);
+                    const index = taskList.findIndex((item: any) => item.id === id);
                     taskList.splice(index, 1);
                     return {...event, [tag]: [...taskList]};
                 } else {
@@ -52,7 +51,7 @@ const Column: React.FC<ColumnProps> = ({tag, currentEvent, events, setEvents}) =
     };
     useEffect(() => {
         if (operation === 'EDIT' && currentTaskId !== undefined) {
-            const taskToEdit = events.find((event) => event.title === currentEvent.title)?.[tag]?.find((task:any) => task.id === currentTaskId);
+            const taskToEdit = events.find((event) => event.title === currentEvent.title)?.[tag]?.find((task: any) => task.id === currentTaskId);
             if (taskToEdit) {
                 setNewTaskName(taskToEdit.name);
                 setNewTaskDetail(taskToEdit.details);
@@ -90,7 +89,7 @@ const Column: React.FC<ColumnProps> = ({tag, currentEvent, events, setEvents}) =
                     ...eventCopy,
                     [tag]: [
                         ...eventCopy[tag],
-                        {name: newTaskName.trim(), id: uuid(), details: newTaskDetail.trim()},
+                        {name: newTaskName.trim(), id: crypto.randomUUID(), details: newTaskDetail.trim()},
                     ],
                 });
                 return arrCopy;
@@ -104,7 +103,7 @@ const Column: React.FC<ColumnProps> = ({tag, currentEvent, events, setEvents}) =
                 prev.map((event) => {
                     if (event.title === currentEvent.title) {
                         const taskList = event[tag];
-                        const index = taskList.findIndex((item:any) => item.id === currentTaskId);
+                        const index = taskList.findIndex((item: any) => item.id === currentTaskId);
                         const updatedTask = {
                             ...taskList[index],
                             name: newTaskName.trim(),
@@ -136,7 +135,7 @@ const Column: React.FC<ColumnProps> = ({tag, currentEvent, events, setEvents}) =
                             >
                                 {events
                                     .find((event) => event.title === currentEvent.title)
-                                    ?.[tag].map((item:any, index:number) => (
+                                    ?.[tag].map((item: any, index: number) => (
                                     <Draggable
                                         key={item.id}
                                         draggableId={item.id}

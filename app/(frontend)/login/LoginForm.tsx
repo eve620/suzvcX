@@ -1,20 +1,26 @@
 "use client"
-import {useRouter} from "next/navigation";
-import {useState} from "react";
+import {useRouter, useSearchParams} from "next/navigation";
+import {useEffect, useState} from "react";
 import showMessage from "@/app/components/Message";
 import {signIn} from "next-auth/react";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import Input from "@/app/components/Input";
 import Password from "@/app/components/Password";
 
-export default function LoginForm() {
-    const [isPasswordShow, setIsPasswordShow] = useState(false)
+export default function LoginForm({params}) {
+    const searchParams = useSearchParams().get('redirect');
     // todo：重定向逻辑：修改的时候需要抽离client组件，获取session，如果有session直接重定向
     // todo：未登录不允许查看逻辑：使用next-auth middleware
     const router = useRouter()
     const registerModal = useRegisterModal()
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    useEffect(() => {
+        if (searchParams) {
+            showMessage("请先登录");
+            router.replace('/login');
+        }
+    }, [searchParams, router]);
     const onLogin = async (e: any) => {
         e.preventDefault()
         if (username === "" || password === "") {

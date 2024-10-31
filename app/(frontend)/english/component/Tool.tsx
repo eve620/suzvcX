@@ -158,7 +158,7 @@ const Tool: React.FC<ToolProps> = ({currentCourse, statementIndex, handleCourse,
                                     setShowCourseList(false)
                                 }}
                                 key={index}>
-                                <div className={"font-semibold pl-6 font-mono"}>Lesson {item}</div>
+                                <div className={"font-semibold pl-6"}>Lesson {item}</div>
                             </div>
                         )
                     })}

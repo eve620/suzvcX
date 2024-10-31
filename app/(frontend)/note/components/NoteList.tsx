@@ -13,7 +13,7 @@ const NoteList: React.FC<NoteListProps> = ({notes}: { notes: Note[] }) => {
     return (
         <>
             {notes.length ?
-                <div className="sm:columns-2 sm:gap-6 lg:columns-3 lg:gap-8 mt-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
                     {notes.map((item, index) =>
                         <NoteItem key={index} note={item}/>)
                     }
