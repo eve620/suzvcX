@@ -1,9 +1,4 @@
 #avatar .ant-upload-select {
     width: 200px !important;
     height: 200px !important;
-    overflow: hidden;
-}
-
-#avatar .ant-upload-select:hover {
-    border-color: black !important;
 }

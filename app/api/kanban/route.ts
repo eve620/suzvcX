@@ -6,13 +6,15 @@ import getCurrentUser from "@/app/actions/getCurrentUser";
 export async function GET(request: NextRequest) {
     const {searchParams} = new URL(request.url)
     const id = Number(searchParams.get('id'))
-    if (!id) throw new Error('无用户')
+    console.log(id)
+    if (!id) return NextResponse.error();
     try {
         let events = await prisma.event.findMany({
             where: {
                 createdById: id,
             }
         })
+        console.log(events)
         const data = events.map((item) => {
             return {
                 id: item.id,
@@ -24,19 +26,22 @@ export async function GET(request: NextRequest) {
         })
         return NextResponse.json({data});
     } catch (error) {
-        // 如果发生错误，返回404
-        return throw new Error('查询失败')
+        return NextResponse.error();
     }
 }
 
-export async function PUT(request: NextRequest,response: NextResponse) {
+export async function PUT(request: NextRequest, response: NextResponse) {
     const currentUser = await getCurrentUser()
-    if (!currentUser || !currentUser.id) {
-        return throw new Error('未登录')
-    }
+    if (!currentUser || !currentUser.id) return NextResponse.error();
     try {
         const {events} = await request.json()
+        console.log(events)
         for (const event of events) {
+            console.log(JSON.stringify(event.toDo))
+            console.log(JSON.stringify(event.inProgress))
+            console.log(JSON.stringify(event.completed))
+            console.log(JSON.stringify([]))
+
             const upsertEvent = await prisma.event.upsert({
                 // 设定查找条件，这里使用title作为示例，实际中推荐使用ID
                 where: {
@@ -63,13 +68,13 @@ export async function PUT(request: NextRequest,response: NextResponse) {
         }
         return NextResponse.json({message: 'ok'})
     } catch (e) {
-        throw new Error('查询失败')
+        return NextResponse.error();
     }
 }
 
 export async function DELETE(request: NextRequest) {
     const currentUser = await getCurrentUser()
-    if (!currentUser || !currentUser.id) throw new Error('未登录')
+    if (!currentUser || !currentUser.id) return NextResponse.error();
     try {
         const {title} = await request.json()
         const deleteEvent = await prisma.event.delete({
@@ -82,6 +87,6 @@ export async function DELETE(request: NextRequest) {
         })
         return NextResponse.json({message: 'ok'})
     } catch (e) {
-        throw new Error('删除失败')
+        return NextResponse.error();
     }
 }

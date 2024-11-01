@@ -1,10 +1,5 @@
 #profile .ant-upload-select {
     width: 80px !important;
     height: 80px !important;
-    overflow: hidden;
     border-radius: 9999px;
-}
-
-#profile .ant-upload-select:hover {
-    border-color: black !important;
 }

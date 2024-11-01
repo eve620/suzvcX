@@ -47,3 +47,26 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({message: '添加失败'});
     }
 }
+
+export async function PUT(request: NextRequest) {
+    const currentUser = await getCurrentUser()
+    if (!currentUser) throw new Error('未登录');
+    try {
+        const {id, title, tags, content} = await request.json()
+        const note = await prisma.note.update({
+            where: {
+                id: Number(id)
+            },
+            data: {
+                title,
+                tags,
+                content,
+                createdById: currentUser.id
+            }
+        })
+        return NextResponse.json({message: "编辑成功"});
+    } catch (error) {
+        return NextResponse.json({message: '编辑失败'});
+    }
+}
+

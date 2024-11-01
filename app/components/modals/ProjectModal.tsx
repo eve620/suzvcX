@@ -16,7 +16,7 @@ interface ProjectModalProps {
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
-const getBase64 = (file: FileType): Promise<string> =>
+const getBase64 = (file): Promise<string> =>
     new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -61,7 +61,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({currentUser}) => {
 
     const handlePreview = async (file: UploadFile) => {
         if (!file.url && !file.preview) {
-            file.preview = await getBase64(file.originFileObj as FileType);
+            file.preview = await getBase64(file.originFileObj);
         }
 
         setPreviewImage(file.url || (file.preview as string));
@@ -90,7 +90,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({currentUser}) => {
         })
         const res = await fetch('/api/project', {
             method: 'POST',
-            body: formData
+            body: formData as BodyInit
         })
         if (res.ok) {
             projectModal.onClose()

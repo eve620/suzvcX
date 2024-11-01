@@ -1,5 +1,3 @@
-import plugin from "tailwindcss/plugin";
-
 const config = {
     darkMode: ["class"],
     content: [
@@ -23,6 +21,9 @@ const config = {
                 }
             }),
             colors: {
+                modalSubmit: 'var(--modal-submit)',
+                modalBg: 'var(--modal-background)',
+                contentBg: 'var(--content-background)',
                 background: 'hsl(var(--background))',
                 foreground: 'hsl(var(--foreground))',
                 card: {

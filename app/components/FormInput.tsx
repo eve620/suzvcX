@@ -21,7 +21,7 @@ const FormInput: React.FC<InputProps> = ({
                 className={`
                 text-nowrap
                 text-sm
-                ${errors[id] ? 'text-rose-500' : 'text-zinc-400'}
+                ${errors[id] &&'text-rose-500'}
         `}
             >
                 {label}
@@ -34,9 +34,11 @@ const FormInput: React.FC<InputProps> = ({
                 className={`
           w-5/6
           p-2
-          font 
-          bg-white 
-          border-2
+          font
+          bg-transparent
+          border
+          dark:border-neutral-600
+          dark:focus:border-white
           rounded-md
           outline-none
           transition
@@ -46,7 +48,7 @@ const FormInput: React.FC<InputProps> = ({
           ${errors[id] ? 'focus:border-rose-500' : 'focus:border-black'}
         `}
             />
-            <label className={"absolute right-5 text-sm text-rose-500"}>{errors[id]?.message as string}</label>
+            <label className={"absolute right-8 text-sm text-rose-500"}>{errors[id]?.message as string}</label>
         </div>
         // old input
         // <div className="w-full relative">

@@ -5,6 +5,7 @@ import {useRef, useState} from "react";
 import {useOnClickOutside} from "next/dist/client/components/react-dev-overlay/internal/hooks/use-on-click-outside";
 import Tiptap from "@/app/components/tiptap/Tiptap";
 import showMessage from "@/app/components/Message";
+import {add} from "@hello-pangea/dnd/src/state/position";
 
 export default function Page() {
     const router = useRouter()
@@ -19,7 +20,7 @@ export default function Page() {
         setContent(value)
     }
 
-    async function noteSubmit() {
+    async function addNote() {
         const addNote = await fetch("/api/note", {
             method: "POST",
             body: JSON.stringify({
@@ -29,7 +30,7 @@ export default function Page() {
             })
         })
         if (addNote.ok) {
-            showMessage("ok")
+            showMessage("添加成功")
             router.push('/note')
         }
     }
@@ -122,7 +123,7 @@ export default function Page() {
             <div className="flex gap-4 mt-4">
                 <div className={"flex-1"}></div>
                 <Button label={"保存"} onClick={() => {
-                    noteSubmit()
+                    addNote()
                 }
                 }/>
                 <Button label={"取消"} onClick={() => {

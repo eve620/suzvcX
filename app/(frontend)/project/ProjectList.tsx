@@ -4,7 +4,7 @@ import React, {useState} from "react";
 import showMessage from "@/app/components/Message";
 import Empty from "@/app/components/Empty";
 import {Project} from "@/app/(frontend)/project/page";
-import NoteItem from "@/app/(frontend)/note/components/NoteItem";
+import './antdModal.css'
 
 interface ProjectListProps {
     projectList: Project[]
@@ -32,8 +32,9 @@ const ProjectList: React.FC<ProjectListProps> = ({projectList}) => {
                              rounded-xl
                              shadow-lg
                              duration-200
+                             bg-contentBg
                              transition-shadow
-                             dark:bg-gray-700 dark:hover:shadow-blue-400/40
+                             dark:hover:shadow-blue-400/40
                              hover:shadow-2xl hover:shadow-purple-400/50">
                                 <div className={"flex flex-col p-6"}>
                                     <div className={"flex flex-wrap justify-between text-nowrap"}>
@@ -69,11 +70,11 @@ const ProjectList: React.FC<ProjectListProps> = ({projectList}) => {
                             </div>
                         )
                     })}
-                    <AntdModal open={previewOpen} title={previewTitle} footer={null} width={800} onCancel={() => {
+                    <AntdModal open={previewOpen} title={previewTitle} width={1200} footer={null} onCancel={() => {
                         setPreviewOpen(false)
                     }}>
                         <div className={"pt-8"}>
-                            <img alt="example" className={"w-full"}
+                            <img alt="example" className={"mx-auto max-h-[40em]"}
                                  src={`/storage/project/${images[imageIndex]}`}/>
                             <div className={"flex justify-between pt-3"}>
                                 <button className={"hover:text-fuchsia-400"} onClick={() => {

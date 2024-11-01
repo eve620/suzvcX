@@ -26,7 +26,6 @@
 body {
     @apply
     text-gray-600
-    bg-white
     duration-200
     box-border
 }
@@ -122,7 +121,9 @@ body {
 }
 
 @layer base {
-  :root {
+    :root {
+        --modal-submit: rgb(0, 0, 0);
+        --modal-background: rgb(255, 255, 255);
         --background: 0 0% 100%;
         --foreground: 240 10% 3.9%;
         --card: 0 0% 100%;
@@ -149,7 +150,11 @@ body {
         --chart-5: 27 87% 67%;
         --radius: 0.5rem;
     }
-  .dark {
+
+    .dark {
+        --modal-submit:rgb(55 65 81);
+        --content-background: rgb(55 65 81);
+        --modal-background: rgb(17 24 39);
         --background: 240 10% 3.9%;
         --foreground: 0 0% 98%;
         --card: 240 10% 3.9%;
@@ -175,6 +180,30 @@ body {
         --chart-4: 280 65% 60%;
         --chart-5: 340 75% 55%;
     }
+}
+
+/*重写ant-upload*/
+.ant-upload-select {
+    overflow: hidden;
+}
+
+.dark .ant-upload-select {
+    color: #e0e0e0;
+}
+
+.dark .ant-upload-select:hover {
+    border-color: white !important;
+}
+
+.ant-upload-select:hover {
+    border-color: black !important;
+}
+
+.dark input:-webkit-autofill {
+    -webkit-text-fill-color: white !important;
+    background-color: transparent;
+    transition: background-color 5000s ease-in-out 0s, color 5000s ease-in-out 0s; /* 避免背景颜色瞬间变化 */
+    caret-color: white !important;
 }
 
 /*@layer base {*/

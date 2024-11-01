@@ -6,7 +6,7 @@ import path from "path";
 export async function GET(request: NextRequest) {
     const {searchParams} = new URL(request.url);
     const id = Number(searchParams.get("id"))
-    if (!id) throw new Error('无用户');
+    if (!id) return NextResponse.error();
     try {
         const data = await prisma.project.findMany({
             where: {

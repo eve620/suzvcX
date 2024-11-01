@@ -4,6 +4,7 @@ import {useRouter} from "next/navigation";
 import {useRef, useState} from "react";
 import {useOnClickOutside} from "next/dist/client/components/react-dev-overlay/internal/hooks/use-on-click-outside";
 import Tiptap from "@/app/components/tiptap/Tiptap";
+import showMessage from "@/app/components/Message";
 
 interface EditPageProps {
     note: NoteContent
@@ -28,6 +29,23 @@ const EditPage: React.FC<EditPageProps> = ({note}) => {
     function contentChange(value) {
         setContent(value)
     }
+
+    async function editNote() {
+        const editNote = await fetch("/api/note", {
+            method: "PUT",
+            body: JSON.stringify({
+                id: note.id,
+                title,
+                tags: JSON.stringify(tags),
+                content
+            })
+        })
+        if (editNote.ok) {
+            showMessage("编辑成功")
+            router.push('/note')
+        }
+    }
+
 
     useOnClickOutside(tagRef.current, (event) => {
         setIsTagListShow(false)
@@ -117,7 +135,8 @@ const EditPage: React.FC<EditPageProps> = ({note}) => {
             <div className="flex gap-4 mt-4">
                 <div className={"flex-1"}></div>
                 <Button label={"保存"} onClick={() => {
-                    router.push("/note")
+                    editNote()
+                    router.push(`/note/${note.id}`)
                 }
                 }/>
                 <Button label={"取消"} onClick={() => {

@@ -8,16 +8,17 @@ import type {GetProp, UploadProps} from 'antd';
 import useAvatarModal from "@/app/hooks/useAvatarModal";
 import Image from "next/image";
 import "@/app/components/modals/css/avatarModal.css";
+import AntCrop from "@/app/components/AntCrop";
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
-const getBase64 = (img: FileType, callback: (url: string) => void) => {
+const getBase64 = (img, callback: (url: string) => void) => {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result as string));
     reader.readAsDataURL(img);
 };
 
-const beforeUpload = (file: FileType) => {
+const beforeUpload = (file) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
     if (!isJpgOrPng) {
         console.log('You can only upload JPG/PNG file!');
@@ -52,17 +53,7 @@ const AvatarModal: React.FC = () => {
     const bodyContent = (
         <div className={"flex justify-center h-full items-center"}>
             <div id={"avatar"}>
-                <ImgCrop rotationSlider>
-                    <Upload
-                        name="avatar"
-                        listType="picture-card"
-                        showUploadList={false}
-                        beforeUpload={beforeUpload}
-                        onChange={handleChange}
-                    >
-                        {imageUrl ? <Image src={imageUrl} alt="avatar" width={200} height={200}/> : uploadButton}
-                    </Upload>
-                </ImgCrop>
+                <AntCrop beforeUpload={beforeUpload} handleChange={handleChange} imageUrl={imageUrl}/>
             </div>
         </div>
     )

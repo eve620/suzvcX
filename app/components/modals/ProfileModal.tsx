@@ -3,11 +3,12 @@ import Modal from "@/app/components/modals/Modal";
 import useProfileModal from "@/app/hooks/useProfileModal";
 import {SafeUser} from "@/types";
 import {useForm} from "react-hook-form";
-import { useState} from "react";
+import {useState} from "react";
 import ImgCrop from "antd-img-crop";
 import {GetProp, Upload, UploadProps} from "antd";
 import Image from "next/image";
 import "./css/profileModal.css"
+import AntCrop from "@/app/components/AntCrop";
 
 interface ProfileModalProps {
     currentUser?: SafeUser | null
@@ -15,13 +16,13 @@ interface ProfileModalProps {
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
-const getBase64 = (img: FileType, callback: (url: string) => void) => {
+const getBase64 = (img, callback: (url: string) => void) => {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result as string));
     reader.readAsDataURL(img);
 };
 
-const beforeUpload = (file: FileType) => {
+const beforeUpload = (file) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
     if (!isJpgOrPng) {
         console.log('You can only upload JPG/PNG file!');
@@ -64,21 +65,11 @@ const ProfileModal: React.FC<ProfileModalProps> = ({currentUser}) => {
         </button>
     );
     const bodyContent = (
-        <form className={"space-y-6 pl-6 pr-10 text-black"}>
+        <form className={"space-y-6 pl-6 pr-10"}>
             <div id={"profile"} className={"flex justify-center items-center"}>
                 <label className={"text-sm w-1/5 text-end pr-3 font-bold inline-block"}>头像:</label>
                 <div className={"w-4/5 pl-2"}>
-                    <ImgCrop rotationSlider>
-                        <Upload
-                            name="avatar"
-                            listType="picture-card"
-                            showUploadList={false}
-                            beforeUpload={beforeUpload}
-                            onChange={handleChange}
-                        >
-                            {imageUrl ? <Image src={imageUrl} alt="avatar" width={80} height={80}/> : uploadButton}
-                        </Upload>
-                    </ImgCrop>
+                    <AntCrop beforeUpload={beforeUpload} handleChange={handleChange} imageUrl={imageUrl}/>
                 </div>
             </div>
             <div className={"flex justify-center items-center"}>

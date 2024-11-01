@@ -70,7 +70,7 @@ model Note {
   id          Int      @id @default(autoincrement())
   title       String
   tags        String   @default("[]")
-  content     String   @default("")
+  content     String   @db.Text
   createdById Int
   createdBy   User     @relation(fields: [createdById], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
@@ -80,9 +80,9 @@ model Note {
 model Event {
   id          Int      @id @default(autoincrement())
   title       String
-  toDo        String   @default("[]")
-  inProgress  String   @default("[]")
-  completed   String   @default("[]")
+  toDo        String   @db.Text
+  inProgress  String   @db.Text
+  completed   String   @db.Text
   createdById Int
   createdBy   User     @relation(fields: [createdById], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())

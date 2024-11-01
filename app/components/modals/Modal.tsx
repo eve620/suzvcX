@@ -112,44 +112,13 @@ const Modal: React.FC<ModalProps> = ({
             ${showModal ? 'translate-y-0' : 'translate-y-16'}
             ${showModal ? 'opacity-100' : 'opacity-0'}
           `}>
-                        <div className="
-              translate
-              h-full
-              lg:h-auto
-              md:h-auto
-              border-0 
-              rounded-lg 
-              shadow-lg 
-              relative 
-              flex 
-              flex-col 
-              w-full 
-              bg-white
-              dark:text-gray-600
-              outline-none
-              focus:outline-none
-            "
-                        >
+                        <div className="translateh-fulllg:h-automd:h-autoborder-0
+                        rounded-lg shadow-lg relative flex flex-col w-full
+                        bg-modalBg outline-none focus:outline-none">
                             {/*header*/}
-                            <div className="
-                flex
-                justify-between
-                items-center 
-                p-2
-                rounded-t
-                relative
-                border-b-[1px]
-                "
-                            >
+                            <div className="flex justify-between items-center p-2 rounded-t relative border-b-[1px] dark:border-0">
                                 <button
-                                    className="
-                    py-2
-                    px-5
-                    border-0
-                    hover:opacity-70
-                    transition
-                    left-9
-                  "
+                                    className="py-2 px-5 border-0 hover:opacity-70 transition left-9"
                                     onClick={handleClose}
                                 >
                                     <svg className="icon" viewBox="0 0 1024 1024" width="16" height="16">

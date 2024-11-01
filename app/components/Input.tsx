@@ -1,6 +1,6 @@
 interface InputProps {
     label?: string;
-    type?: "default"|"focus";
+    type?: "default" | "focus";
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
     value?: string;
 }
@@ -9,10 +9,11 @@ const Input: React.FC<InputProps> = ({
                                          onChange,
                                          value,
                                          label,
-                                     type="default"}) => {
+                                         type = "default"
+                                     }) => {
     return (
         <div className="w-full px-5 relative flex items-center justify-between">
-            {type!=="focus"&&<label className={`
+            {type !== "focus" && <label className={`
                 text-nowrap
                 text-sm
                 text-zinc-400`}>
@@ -24,10 +25,10 @@ const Input: React.FC<InputProps> = ({
                 placeholder=""
                 autoComplete="current-password"
                 className={`
-                ${label&&type!=='focus'?"w-5/6":"w-full"}
+                ${label && type !== 'focus' ? "w-5/6" : "w-full"}
                   py-2
                   px-3
-                  ${type==="focus"&&"peer"}
+                  ${type === "focus" && "peer"}
                   text-black
                   bg-white 
                   border-2
@@ -36,7 +37,7 @@ const Input: React.FC<InputProps> = ({
                   transition
                   border-neutral-300
                   focus:border-black`}/>
-            {type==="focus"&&<label
+            {type === "focus" && <label
                 className={`
           absolute     
           text-xs
