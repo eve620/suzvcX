@@ -3,17 +3,12 @@ import Button from "@/app/components/Button";
 import {useRouter} from "next/navigation";
 import {createContext, useState} from "react";
 import Viewer from "@/app/components/tiptap/Viewer";
+import {Note} from ".prisma/client";
 
 interface ContentPageProps {
-    note: NoteContent
+    note: Note
 }
 
-type NoteContent = {
-    id: number,
-    content: string,
-    title: string,
-    tags: string
-}
 const ContentPage: React.FC<ContentPageProps> = ({note}) => {
     const router = useRouter()
     const [tags, setTags] = useState<String[]>(JSON.parse(note.tags))

@@ -7,7 +7,7 @@ import useRegisterModal from "@/app/hooks/useRegisterModal";
 import Input from "@/app/components/Input";
 import Password from "@/app/components/Password";
 
-export default function LoginForm({params}) {
+export default function LoginForm() {
     const searchParams = useSearchParams().get('redirect');
     // todo：重定向逻辑：修改的时候需要抽离client组件，获取session，如果有session直接重定向
     // todo：未登录不允许查看逻辑：使用next-auth middleware
@@ -27,7 +27,7 @@ export default function LoginForm({params}) {
             showMessage("用户名或密码不能为空")
             return
         }
-        const response = await signIn('credentials', {
+        const response: any = await signIn('credentials', {
             name: username,
             password: password,
             redirect: false

@@ -4,7 +4,7 @@ import {useEditor, EditorContent} from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import ToolBar from "@/app/components/tiptap/ToolBar";
 
-const Tiptap = ({content, onChange}) => {
+const Tiptap = ({content, onChange}: { content: string, onChange: any }) => {
     const editor = useEditor({
         extensions: [StarterKit.configure()],
         content: content,

@@ -3,7 +3,7 @@ import Modal from "@/app/components/modals/Modal";
 import useProjectModal from "@/app/hooks/useProjectModal";
 import FormInput from "@/app/components/FormInput";
 import {FieldValues, SubmitHandler, useForm} from "react-hook-form";
-import {GetProp, Modal as AntdModal, Upload, UploadFile, UploadProps} from "antd"
+import {Modal as AntdModal, Upload, UploadFile, UploadProps} from "antd"
 import {useState} from "react";
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
@@ -14,9 +14,7 @@ interface ProjectModalProps {
     currentUser?: SafeUser | null
 }
 
-type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
-
-const getBase64 = (file): Promise<string> =>
+const getBase64 = (file: Blob): Promise<string> =>
     new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -61,7 +59,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({currentUser}) => {
 
     const handlePreview = async (file: UploadFile) => {
         if (!file.url && !file.preview) {
-            file.preview = await getBase64(file.originFileObj);
+            file.preview = await getBase64(file.originFileObj as Blob);
         }
 
         setPreviewImage(file.url || (file.preview as string));
@@ -86,7 +84,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({currentUser}) => {
         formData.append('highlight', data.highlight || "")
         formData.append('createdBy', currentUser.id.toString())
         fileList.forEach((item, index) => {
-            formData.append(`image${index}`, item.originFileObj as FileType)
+            formData.append(`image${index}`, item.originFileObj as Blob)
         })
         const res = await fetch('/api/project', {
             method: 'POST',

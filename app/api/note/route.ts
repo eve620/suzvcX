@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
             // 获取特定 note
             const data = await prisma.note.findUnique({
                 where: {
-                    id,
+                    id: Number(id),
                 }
             });
             return NextResponse.json({data});

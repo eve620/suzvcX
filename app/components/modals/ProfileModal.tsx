@@ -4,9 +4,7 @@ import useProfileModal from "@/app/hooks/useProfileModal";
 import {SafeUser} from "@/types";
 import {useForm} from "react-hook-form";
 import {useState} from "react";
-import ImgCrop from "antd-img-crop";
-import {GetProp, Upload, UploadProps} from "antd";
-import Image from "next/image";
+import {UploadProps} from "antd";
 import "./css/profileModal.css"
 import AntCrop from "@/app/components/AntCrop";
 
@@ -14,15 +12,13 @@ interface ProfileModalProps {
     currentUser?: SafeUser | null
 }
 
-type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
-
-const getBase64 = (img, callback: (url: string) => void) => {
+const getBase64 = (img: Blob, callback: (url: string) => void) => {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result as string));
     reader.readAsDataURL(img);
 };
 
-const beforeUpload = (file) => {
+const beforeUpload = (file: File) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
     if (!isJpgOrPng) {
         console.log('You can only upload JPG/PNG file!');
@@ -44,7 +40,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({currentUser}) => {
         }
         if (info.file.status === 'done') {
             // Get this url from response in real world.
-            getBase64(info.file.originFileObj as FileType, (url) => {
+            getBase64(info.file.originFileObj as Blob, (url) => {
                 setImageUrl(url);
             });
         }

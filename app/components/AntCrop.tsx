@@ -1,7 +1,7 @@
 import ImgCrop from "antd-img-crop";
 import {Upload} from "antd";
 import Image from "next/image";
-const AntCrop = ({beforeUpload, handleChange, imageUrl}) => {
+const AntCrop = ({beforeUpload, handleChange, imageUrl}:any) => {
     const uploadButton = (
         <button style={{border: 0, background: 'none'}} type="button">
             <div style={{marginTop: 8}}>Upload</div>

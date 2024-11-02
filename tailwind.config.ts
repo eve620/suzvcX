@@ -7,7 +7,7 @@ const config = {
     ],
     theme: {
         extend: {
-            typography: (theme) => ({
+            typography: (theme: Record<string, any>) => ({
                 DEFAULT: {
                     css: {
                         maxWidth: 'none',

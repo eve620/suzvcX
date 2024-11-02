@@ -2,23 +2,19 @@
 import Modal from "@/app/components/modals/Modal";
 import {useState} from "react";
 import 'react-image-crop/dist/ReactCrop.css'
-import ImgCrop from "antd-img-crop";
-import {Upload} from "antd";
-import type {GetProp, UploadProps} from 'antd';
+import type {UploadProps} from 'antd';
 import useAvatarModal from "@/app/hooks/useAvatarModal";
-import Image from "next/image";
 import "@/app/components/modals/css/avatarModal.css";
 import AntCrop from "@/app/components/AntCrop";
 
-type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
-const getBase64 = (img, callback: (url: string) => void) => {
+const getBase64 = (img: Blob, callback: (url: string) => void) => {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result as string));
     reader.readAsDataURL(img);
 };
 
-const beforeUpload = (file) => {
+const beforeUpload = (file: File) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
     if (!isJpgOrPng) {
         console.log('You can only upload JPG/PNG file!');
@@ -39,7 +35,7 @@ const AvatarModal: React.FC = () => {
         }
         if (info.file.status === 'done') {
             // Get this url from response in real world.
-            getBase64(info.file.originFileObj as FileType, (url) => {
+            getBase64(info.file.originFileObj as Blob, (url) => {
                 setImageUrl(url);
             });
         }

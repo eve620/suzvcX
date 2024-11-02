@@ -26,7 +26,7 @@ const EditPage: React.FC<EditPageProps> = ({note}) => {
     const [tags, setTags] = useState<String[]>(JSON.parse(note.tags))
     const [content, setContent] = useState(note.content)
 
-    function contentChange(value) {
+    function contentChange(value: string) {
         setContent(value)
     }
 
@@ -105,7 +105,7 @@ const EditPage: React.FC<EditPageProps> = ({note}) => {
                         {isTagListShow &&
                             <ul className="absolute dark:ring-white bg-white dark:bg-slate-900 z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-transparent py-1 text-base shadow-lg dark:shadow-white/10 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
                                 tabIndex={-1} role="listbox">
-                                {JSON.parse(tagList).length ? JSON.parse(tagList).map((item, index) =>
+                                {JSON.parse(tagList).length ? JSON.parse(tagList).map((item: string, index: number) =>
                                         <li key={index} onClick={() => {
                                             tags.includes(item) ? setTags(tags.filter((item1) => item1 !== item)) : setTags([...tags, item])
                                         }}
