@@ -6,8 +6,8 @@ import "./messageBox.css";
 const MessageBox: React.FC = () => {
     const [position, setPosition] = useState({x: 0, y: 0});
     const [isMessageBoxShow, setIsMessageBoxShow] = useState(true);
-    const messageDragRef = useRef<HTMLDivElement>(null);
-    const messageContainerRef = useRef<HTMLDivElement>(null);
+    const messageDragRef = useRef<HTMLDivElement | null>(null);
+    const messageContainerRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
         const handleResize = () => {
@@ -16,9 +16,9 @@ const MessageBox: React.FC = () => {
             const maxBottom = document.documentElement.clientHeight - messageContainerRef.current!.offsetHeight;
             let newX = Math.min(messageContainerRef.current!.getBoundingClientRect().x, maxRight);
             let newY = Math.min(messageContainerRef.current!.getBoundingClientRect().y, maxBottom);
-            setPosition({ x:  newX<0?0:newX, y: newY<0?0:newY  });
+            setPosition({x: newX < 0 ? 0 : newX, y: newY < 0 ? 0 : newY});
         };
-        window.addEventListener('resize',handleResize)
+        window.addEventListener('resize', handleResize)
     }, []);
 
     useEffect(() => {
@@ -46,8 +46,8 @@ const MessageBox: React.FC = () => {
             newY = Math.min(maxBottom, newY);
 
             setPosition({
-                x: newX<0?0:newX,
-                y: newY<0?0:newY ,
+                x: newX < 0 ? 0 : newX,
+                y: newY < 0 ? 0 : newY,
             });
         };
 
@@ -58,13 +58,14 @@ const MessageBox: React.FC = () => {
             document.body.classList.remove('noSelect');
         };
 
-        if (messageDragRef.current) {
-            messageDragRef.current.addEventListener('mousedown', handleMouseDown);
+        const currentMessageDragRef = messageDragRef.current;
+        if (currentMessageDragRef) {
+            currentMessageDragRef.addEventListener('mousedown', handleMouseDown);
         }
 
         return () => {
-            if (messageDragRef.current) {
-                messageDragRef.current.removeEventListener('mousedown', handleMouseDown);
+            if (currentMessageDragRef) {
+                currentMessageDragRef.removeEventListener('mousedown', handleMouseDown);
             }
         };
     }, [position]);
@@ -78,8 +79,14 @@ const MessageBox: React.FC = () => {
             <div
                 ref={messageDragRef}
                 className={"flex justify-end gap-3 bg-gray-200 px-3"}>
-                <button className={"cursor-pointer"} onClick={()=>{setIsMessageBoxShow(false)}}>-</button>
-                <button className={"cursor-pointer"} onClick={()=>{setIsMessageBoxShow(false)}}>x</button>
+                <button className={"cursor-pointer"} onClick={() => {
+                    setIsMessageBoxShow(false)
+                }}>-
+                </button>
+                <button className={"cursor-pointer"} onClick={() => {
+                    setIsMessageBoxShow(false)
+                }}>x
+                </button>
             </div>
             <div className={"p-3"}>聊天框</div>
         </div>

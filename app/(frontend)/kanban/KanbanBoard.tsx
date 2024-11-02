@@ -39,7 +39,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({eventData}) => {
             const timeoutId = setTimeout(() => updateProgress(), 1000);
             return () => clearTimeout(timeoutId);
         }
-    }, [updateProgress, events]);
+    }, [updateProgress, prevLength, events]);
 
     return (
         <div className='App flex-1 min-w-fit'>

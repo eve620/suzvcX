@@ -5,6 +5,7 @@ import showMessage from "@/app/components/Message";
 import Empty from "@/app/components/Empty";
 import {Project} from "@/app/(frontend)/project/page";
 import './antdModal.css'
+import Image from "next/image";
 
 interface ProjectListProps {
     projectList: Project[]
@@ -74,8 +75,9 @@ const ProjectList: React.FC<ProjectListProps> = ({projectList}) => {
                         setPreviewOpen(false)
                     }}>
                         <div className={"pt-8"}>
-                            <img alt="example" className={"mx-auto max-h-[40em]"}
-                                 src={`/storage/project/${images[imageIndex]}`}/>
+                            <Image alt="example" width={10000} height={10000}
+                                   className={"object-contain mx-auto max-h-[40em]"}
+                                   src={`/storage/project/${images[imageIndex]}`}/>
                             <div className={"flex justify-between pt-3"}>
                                 <button className={"hover:text-fuchsia-400"} onClick={() => {
                                     if (imageIndex > 0) setImageIndex(imageIndex - 1)

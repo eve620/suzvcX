@@ -1,7 +1,7 @@
 "use client"
 
 import {SafeUser} from "@/types";
-import {useEffect} from "react";
+import {useCallback, useEffect} from "react";
 import useUserStore from "@/app/hooks/useUserStore";
 
 interface ContainerProps {
@@ -10,12 +10,13 @@ interface ContainerProps {
 }
 
 const ClientContainer: React.FC<ContainerProps> = ({children, currentUser}) => {
-    const useUser = useUserStore()
+    const {setUser} = useUserStore()
+
     useEffect(() => {
         if (currentUser) {
-            useUser.setUser(currentUser)
+            setUser(currentUser)
         }
-    }, [currentUser]);
+    }, [setUser, currentUser]);
     return (
         <div>
             {children}

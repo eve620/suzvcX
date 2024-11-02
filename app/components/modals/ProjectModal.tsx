@@ -9,6 +9,7 @@ import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {SafeUser} from "@/types";
 import {useRouter} from "next/navigation";
+import Image from "next/image";
 
 interface ProjectModalProps {
     currentUser?: SafeUser | null
@@ -122,10 +123,11 @@ const ProjectModal: React.FC<ProjectModalProps> = ({currentUser}) => {
                 >
                     {fileList.length >= 8 ? null : uploadButton}
                 </Upload>
-                <AntdModal open={previewOpen} title={previewTitle} footer={null} onCancel={() => {
+                <AntdModal open={previewOpen} title={previewTitle} footer={null} width={1000} onCancel={() => {
                     setPreviewOpen(false)
                 }}>
-                    <img alt="example" style={{width: '100%'}} className={"hover:hidden"} src={previewImage}/>
+                    <Image width={10000} height={10000} className={'object-contain mx-auto max-h-[40em]'} alt="example"
+                           src={previewImage}/>
                 </AntdModal>
             </>
         </form>

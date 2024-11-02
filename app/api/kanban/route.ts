@@ -6,7 +6,6 @@ import getCurrentUser from "@/app/actions/getCurrentUser";
 export async function GET(request: NextRequest) {
     const {searchParams} = new URL(request.url)
     const id = Number(searchParams.get('id'))
-    console.log(id)
     if (!id) return NextResponse.error();
     try {
         let events = await prisma.event.findMany({
@@ -35,13 +34,7 @@ export async function PUT(request: NextRequest, response: NextResponse) {
     if (!currentUser || !currentUser.id) return NextResponse.error();
     try {
         const {events} = await request.json()
-        console.log(events)
         for (const event of events) {
-            console.log(JSON.stringify(event.toDo))
-            console.log(JSON.stringify(event.inProgress))
-            console.log(JSON.stringify(event.completed))
-            console.log(JSON.stringify([]))
-
             const upsertEvent = await prisma.event.upsert({
                 // 设定查找条件，这里使用title作为示例，实际中推荐使用ID
                 where: {
@@ -77,7 +70,19 @@ export async function DELETE(request: NextRequest) {
     if (!currentUser || !currentUser.id) return NextResponse.error();
     try {
         const {title} = await request.json()
-        const deleteEvent = await prisma.event.delete({
+        const eventToDelete = await prisma.event.findUnique({
+            where: {
+                title_createdById: {
+                    title: title,
+                    createdById: currentUser.id,
+                },
+            },
+        });
+
+        if (!eventToDelete) {
+            return NextResponse.error();
+        }
+        await prisma.event.delete({
             where: {
                 title_createdById: {
                     title: title,
