@@ -4,7 +4,7 @@ import getCurrentUser from "@/app/actions/getCurrentUser";
 
 export async function GET(request: NextRequest) {
     const currentUser = await getCurrentUser()
-    if (!currentUser) throw new Error('未登录');
+    if (!currentUser) return NextResponse.json({error: '未登录'}, {status: 401});
     const {searchParams} = new URL(request.url);
     const id = searchParams.get("id");
     try {
@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
     const currentUser = await getCurrentUser()
-    if (!currentUser) throw new Error('未登录');
+    if (!currentUser) return NextResponse.json({error: '未登录'}, {status: 401});
     try {
         const {title, tags, content} = await request.json()
         const note = await prisma.note.create({
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
     const currentUser = await getCurrentUser()
-    if (!currentUser) throw new Error('未登录');
+    if (!currentUser) return NextResponse.json({error: '未登录'}, {status: 401});
     try {
         const {id, title, tags, content} = await request.json()
         const note = await prisma.note.update({

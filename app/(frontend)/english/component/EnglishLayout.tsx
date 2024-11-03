@@ -28,7 +28,7 @@ const EnglishLayout: React.FC<EnglishLayoutProps> = ({courseData, wordIndex}) =>
 
     useEffect(() => {
         async function updateProgress() {
-            const update = await fetch("http://localhost:3000/api/course/progress", {
+            const update = await fetch("/api/course/progress", {
                 method: "PUT",
                 body: JSON.stringify({
                     course: currentCourse.id,

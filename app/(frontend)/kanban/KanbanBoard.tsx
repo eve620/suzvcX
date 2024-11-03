@@ -16,7 +16,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({eventData}) => {
     const [currentEvent, setCurrentEvent] = useState(events[0] || null);
     const [prevLength, setPrevLength] = useState(events.length);
     const updateProgress = useCallback(async () => {
-        const response = await fetch("http://localhost:3000/api/kanban", {
+        const response = await fetch("/api/kanban", {
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json'

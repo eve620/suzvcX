@@ -20,6 +20,7 @@ model User {
   note      Note[]
   project   Project[]
   progress  Progress?
+  tag       Tag?
 }
 
 enum UserRole {
@@ -89,4 +90,13 @@ model Event {
   updatedAt   DateTime @updatedAt
 
   @@unique([title, createdById])
+}
+
+model Tag {
+  id          Int      @id @default(autoincrement())
+  tags        String   @default("[]") @db.VarChar(1024)
+  createdById Int      @unique
+  createdBy   User     @relation(fields: [createdById], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

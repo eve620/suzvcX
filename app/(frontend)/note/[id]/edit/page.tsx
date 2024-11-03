@@ -1,6 +1,7 @@
 import EditPage from "@/app/(frontend)/note/[id]/edit/EditPage";
 import prisma from "@/prisma/client";
 import EmptyState from "@/app/components/EmptyState";
+import getTagList from "@/app/actions/getTagList";
 
 interface Props {
     params: { id: string }
@@ -15,8 +16,10 @@ export default async function Page({params}: Props) {
     if (!note) {
         return <EmptyState/>
     }
+    const tagList: String[] = await getTagList() || []
+
     return (
-        <EditPage note={note}/>
+        <EditPage tags={tagList} note={note}/>
     );
 }
 

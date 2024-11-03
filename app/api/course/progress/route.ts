@@ -10,10 +10,10 @@ const defaultWordIndex = 0;
 export async function GET(request: NextRequest) {
     const {searchParams} = new URL(request.url)
     const id = Number(searchParams.get("id"))
-    if (!id) throw new Error("无用户")
+    if (!id) return NextResponse.json({error: '未登录'}, {status: 401});
 
     try {
-        let progress = await prisma.progress.findFirst({
+        let progress = await prisma.progress.findUnique({
             where: {
                 createdById: id
             }
@@ -31,13 +31,13 @@ export async function GET(request: NextRequest) {
             progress: progress,
         });
     } catch (e) {
-        throw new Error("查询失败")
+        throw new Error("服务器出错")
     }
 }
 
 export async function PUT(request: NextRequest) {
     const currentUser = await getCurrentUser()
-    if (!currentUser || !currentUser.id) throw new Error("无用户")
+    if (!currentUser || !currentUser.id) return NextResponse.json({error: '未登录'}, {status: 401});
 
     try {
         const {course, wordIndex} = await request.json()
@@ -54,6 +54,6 @@ export async function PUT(request: NextRequest) {
 
         return NextResponse.json(updatedProgress)
     } catch (e) {
-        throw new Error("更新失败")
+        throw new Error("服务器出错")
     }
 }

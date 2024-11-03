@@ -17,6 +17,6 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({id, title: `Lesson ${id}`, statements: JSON.parse(jsonData)});
     } catch (error) {
         // 如果发生错误，返回404
-        throw new Error("查询失败")
+        throw new Error("服务器出错")
     }
 }

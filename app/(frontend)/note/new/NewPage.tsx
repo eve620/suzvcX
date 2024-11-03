@@ -1,48 +1,38 @@
 "use client"
-import Button from "@/app/components/Button";
 import {useRouter} from "next/navigation";
 import {useRef, useState} from "react";
+import showMessage from "@/app/components/Message";
 import {useOnClickOutside} from "next/dist/client/components/react-dev-overlay/internal/hooks/use-on-click-outside";
 import Tiptap from "@/app/components/tiptap/Tiptap";
-import showMessage from "@/app/components/Message";
+import Button from "@/app/components/Button";
 
-interface EditPageProps {
-    tags: string[],
-    note: NoteContent
+interface NewPageProps {
+    tags: string[]
 }
 
-type NoteContent = {
-    id: number,
-    content: string,
-    title: string,
-    tags: string
-}
-const EditPage: React.FC<EditPageProps> = ({tags, note}) => {
-
+const NewPage = ({tags}: NewPageProps) => {
     const router = useRouter()
     const [isTagListShow, setIsTagListShow] = useState(false)
     const tagRef = useRef(null)
-    const [title, setTitle] = useState(note.title)
-    const [currentTags, setCurrentTags] = useState<String[]>(JSON.parse(note.tags))
-    const [content, setContent] = useState(note.content)
+    const [title, setTitle] = useState('')
+    const [currentTags, setCurrentTags] = useState<String[]>(JSON.parse('[]'))
+    const [content, setContent] = useState('')
 
     function contentChange(value: string) {
         setContent(value)
     }
 
-    async function editNote() {
-        const editNote = await fetch("/api/note", {
-            method: "PUT",
+    async function addNote() {
+        const addNote = await fetch("/api/note", {
+            method: "POST",
             body: JSON.stringify({
-                id: note.id,
                 title,
-                tags: JSON.stringify(tags),
+                tags: JSON.stringify(currentTags),
                 content
             })
         })
-        if (editNote.ok) showMessage("编辑成功")
+        if (addNote.ok) showMessage("添加成功")
     }
-
 
     useOnClickOutside(tagRef.current, (event) => {
         setIsTagListShow(false)
@@ -52,7 +42,7 @@ const EditPage: React.FC<EditPageProps> = ({tags, note}) => {
             <div>
                 <span
                     className="flex flex-wrap text-gray-500 dark:text-gray-300 items-center gap-1.5 break-words text-2xl text-muted-foreground sm:gap-2.5">
-                Edit
+                New
                 </span>
             </div>
             <div className={"flex mt-4"}>
@@ -73,7 +63,7 @@ const EditPage: React.FC<EditPageProps> = ({tags, note}) => {
                         className={"flex items-center text-nowrap"}
                     >
                         标签
-                        {tags.length !== 0 &&
+                        {currentTags.length !== 0 &&
                             <svg onClick={() => setCurrentTags([])}
                                  className="h-4 w-4 ml-2 cursor-pointer inline-block align-middle"
                                  viewBox="0 0 1024 1024" fill="currentColor">
@@ -86,8 +76,8 @@ const EditPage: React.FC<EditPageProps> = ({tags, note}) => {
                         <button onClick={() => setIsTagListShow(!isTagListShow)}
                                 className="relative w-full bg-transparent dark:focus:border-white py-1 px-2 mt-1 border-2 rounded-md outline-none disabled:opacity-70 disabled:cursor-n border-neutral-300 focus:border-black">
                             <div className="w-11/12 text-left truncate">
-                                {tags.length ? tags.map((item, index) => <span key={index}
-                                                                               className="ml-2 bg-pink-300/20 dark:bg-blue-300/30 px-2 rounded-lg">{item}</span>)
+                                {currentTags.length ? currentTags.map((item, index) => <span key={index}
+                                                                                             className="ml-2 bg-pink-300/20 dark:bg-blue-300/30 px-2 rounded-lg">{item}</span>)
                                     : <span className="ml-3">...</span>
                                 }
                             </div>
@@ -104,13 +94,13 @@ const EditPage: React.FC<EditPageProps> = ({tags, note}) => {
                                 tabIndex={-1} role="listbox">
                                 {tags.length ? tags.map((item: string, index: number) =>
                                         <li key={index} onClick={() => {
-                                            tags.includes(item) ? setCurrentTags(tags.filter((item1) => item1 !== item)) : setCurrentTags([...currentTags, item])
+                                            currentTags.includes(item) ? setCurrentTags(currentTags.filter((item1) => item1 !== item)) : setCurrentTags([...currentTags, item])
                                         }}
                                             className="relative  hover:bg-pink-200/20 dark:hover:bg-blue-300/30 cursor-default select-none py-2 pl-3 pr-9">
                                             <div className="flex items-center">
                                                 <span className="ml-3 block truncate font-normal">{item}</span>
                                             </div>
-                                            {tags.includes(item) &&
+                                            {currentTags.includes(item) &&
                                                 <span className="absolute inset-y-0 right-0 flex items-center pr-4">
                                                   <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                                       <path
@@ -132,20 +122,17 @@ const EditPage: React.FC<EditPageProps> = ({tags, note}) => {
             <div className="flex gap-4 mt-4">
                 <div className={"flex-1"}></div>
                 <Button label={"保存"} onClick={() => {
-                    editNote()
-                    router.push(`/note/${note.id}`)
+                    addNote()
+                    router.push('/note')
                     router.refresh()
                 }
                 }/>
                 <Button label={"取消"} onClick={() => {
-                    router.push(`/note/${note.id}`)
-                    router.refresh()
+                    router.push("/note")
                 }}/>
             </div>
         </div>
     );
 }
 
-export default EditPage
-
-
+export default NewPage

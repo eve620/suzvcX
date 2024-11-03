@@ -15,7 +15,7 @@ const TaskBox: React.FC<TaskBoxProps> = ({events, setEvents, currentEvent, setCu
     const [isRemove, setIsRemove] = useState(false);
 
     const handleRemove = useCallback(async () => {
-        const removeEvent = await fetch("http://localhost:3000/api/kanban", {
+        const removeEvent = await fetch("/api/kanban", {
             method: "DELETE",
             body: JSON.stringify({title: currentEvent.title}),
         })

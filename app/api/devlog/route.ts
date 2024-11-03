@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({data});
     } catch (error) {
         // 如果发生错误，返回404
-        throw new Error("查询失败")
+        throw new Error("服务器出错")
     }
 }
 
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
         })
         return NextResponse.json({message: "添加成功"});
     } catch (error) {
-        throw new Error("添加失败")
+        throw new Error("服务器出错")
     }
 }
 

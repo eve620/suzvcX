@@ -27,7 +27,7 @@ const FormButton: React.FC<ButtonProps> = ({
         hover:opacity-80
         transition
         w-full
-        'border-black' 
+        text-gray-200
         ${outline ? 'bg-gray-100' : 'bg-modalSubmit'}
         ${outline && 'text-black'}
         ${small ? 'text-sm' : 'text-md'}

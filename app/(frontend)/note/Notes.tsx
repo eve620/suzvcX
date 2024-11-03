@@ -9,13 +9,14 @@ import {Note} from "@/app/(frontend)/note/page";
 
 interface NotesProps {
     notes: Note[]
+    tags: string[]
 }
 
-const Notes: React.FC<NotesProps> = ({notes}) => {
+const Notes: React.FC<NotesProps> = ({notes, tags}) => {
     const tagModal = useTagModal()
     const router = useRouter()
-    const noteList: Note[] = notes
-    const tagList = ["react", 'vue', 'ts', 'js', 'css', 'html', 'java', 'python', 'go', 'c', 'c++', 'c#', 'php', 'ruby', 'swift', 'kotlin', 'dart', 'scala', 'groovy', 'r', 'matlab', 'lua', 'perl', 'bash', 'sql', 'nosql', 'mongodb', 'redis', 'mysql', 'oracle', 'sqlserver', 'postgresql', 'sqlite', 'elasticsearch', 'kafka', 'rabbitmq', 'rocketmq', 'dubbo', 'spring', 'springboot', 'spring']
+    const [noteList, setNoteList] = useState<Note[]>(notes)
+    // const tagList = ["react", 'vue', 'ts', 'js', 'css', 'html', 'java', 'python', 'go', 'c', 'c++', 'c#', 'php', 'ruby', 'swift', 'kotlin', 'dart', 'scala', 'groovy', 'r', 'matlab', 'lua', 'perl', 'bash', 'sql', 'nosql', 'mongodb', 'redis', 'mysql', 'oracle', 'sqlserver', 'postgresql', 'sqlite', 'elasticsearch', 'kafka', 'rabbitmq', 'rocketmq', 'dubbo', 'spring', 'springboot', 'spring']
     const [currentTag, setCurrentTag] = useState<String[]>([])
     const [isTagListShow, setIsTagListShow] = useState(false)
     const tagRef = useRef(null)
@@ -82,7 +83,7 @@ const Notes: React.FC<NotesProps> = ({notes}) => {
                         {isTagListShow &&
                             <ul className="absolute dark:ring-white bg-white dark:bg-slate-900 z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-transparent py-1 text-base shadow-lg dark:shadow-white/10 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
                                 tabIndex={-1} role="listbox">
-                                {tagList.length ? tagList.map((item, index) =>
+                                {tags.length ? tags.map((item, index) =>
                                         <li key={index} onClick={() => {
                                             currentTag.includes(item) ? setCurrentTag(currentTag.filter((item1) => item1 !== item)) : setCurrentTag([...currentTag, item])
                                         }}

@@ -6,7 +6,7 @@ import path from "path";
 export async function GET(request: NextRequest) {
     const {searchParams} = new URL(request.url);
     const id = Number(searchParams.get("id"))
-    if (!id) return NextResponse.error();
+    if (!id) return NextResponse.json({error: '未登录'}, {status: 401});
     try {
         const data = await prisma.project.findMany({
             where: {
@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({data});
     } catch (error) {
         // 如果发生错误，返回404
-        throw new Error('查询失败')
+        throw new Error('服务器出错')
     }
 }
 
@@ -75,6 +75,6 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({message: "添加成功"});
     } catch (error) {
         // 如果发生错误，返回404
-        throw new Error("添加失败")
+        throw new Error("服务器出错")
     }
 }

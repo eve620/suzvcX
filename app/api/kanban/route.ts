@@ -6,7 +6,7 @@ import getCurrentUser from "@/app/actions/getCurrentUser";
 export async function GET(request: NextRequest) {
     const {searchParams} = new URL(request.url)
     const id = Number(searchParams.get('id'))
-    if (!id) return NextResponse.error();
+    if (!id) return NextResponse.json({error: '未登录'}, {status: 401});
     try {
         let events = await prisma.event.findMany({
             where: {
@@ -25,13 +25,13 @@ export async function GET(request: NextRequest) {
         })
         return NextResponse.json({data});
     } catch (error) {
-        return NextResponse.error();
+        throw new Error("服务器出错")
     }
 }
 
 export async function PUT(request: NextRequest, response: NextResponse) {
     const currentUser = await getCurrentUser()
-    if (!currentUser || !currentUser.id) return NextResponse.error();
+    if (!currentUser || !currentUser.id) return NextResponse.json({error: '未登录'}, {status: 401});
     try {
         const {events} = await request.json()
         for (const event of events) {
@@ -61,13 +61,13 @@ export async function PUT(request: NextRequest, response: NextResponse) {
         }
         return NextResponse.json({message: 'ok'})
     } catch (e) {
-        return NextResponse.error();
+        throw new Error("服务器出错")
     }
 }
 
 export async function DELETE(request: NextRequest) {
     const currentUser = await getCurrentUser()
-    if (!currentUser || !currentUser.id) return NextResponse.error();
+    if (!currentUser || !currentUser.id) return NextResponse.json({error: '未登录'}, {status: 401});
     try {
         const {title} = await request.json()
         const eventToDelete = await prisma.event.findUnique({
@@ -80,7 +80,7 @@ export async function DELETE(request: NextRequest) {
         });
 
         if (!eventToDelete) {
-            return NextResponse.error();
+            return NextResponse.json({error: '查询删除项失败'}, {status: 404});
         }
         await prisma.event.delete({
             where: {
@@ -92,6 +92,6 @@ export async function DELETE(request: NextRequest) {
         })
         return NextResponse.json({message: 'ok'})
     } catch (e) {
-        return NextResponse.error();
+        throw new Error("服务器出错")
     }
 }

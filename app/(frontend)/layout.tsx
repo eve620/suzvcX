@@ -20,7 +20,6 @@ export default async function FrontLayout({children}: Readonly<{ children: React
                 <AvatarModal/>
                 <ProfileModal currentUser={currentUser}/>
                 <ProjectModal currentUser={currentUser}/>
-                <TagModal/>
             </ClientContainer>
             <Navbar currentUser={currentUser}/>
             <div className={"h-16 md:h-20"}/>

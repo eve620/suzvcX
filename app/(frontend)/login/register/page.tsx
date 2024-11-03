@@ -24,7 +24,7 @@ export default function RegisterPage() {
         resolver: zodResolver(schema)
     });
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-        const user = await fetch("http://localhost:3000/api/auth/register", {
+        const user = await fetch("/api/auth/register", {
             method: "POST",
             body: JSON.stringify(data)
         })
