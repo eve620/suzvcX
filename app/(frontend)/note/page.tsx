@@ -13,11 +13,11 @@ export type Note = {
 
 export default async function Page() {
     const noteList: Note[] = await getNoteList() || []
-    const tagList: String[] = await getTagList() || []
+    const tagList: string[] = await getTagList() || []
     return (
         <>
             <Notes notes={noteList} tags={tagList}/>
-            <TagModal tags = {tagList}/>
+            <TagModal tags={tagList}/>
         </>
     );
 }

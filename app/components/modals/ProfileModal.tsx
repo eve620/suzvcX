@@ -7,6 +7,8 @@ import {useState} from "react";
 import {UploadProps} from "antd";
 import "./css/profileModal.css"
 import AntCrop from "@/app/components/AntCrop";
+import Button from "@/app/components/Button";
+import FormInput from "@/app/components/FormInput";
 
 interface ProfileModalProps {
     currentUser?: SafeUser | null
@@ -45,10 +47,12 @@ const ProfileModal: React.FC<ProfileModalProps> = ({currentUser}) => {
             });
         }
     };
+
     const {
         register,
         handleSubmit,
-        formState: {errors,}
+        formState: {errors},
+        reset
     } = useForm({
         defaultValues: {
             name: currentUser?.name ?? "",
@@ -62,49 +66,50 @@ const ProfileModal: React.FC<ProfileModalProps> = ({currentUser}) => {
     );
     const bodyContent = (
         <form className={"space-y-6 pl-6 pr-10"}>
-            <div id={"profile"} className={"flex justify-center items-center"}>
-                <label className={"text-sm w-1/5 text-end pr-3 font-bold inline-block"}>头像:</label>
+            <div id={'profile'} className="w-full px-5 relative flex items-center justify-between">
+                <label className={'text-nowrap text-sm'}>
+                    密码
+                </label>
                 <div className={"w-4/5 pl-2"}>
                     <AntCrop beforeUpload={beforeUpload} handleChange={handleChange} imageUrl={imageUrl}/>
                 </div>
             </div>
-            <div className={"flex justify-center items-center"}>
-                <label className={"w-1/5 text-sm text-end pr-3 font-bold inline-block"}>用户名:</label>
-                <input
-                    {...register("name")}
-                    className={" rounded-md w-4/5 px-4 py-2 mt-1 outline outline-1 outline-neutral-300 focus:ring-2 focus:ring-neutral-400 focus:ring-offset-2"}
-                    placeholder={"请输入用户名"}/>
-            </div>
-            <div className={"flex justify-center"}>
-                <label className={"text-sm w-1/5 text-end pr-3 pt-1 font-bold inline-block"}>密码:</label>
-                <div className={"w-4/5"}>
-                    {isChangePassword ? <div className={"flex flex-col gap-2"}>
-                            <input
-                                className={"rounded-md block px-4 py-2 mt-1 outline outline-1 outline-neutral-300 focus:ring-2 focus:ring-neutral-400 focus:ring-offset-2"}
-                                placeholder={"请输入原密码"}/>
-                            <input
-                                className={"rounded-md px-4 py-2 mt-1 outline outline-1 outline-neutral-300 focus:ring-2 focus:ring-neutral-400 focus:ring-offset-2"}
-                                placeholder={"请输入新密码"}/>
-                            <button className={"bg-black text-white text-sm font-bold px-2 py-1 rounded w-16 self-end"}
+            <FormInput label={'用户名'} id={"user"} register={register} errors={errors}/>
+            <div>
+                {isChangePassword ? <div className={"flex flex-col gap-2"}>
+                        <FormInput label={'原密码'} id={"password"} register={register} errors={errors}/>
+                        <FormInput label={'新密码'} id={"oldpassword"} register={register} errors={errors}/>
+                        <div className={'flex justify-end pr-5'}>
+                            <Button label={"取消"} big
                                     onClick={() => {
                                         setIsChangePassword(false)
-                                    }}>取消
-                            </button>
-                        </div> :
-                        <button className={"bg-black text-white text-sm font-bold px-2 py-1 ml-2 rounded"}
-                                onClick={() => {
-                                    setIsChangePassword(true)
-                                }}>修改密码</button>}
-                </div>
-
+                                    }}/>
+                        </div>
+                    </div> :
+                    <div className="w-full px-5 relative flex items-center justify-between">
+                        <label className={`text-nowrap text-sm ${errors[''] && 'text-rose-500'}`}>
+                            描述
+                        </label>
+                        <Button label={"修改密码"} onClick={() => {
+                            setIsChangePassword(true)
+                        }}/>
+                    </div>
+                }
             </div>
-            <div className={"flex justify-center"}>
-                <label className={"text-sm w-1/5 text-end pr-3 pt-2 font-bold inline-block"}>描述:</label>
+            <div className="w-full px-5 relative flex items-center justify-between">
+                <label className={`
+                text-nowrap
+                text-sm
+                ${errors[''] && 'text-rose-500'}`}>
+                    描述
+                </label>
                 <textarea
                     {...register("bio")}
                     maxLength={100}
-                    className={"w-4/5 h-auto min-h-32 max-h-56 rounded-md px-4 py-2 mt-2 outline outline-1 outline-neutral-300 focus:ring-2 focus:ring-neutral-400 focus:ring-offset-2"}
+                    className="w-5/6 p-2 font bg-transparent border dark:border-neutral-600 dark:focus:border-white
+                    rounded-md outline-none transition min-h-28"
                     placeholder={"请输入描述"}/>
+                <label className={"absolute right-8 text-sm text-rose-500"}>{errors['']?.message as string}</label>
             </div>
         </form>
     )

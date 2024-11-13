@@ -34,7 +34,6 @@ const FormInput: React.FC<InputProps> = ({
                 className={`
           w-5/6
           p-2
-          font
           bg-transparent
           border
           dark:border-neutral-600

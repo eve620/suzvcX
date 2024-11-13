@@ -4,6 +4,7 @@ import {useRouter} from "next/navigation";
 import {createContext, useState} from "react";
 import Viewer from "@/app/components/tiptap/Viewer";
 import {Note} from ".prisma/client";
+import showMessage from "@/app/components/Message";
 
 interface ContentPageProps {
     note: Note
@@ -12,6 +13,23 @@ interface ContentPageProps {
 const ContentPage: React.FC<ContentPageProps> = ({note}) => {
     const router = useRouter()
     const [tags, setTags] = useState<String[]>(JSON.parse(note.tags))
+
+    async function deleteNote() {
+        const deleteNote = await fetch('/api/note', {
+            method: "DELETE",
+            body: JSON.stringify({
+                id: note.id
+            })
+        })
+        if (deleteNote.ok) {
+            router.push('/note')
+            router.refresh()
+            showMessage('删除成功')
+        } else {
+            showMessage('删除失败')
+        }
+    }
+
     return (
         <div>
             <div className="flex gap-4">
@@ -32,8 +50,7 @@ const ContentPage: React.FC<ContentPageProps> = ({note}) => {
                 }}/>
                 <Button label={"分享"} onClick={() => {
                 }}/>
-                <Button label={"删除"} type={"outline"} onClick={() => {
-                }}/>
+                <Button label={"删除"} type={"outline"} onClick={deleteNote}/>
                 <Button label={"返回"} type={"outline"} onClick={() => {
                     router.push("/note")
                 }}/>

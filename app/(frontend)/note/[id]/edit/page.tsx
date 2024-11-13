@@ -16,7 +16,7 @@ export default async function Page({params}: Props) {
     if (!note) {
         return <EmptyState/>
     }
-    const tagList: String[] = await getTagList() || []
+    const tagList: string[] = await getTagList() || []
 
     return (
         <EditPage tags={tagList} note={note}/>

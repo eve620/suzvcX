@@ -70,3 +70,20 @@ export async function PUT(request: NextRequest) {
     }
 }
 
+export async function DELETE(request: NextRequest) {
+    const currentUser = await getCurrentUser()
+    if (!currentUser) return NextResponse.json({error: '未登录'}, {status: 401});
+    try {
+        const {id} = await request.json()
+        await prisma.note.delete({
+            where: {
+                id: Number(id)
+            }
+        })
+        return NextResponse.json({message: "删除成功"});
+    } catch (error) {
+        console.log(error)
+        throw new Error("删除错误")
+    }
+}
+
