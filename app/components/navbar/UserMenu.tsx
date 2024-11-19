@@ -27,7 +27,7 @@ const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
                     <div className={"relative nav-button"}
                          onMouseLeave={() => setIsDropdownOpen(false)}
                          onMouseEnter={() => setIsDropdownOpen(true)}>
-                        <p className={"cursor-pointer"}>{currentUser.name}</p>
+                        <p className={"cursor-pointer"}>{currentUser.username}</p>
                         {isDropdownOpen &&
                             <div
                                 className={"absolute right-0 shadow-sm rounded-2xl border dark:border-0 overflow-hidden"}>

@@ -10,7 +10,8 @@ import {signIn} from "next-auth/react";
 import {useRouter} from "next/navigation";
 
 const schema = z.object({
-    name: z.string().min(1, {message: "required"}).max(10, {message: "<=10"}),
+    username: z.string().min(1, {message: "required"}).max(10, {message: "<=10"}),
+    account: z.string().min(1, {message: "required"}).max(10, {message: "<=10"}),
     password: z.string().min(6, {message: ">=6"}).max(16, {message: "<=16"})
 })
 
@@ -23,7 +24,8 @@ const RegisterModal = () => {
         formState: {errors,}
     } = useForm<FieldValues>({
         defaultValues: {
-            name: "",
+            username: "",
+            account: "",
             password: ""
         },
         resolver: zodResolver(schema)
@@ -49,7 +51,8 @@ const RegisterModal = () => {
     }
     const bodyContent = (
         <form className={"space-y-6"}>
-            <FormInput label={"用户名"} id={"name"} register={register} errors={errors}/>
+            <FormInput label={"用户名"} id={"username"} register={register} errors={errors}/>
+            <FormInput label={"账号"} id={"account"} register={register} errors={errors}/>
             <FormInput label={"密码"} id={"password"} register={register} errors={errors}/>
         </form>
     )

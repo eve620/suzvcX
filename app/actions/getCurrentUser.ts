@@ -8,19 +8,20 @@ const getCurrentUser = async () => {
         if (!session?.user?.name) {
             return null;
         }
+
         const currentUser = await prisma.user.findUnique({
             where: {
-                name: session.user.name,
+                account: session.user.name,
             }
         });
 
         if (!currentUser) {
             return null;
         }
-
         return {
             id: currentUser.id,
-            name: currentUser.name,
+            username: currentUser.username,
+            account: currentUser.account,
             bio: currentUser.bio,
             image: currentUser.image,
             role: currentUser.role

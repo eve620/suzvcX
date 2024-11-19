@@ -19,14 +19,14 @@ export default function About() {
                     </div>
                     <div className={""}>
                         <div className="float-left text-black text-center w-52 space-x-2 pt-16">
-                            <span className="tag">#HTML</span>
-                            <span className="tag">#CSS</span>
-                            <span className="tag">#JS</span>
-                            <span className="tag">#JQ</span>
-                            <span className="tag">#bootstrap</span>
-                            <span className="tag">#PR</span>
-                            <span className="tag">#AE</span>
-                            <span className="tag">#Vscode</span>
+                            <span className="tag mb-3">#HTML</span>
+                            <span className="tag mb-3">#CSS</span>
+                            <span className="tag mb-3">#JS</span>
+                            <span className="tag mb-3">#JQ</span>
+                            <span className="tag mb-3">#bootstrap</span>
+                            <span className="tag mb-3">#PR</span>
+                            <span className="tag mb-3">#AE</span>
+                            <span className="tag mb-3">#Vscode</span>
                         </div>
                         <div className="text-xl text-black leading-9 float-left w-[450px] pl-12 pt-5">
                             <p>

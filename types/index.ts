@@ -1,6 +1,7 @@
 export interface SafeUser {
     id: number,
-    name: string,
+    account: string
+    username: string,
     bio: string | null,
     image: string | null,
     role: string

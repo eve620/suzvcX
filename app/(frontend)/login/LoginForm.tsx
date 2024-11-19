@@ -13,7 +13,7 @@ export default function LoginForm() {
     // todo：未登录不允许查看逻辑：使用next-auth middleware
     const router = useRouter()
     const registerModal = useRegisterModal()
-    const [username, setUsername] = useState("")
+    const [account, setAccount] = useState("")
     const [password, setPassword] = useState("")
     useEffect(() => {
         if (searchParams) {
@@ -23,13 +23,13 @@ export default function LoginForm() {
     }, [searchParams, router]);
     const onLogin = async (e: any) => {
         e.preventDefault()
-        if (username === "" || password === "") {
+        if (account === "" || password === "") {
             showMessage("用户名或密码不能为空")
             return
         }
         const response: any = await signIn('credentials', {
-            name: username,
-            password: password,
+            name: account,
+            password,
             redirect: false
         })
         if (!response?.error) {
@@ -50,9 +50,9 @@ export default function LoginForm() {
                         className={"text-amber-600"}>Glog</span></h4>
                     <p className={"mb-4 pl-2 text-black font-bold tracking-wider"}>登录你的账号</p>
                 </div>
-                <Input value={username} onChange={(e) => {
-                    setUsername(e.target.value)
-                }} label={"用户名"} type={"focus"}/>
+                <Input value={account} onChange={(e) => {
+                    setAccount(e.target.value)
+                }} label={"账号"} type={"focus"}/>
                 <Password value={password} onChange={(e) => {
                     setPassword(e.target.value)
                 }}/>
