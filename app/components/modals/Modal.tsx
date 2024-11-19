@@ -115,7 +115,6 @@ const Modal: React.FC<ModalProps> = ({
                         <div className="translateh-fulllg:h-automd:h-autoborder-0
                         rounded-lg shadow-lg relative flex flex-col w-full
                         bg-modalBg outline-none focus:outline-none">
-                            {/*header*/}
                             <div className="flex justify-between items-center p-2 rounded-t relative border-b-[1px] dark:border-0">
                                 <button
                                     className="py-2 px-5 border-0 hover:opacity-70 transition left-9"

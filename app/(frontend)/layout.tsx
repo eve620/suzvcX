@@ -18,8 +18,8 @@ export default async function FrontLayout({children}: Readonly<{ children: React
                 {/*<MessageBox/>*/}
                 <RegisterModal/>
                 <AvatarModal/>
-                <ProfileModal currentUser={currentUser}/>
                 <ProjectModal currentUser={currentUser}/>
+                <ProfileModal currentUser={currentUser}/>
             </ClientContainer>
             <Navbar currentUser={currentUser}/>
             <div className={"h-16 md:h-20"}/>

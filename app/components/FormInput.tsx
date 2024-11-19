@@ -29,7 +29,6 @@ const FormInput: React.FC<InputProps> = ({
             <input
                 id={id}
                 {...register(id)}
-                placeholder=""
                 type={type}
                 className={`
           w-5/6
@@ -49,52 +48,6 @@ const FormInput: React.FC<InputProps> = ({
             />
             <label className={"absolute right-8 text-sm text-rose-500"}>{errors[id]?.message as string}</label>
         </div>
-        // old input
-        // <div className="w-full relative">
-        //     <input
-        //         id={id}
-        //         {...register(id)}
-        //         placeholder=" "
-        //         type={type}
-        //         className={`
-        //   peer
-        //   w-full
-        //   p-4
-        //   pt-6
-        //   font
-        //   bg-white
-        //   border-2
-        //   rounded-md
-        //   outline-none
-        //   transition
-        //   disabled:opacity-70
-        //   disabled:cursor-not-allowed
-        //   ${errors[id] ? 'border-rose-500' : 'border-neutral-300'}
-        //   ${errors[id] ? 'focus:border-rose-500' : 'focus:border-black'}
-        // `}
-        //     />
-        //     <label
-        //         className={`
-        //   absolute
-        //   text-sm
-        //   duration-150
-        //   transform
-        //   -translate-y-3
-        //   top-5
-        //   left-3
-        //   z-10
-        //   origin-[0]
-        //   peer-placeholder-shown:scale-100
-        //   peer-placeholder-shown:translate-y-0
-        //   peer-focus:scale-75
-        //   peer-focus:-translate-y-4
-        //   ${errors[id] ? 'text-rose-500' : 'text-zinc-400'}
-        // `}
-        //     >
-        //         {label}
-        //     </label>
-        //     <label className={"absolute right-5 top-6 text-sm text-rose-500"}>{errors[id]?.message as string}</label>
-        // </div>
     )
 }
 

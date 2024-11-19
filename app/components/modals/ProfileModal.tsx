@@ -59,57 +59,50 @@ const ProfileModal: React.FC<ProfileModalProps> = ({currentUser}) => {
             bio: currentUser?.bio ?? "",
         }
     })
-    const uploadButton = (
-        <button style={{border: 0, background: 'none'}} type="button">
-            <div style={{marginTop: 8}}>Upload</div>
-        </button>
-    );
     const bodyContent = (
         <form className={"space-y-6 pl-6 pr-10"}>
             <div id={'profile'} className="w-full px-5 relative flex items-center justify-between">
                 <label className={'text-nowrap text-sm'}>
-                    密码
+                    头像
                 </label>
-                <div className={"w-4/5 pl-2"}>
+                <div className={"w-5/6 flex justify-center"}>
                     <AntCrop beforeUpload={beforeUpload} handleChange={handleChange} imageUrl={imageUrl}/>
                 </div>
             </div>
             <FormInput label={'用户名'} id={"user"} register={register} errors={errors}/>
-            <div>
-                {isChangePassword ? <div className={"flex flex-col gap-2"}>
-                        <FormInput label={'原密码'} id={"password"} register={register} errors={errors}/>
-                        <FormInput label={'新密码'} id={"oldpassword"} register={register} errors={errors}/>
-                        <div className={'flex justify-end pr-5'}>
-                            <Button label={"取消"} big
-                                    onClick={() => {
-                                        setIsChangePassword(false)
-                                    }}/>
-                        </div>
-                    </div> :
-                    <div className="w-full px-5 relative flex items-center justify-between">
-                        <label className={`text-nowrap text-sm ${errors[''] && 'text-rose-500'}`}>
-                            描述
-                        </label>
-                        <Button label={"修改密码"} onClick={() => {
-                            setIsChangePassword(true)
-                        }}/>
+            {isChangePassword ? <div className={"flex flex-col space-y-6"}>
+                    <FormInput label={'原密码'} id={"password"} register={register} errors={errors}/>
+                    <FormInput label={'新密码'} id={"oldpassword"} register={register} errors={errors}/>
+                    <div className={'flex justify-end pr-5'}>
+                        <Button label={"取消"} big
+                                onClick={() => {
+                                    setIsChangePassword(false)
+                                }}/>
                     </div>
-                }
-            </div>
+                </div> :
+                <div className="w-full px-5 relative flex items-center justify-between">
+                    <label className={`text-nowrap text-sm ${errors[''] && 'text-rose-500'}`}>
+                        密码
+                    </label>
+                    <Button label={"修改密码"} onClick={() => {
+                        setIsChangePassword(true)
+                    }}/>
+                </div>
+            }
             <div className="w-full px-5 relative flex items-center justify-between">
                 <label className={`
                 text-nowrap
                 text-sm
-                ${errors[''] && 'text-rose-500'}`}>
+                ${errors['describe'] && 'text-rose-500'}`}>
                     描述
                 </label>
                 <textarea
-                    {...register("bio")}
+                    {...register('describe')}
                     maxLength={100}
                     className="w-5/6 p-2 font bg-transparent border dark:border-neutral-600 dark:focus:border-white
-                    rounded-md outline-none transition min-h-28"
+                    rounded-md outline-none transition min-h-28 max-h-52"
                     placeholder={"请输入描述"}/>
-                <label className={"absolute right-8 text-sm text-rose-500"}>{errors['']?.message as string}</label>
+                <label className={"absolute right-8 text-sm text-rose-500"}>{errors['describe']?.message as string}</label>
             </div>
         </form>
     )

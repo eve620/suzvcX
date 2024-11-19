@@ -15,8 +15,8 @@ interface QuestionProps {
 function Question({word: {chinese, english, soundmark}, failedCount, handleFailedCount, handleAnswer}: QuestionProps) {
     const [inputValue, setInputValue] = useState("");
     const failedCountLimit = 3;
-    const audioRef = useRef<HTMLAudioElement>(null);
-    const inputRef = useRef<HTMLInputElement>(null);
+    const audioRef = useRef<HTMLAudioElement | null>(null);
+    const inputRef = useRef<HTMLInputElement | null>(null);
     const words = english.split(" ");
     const [inputWords, setInputWords] = useState<string[]>([""])
     const tipAudioRef = useRef<HTMLAudioElement | null>(null)
@@ -89,7 +89,7 @@ function Question({word: {chinese, english, soundmark}, failedCount, handleFaile
     useEffect(() => {
         setInputValue("")
         if (inputRef.current) {
-            inputRef.current.focus();
+            inputRef.current!.focus();
         }
     }, [chinese, english, soundmark]);
 
@@ -113,9 +113,9 @@ function Question({word: {chinese, english, soundmark}, failedCount, handleFaile
         if (validateInput(event.target.value)) {
             setInputValue(event.target.value);
             tipAudioRef.current = new Audio()
-            tipAudioRef.current.src = "/sounds/typing.mp3"
-            tipAudioRef.current.load()
-            tipAudioRef.current.play()
+            tipAudioRef.current!.src = "/sounds/typing.mp3"
+            tipAudioRef.current!.load()
+            tipAudioRef.current!.play()
         }
     };
     const handlePlayClick = async () => {
@@ -130,16 +130,16 @@ function Question({word: {chinese, english, soundmark}, failedCount, handleFaile
         if (event.key === "Enter") {
             if (inputValue.toLowerCase() === english.toLowerCase()) {
                 tipAudioRef.current = new Audio()
-                tipAudioRef.current.src = "/sounds/right.mp3"
-                tipAudioRef.current.load()
-                tipAudioRef.current.play()
+                tipAudioRef.current!.src = "/sounds/right.mp3"
+                tipAudioRef.current!.load()
+                tipAudioRef.current!.play()
                 handleAnswer()
             } else {
                 setInputValue("")
                 tipAudioRef.current = new Audio()
-                tipAudioRef.current.src = "/sounds/error.mp3"
-                tipAudioRef.current.load()
-                tipAudioRef.current.play()
+                tipAudioRef.current!.src = "/sounds/error.mp3"
+                tipAudioRef.current!.load()
+                tipAudioRef.current!.play()
                 handleFailedCount()
             }
         }
@@ -171,7 +171,7 @@ function Question({word: {chinese, english, soundmark}, failedCount, handleFaile
                        onKeyDown={handleKeyDown}
                        onMouseDown={(event) => {
                            event.preventDefault()
-                           inputRef.current && inputRef.current.focus()
+                           inputRef.current && inputRef.current!.focus()
                        }}
                        ref={inputRef}
                        className={"absolute h-full w-full opacity-0"}

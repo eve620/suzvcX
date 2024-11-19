@@ -6,6 +6,7 @@ import Empty from "@/app/components/Empty";
 import {Project} from "@/app/(frontend)/project/page";
 import './antdModal.css'
 import Image from "next/image";
+import useProjectModal from "@/app/hooks/useProjectModal";
 
 interface ProjectListProps {
     projectList: Project[]
@@ -16,10 +17,12 @@ const ProjectList: React.FC<ProjectListProps> = ({projectList}) => {
     const [previewTitle, setPreviewTitle] = useState('');
     const [images, setImages] = useState<string[]>([""])
     const [imageIndex, setImageIndex] = useState(0)
+    const projectModal = useProjectModal()
     const showImages = (images: string[]) => {
         setImages(images)
         setPreviewOpen(true)
     }
+    //todo:添加编辑项目的功能
     return (
         <>
             {projectList.length ?
@@ -27,6 +30,10 @@ const ProjectList: React.FC<ProjectListProps> = ({projectList}) => {
                     {projectList.map(item => {
                         return (
                             <div key={item.id}
+                                 onClick={() => {
+                                     projectModal.setProject(item)
+                                     projectModal.onOpen()
+                                 }}
                                  className="
                              mb-8
                              sm:break-inside-avoid
@@ -46,7 +53,7 @@ const ProjectList: React.FC<ProjectListProps> = ({projectList}) => {
                                     <div className={"mt-4 w-full"}>
                                         {JSON.parse(item.stacks).map((stack: string, index: number) => {
                                             return (
-                                                <span className={"tag mr-2 inline-block text-wrap"}
+                                                <span className={"tag mb-3 mr-2 inline-block text-wrap"}
                                                       key={index}>{stack}</span>)
                                         })}
                                     </div>
@@ -59,7 +66,8 @@ const ProjectList: React.FC<ProjectListProps> = ({projectList}) => {
                                     <div className={"my-4"}/>
                                     <div className={"flex justify-between text-xs"}>
                                         <p className={"text-gray-400"}>{item.startTime + "-" + item.endTime}</p>
-                                        <p className={"text-blue-500 cursor-pointer"} onClick={() => {
+                                        <p className={"text-blue-500 cursor-pointer"} onClick={(e) => {
+                                            e.stopPropagation()
                                             if (!JSON.parse(item.imageUrl).length) {
                                                 showMessage("无图片")
                                                 return
@@ -79,12 +87,12 @@ const ProjectList: React.FC<ProjectListProps> = ({projectList}) => {
                                    className={"object-contain mx-auto max-h-[40em]"}
                                    src={`/storage/project/${images[imageIndex]}`}/>
                             <div className={"flex justify-between pt-3"}>
-                                <button className={"hover:text-fuchsia-400"} onClick={() => {
-                                    if (imageIndex > 0) setImageIndex(imageIndex - 1)
-                                    else setImageIndex(images.length - 1)
-                                }}>
+                                <button className={"hover:text-fuchsia-400 dark:hover:text-fuchsia-300 dark:text-white"}
+                                        onClick={() => {
+                                            if (imageIndex > 0) setImageIndex(imageIndex - 1)
+                                            else setImageIndex(images.length - 1)
+                                        }}>
                                     <svg
-                                        xmlns="http://www.w3.org/2000/svg"
                                         width="2em"
                                         height="2em"
                                         viewBox="0 0 24 24"
@@ -109,12 +117,12 @@ const ProjectList: React.FC<ProjectListProps> = ({projectList}) => {
                                                  key={index}/>)
                                     })}
                                 </div>
-                                <button className={"hover:text-fuchsia-400"} onClick={() => {
-                                    if (imageIndex < images.length - 1) setImageIndex(imageIndex + 1)
-                                    else setImageIndex(0)
-                                }}>
+                                <button className={"hover:text-fuchsia-400 dark:hover:text-fuchsia-300 dark:text-white"}
+                                        onClick={() => {
+                                            if (imageIndex < images.length - 1) setImageIndex(imageIndex + 1)
+                                            else setImageIndex(0)
+                                        }}>
                                     <svg
-                                        xmlns="http://www.w3.org/2000/svg"
                                         width="2em"
                                         height="2em"
                                         viewBox="0 0 24 24"
