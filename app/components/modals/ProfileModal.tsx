@@ -94,7 +94,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({currentUser}) => {
     const onSave: SubmitHandler<FieldValues> = async (data) => {
         const save = await fetch("http://localhost:3000/api/auth/user", {
             method: "PUT",
-            body: JSON.stringify(data)
+            body: JSON.stringify({...data, base64Image: imageUrl})
         })
         const message = await save.json()
         if (save.ok) {
@@ -122,7 +122,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({currentUser}) => {
         <form className={"space-y-6 pl-6 pr-10"}>
             <div id={'profile'} className="w-full px-5 relative flex items-center justify-between">
                 <label className={'text-nowrap text-sm'}>
-                    头像
+                    新头像
                 </label>
                 <div className={"w-5/6 flex justify-center"}>
                     <AntCrop beforeUpload={beforeUpload} handleChange={handleChange} imageUrl={imageUrl}/>

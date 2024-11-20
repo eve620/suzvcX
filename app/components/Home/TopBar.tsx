@@ -10,7 +10,7 @@ const TopBar: React.FC = () => {
     };
     return (
         <>
-            <span>About Glog ，My one project</span>
+            <span>About Glog ，My own project</span>
             <span onClick={scrollToAbout}
                   className="mt-4 block rounded-lg bg-white px-5 py-3
                       text-center text-sm font-medium text-purple-600 transition

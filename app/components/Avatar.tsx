@@ -1,15 +1,15 @@
 import Image from "next/image";
 import useAvatarModal from "@/app/hooks/useAvatarModal";
 
-const defaultAvatar = "/avatar.jpg"
-const getAvatar = (avatar?: string) => {
-    if (avatar != undefined && avatar.length == 0) {
-        return avatar
+const defaultAvatar = "/storage/avatar/avatar.jpg"
+const getAvatar = (avatar: string) => {
+    if (avatar) {
+        return `/storage/avatar/${avatar}`
     }
     return defaultAvatar
 }
 
-const Avatar = (props: { avatar?: string }) => {
+const Avatar = (props: { avatar: string }) => {
     const avatarModal = useAvatarModal()
     return (
         <div

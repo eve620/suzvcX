@@ -23,7 +23,7 @@ const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
         <div>
             {currentUser ?
                 <div className={"flex items-center"}>
-                    <Avatar/>
+                    <Avatar avatar={currentUser.image || ''}/>
                     <div className={"relative nav-button"}
                          onMouseLeave={() => setIsDropdownOpen(false)}
                          onMouseEnter={() => setIsDropdownOpen(true)}>
@@ -38,7 +38,6 @@ const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
                                 }}/>}
                                 <MenuItem label={"退出"} onClick={() => {
                                     signOut({redirect: false}).then(() => {
-                                        console.log(useUser.user)
                                         setIsDropdownOpen(false)
                                         useUser.clearUser
                                         router.refresh()
