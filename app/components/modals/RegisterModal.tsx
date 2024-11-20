@@ -32,7 +32,8 @@ const RegisterModal = () => {
     });
     // 注册并登录
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-        const user = await fetch("http://localhost:3000/api/auth/register", {
+        const user = await fetch("http://localhost:3000/api/auth/user"
+            , {
             method: "POST",
             body: JSON.stringify(data)
         })

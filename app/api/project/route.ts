@@ -74,8 +74,6 @@ export async function PUT(request: NextRequest) {
         } = extractFormData(formData);
         const id = Number(formData.get("id"))
         const uploadedImage = JSON.parse(formData.get("uploadedImage") as string);
-        console.log(11111111)
-        console.log(uploadedImage)
         if (id == undefined) {
             return NextResponse.json({message: "缺少项目ID"}, {status: 400});
         }

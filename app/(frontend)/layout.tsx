@@ -11,7 +11,6 @@ import TagModal from "@/app/components/modals/TagModal";
 
 export default async function FrontLayout({children}: Readonly<{ children: React.ReactNode; }>) {
     const currentUser = await getCurrentUser()
-
     return (
         <div className={"flex flex-col min-h-screen"}>
             <ClientContainer currentUser={currentUser}>
