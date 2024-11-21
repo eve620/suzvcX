@@ -2,11 +2,13 @@ import {useRef, useState} from "react";
 
 interface PasswordProps {
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
     value?: string;
 }
 
 const Password: React.FC<PasswordProps> = ({
                                                onChange,
+                                               onKeyDown,
                                                value
                                            }) => {
     const [isPasswordShow, setIsPasswordShow] = useState(false)
@@ -29,6 +31,7 @@ const Password: React.FC<PasswordProps> = ({
                 ref={passwordRef}
                 type={`${isPasswordShow ? "text" : "password"}`}
                 onChange={onChange}
+                onKeyDown={onKeyDown}
                 value={value}
                 autoComplete="current-password"
                 placeholder=""

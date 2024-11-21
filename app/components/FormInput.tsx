@@ -1,4 +1,4 @@
-import {FieldErrors, FieldValues, UseFormRegister} from "react-hook-form";
+import {FieldErrors, UseFormRegister} from "react-hook-form";
 
 interface InputProps {
     id: string;
@@ -32,6 +32,11 @@ const FormInput: React.FC<InputProps> = ({
                 disabled={disabled}
                 id={id}
                 {...register(id)}
+                onKeyDown={(e) => {
+                    if (e.key === " ") {
+                        e.preventDefault();
+                    }
+                }}
                 type={type}
                 className={`
           w-5/6

@@ -10,9 +10,15 @@ import {signIn} from "next-auth/react";
 import {useRouter} from "next/navigation";
 
 const schema = z.object({
-    username: z.string().min(1, {message: "required"}).max(10, {message: "<=10"}),
-    account: z.string().min(1, {message: "required"}).max(10, {message: "<=10"}),
-    password: z.string().min(6, {message: ">=6"}).max(16, {message: "<=16"})
+    username: z.string()
+        .min(1, {message: "请输入用户名"})
+        .max(10, {message: "用户名长度需小于10位"})
+        .regex(/^[^\s<>{}\[\]]+$/, {message: "用户名不能包含特殊符号"}),
+    account: z.string()
+        .min(1, {message: "请输入账号"})
+        .max(12, {message: "账号长度需小于12位"})
+        .regex(/^[a-zA-Z0-9]+$/, {message: "账号只能包含字母和数字"}),
+    password: z.string().min(6, {message: "密码需大于6位"}).max(16, {message: "密码需小于16位"})
 })
 
 const RegisterModal = () => {
@@ -21,7 +27,8 @@ const RegisterModal = () => {
     const {
         register,
         handleSubmit,
-        formState: {errors,}
+        formState: {errors},
+        reset
     } = useForm<FieldValues>({
         defaultValues: {
             username: "",
@@ -62,7 +69,10 @@ const RegisterModal = () => {
         </form>
     )
     return (<Modal isOpen={registerModal.isOpen}
-                   onClose={registerModal.onClose}
+                   onClose={() => {
+                       registerModal.onClose()
+                       reset()
+                   }}
                    onSubmit={handleSubmit(onSubmit)}
                    body={bodyContent}
                    actionLabel={"注册"}/>

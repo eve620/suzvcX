@@ -55,6 +55,11 @@ export default function LoginForm() {
                 }} label={"账号"} type={"focus"}/>
                 <Password value={password} onChange={(e) => {
                     setPassword(e.target.value)
+                }} onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                        e.preventDefault();
+                        onLogin(e)
+                    }
                 }}/>
                 <div className={"self-end pt-6 pr-8"}>
                     <button onClick={onLogin}

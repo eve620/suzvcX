@@ -4,7 +4,7 @@ import useProjectModal from "@/app/hooks/useProjectModal";
 import FormInput from "@/app/components/FormInput";
 import {FieldValues, SubmitHandler, useForm} from "react-hook-form";
 import {Modal as AntdModal, Upload, UploadFile, UploadProps} from "antd"
-import {useEffect, useMemo, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {SafeUser} from "@/types";
@@ -172,6 +172,11 @@ const ProjectModal: React.FC<ProjectModalProps> = ({currentUser}) => {
                         </div>}
                     <div className={'flex gap-3 items-center'}>
                         <input value={newStack}
+                               onKeyDown={(e) => {
+                                   if (e.key === " ") {
+                                       e.preventDefault();
+                                   }
+                               }}
                                className={'px-2 py-1 bg-transparent rounded-md outline-none border dark:border-neutral-600 dark:focus:border-white transition'}
                                onChange={(e) => setNewStack(e.target.value)}/>
                         <Button label={'添加'} onClick={() => {
