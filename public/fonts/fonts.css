@@ -1,0 +1,63 @@
+/*字体*/
+@font-face {
+    font-family: "Noto Sans SC";
+    src: url('/fonts/noto/NotoSansSC-Thin.ttf') format('truetype');
+    font-weight: 100; /* Regular */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Noto Sans SC";
+    src: url('/fonts/noto/NotoSansSC-ExtraLight.ttf') format('truetype');
+    font-weight: 200; /* Regular */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Noto Sans SC";
+    src: url('/fonts/noto/NotoSansSC-Light.ttf') format('truetype');
+    font-weight: 300; /* Regular */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Noto Sans SC";
+    src: url('/fonts/noto/NotoSansSC-Regular.ttf') format('truetype');
+    font-weight: 400; /* Regular */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Noto Sans SC";
+    src: url('/fonts/noto/NotoSansSC-Medium.ttf') format('truetype');
+    font-weight: 500; /* Regular */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Noto Sans SC";
+    src: url('/fonts/noto/NotoSansSC-SemiBold.ttf') format('truetype');
+    font-weight: 600; /* Regular */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Noto Sans SC";
+    src: url('/fonts/noto/NotoSansSC-Bold.ttf') format('truetype');
+    font-weight: 700; /* Regular */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Noto Sans SC";
+    src: url('/fonts/noto/NotoSansSC-ExtraLight.ttf') format('truetype');
+    font-weight: 800; /* Regular */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Noto Sans SC";
+    src: url('/fonts/noto/NotoSansSC.ttf') format('truetype');
+    font-weight: 900; /* Regular */
+    font-style: normal;
+}

@@ -6,6 +6,8 @@ import type {UploadProps} from 'antd';
 import useAvatarModal from "@/app/hooks/useAvatarModal";
 import "@/app/components/modals/css/avatarModal.css";
 import AntCrop from "@/app/components/AntCrop";
+import showMessage from "@/app/components/Message";
+import {useRouter} from "next/navigation";
 
 
 const getBase64 = (img: Blob, callback: (url: string) => void) => {
@@ -28,24 +30,38 @@ const beforeUpload = (file: File) => {
 const AvatarModal: React.FC = () => {
     const [imageUrl, setImageUrl] = useState<string>();
     const avatarModal = useAvatarModal()
+    const router = useRouter()
     const handleChange: UploadProps['onChange'] = (info) => {
         if (info.file.status === 'uploading') {
-            console.log(info.file.originFileObj)
             return;
         }
         if (info.file.status === 'done') {
-            // Get this url from response in real world.
             getBase64(info.file.originFileObj as Blob, (url) => {
                 setImageUrl(url);
             });
         }
     };
 
-    const uploadButton = (
-        <button style={{border: 0, background: 'none'}} type="button">
-            <div style={{marginTop: 8}}>Upload</div>
-        </button>
-    );
+    const onChangeAvatar = async () => {
+        if (!imageUrl) {
+            avatarModal.onClose()
+            return
+        }
+        const save = await fetch("http://localhost:3000/api/auth/user/avatar", {
+            method: "PUT",
+            body: JSON.stringify({base64Image: imageUrl})
+        })
+        const message = await save.json()
+        if (save.ok) {
+            console.log(message)
+            showMessage(message.message)
+            avatarModal.onClose()
+            setImageUrl("")
+            router.refresh()
+        } else {
+            showMessage(message.error)
+        }
+    };
     const bodyContent = (
         <div className={"flex justify-center h-full items-center"}>
             <div id={"avatar"}>
@@ -59,10 +75,7 @@ const AvatarModal: React.FC = () => {
                    avatarModal.onClose()
                    setImageUrl("")
                }}
-               onSubmit={() => {
-                   avatarModal.onClose()
-                   setImageUrl("")
-               }}
+               onSubmit={onChangeAvatar}
                body={bodyContent}
                actionLabel={"保存"}/>
     )

@@ -8,7 +8,7 @@ export default function About() {
                 "bg-gradient-to-r from-purple-600 to-gray-200 dark:from-purple-600 dark:to-gray-100 m-4"}>关于我</h2>
             <div className={"w-full flex-1"}>
                 <div className={"w-[44rem] h-[28rem] bg-white relative rounded-3xl overflow-hidden shadow-2xl"}>
-                    <Image src="/avatar.jpg" width={160} height={160} alt={"avatar"}
+                    <Image src="/storage/avatar/avatar1.jpg" width={160} height={160} alt={"avatar"}
                            className={"rounded-full absolute top-32 left-9 border-8 border-white z-10 shadow-2xl"}/>
                     <div className={"head"}>
                         <div className="absolute top-28 left-72 text-white leading-10">

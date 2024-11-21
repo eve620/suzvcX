@@ -1,7 +1,7 @@
 import Image from "next/image";
 import useAvatarModal from "@/app/hooks/useAvatarModal";
 
-const defaultAvatar = "/storage/avatar/avatar.jpg"
+const defaultAvatar = "/storage/avatar/avatar.png"
 const getAvatar = (avatar: string) => {
     if (avatar) {
         return `/storage/avatar/${avatar}`

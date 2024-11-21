@@ -5,7 +5,7 @@ const Guide: React.FC = () => {
     return (
         <>
             <div className="overflow-hidden">
-                <Image className={"mx-auto mt-2 rounded-md"} width={150} height={150} src={"/avatar.jpg"}
+                <Image className={"mx-auto mt-2 rounded-md"} width={150} height={150} src={"/storage/avatar/avatar1.jpg"}
                        alt={"picture"}/>
                 <span className={"text-3xl leading-loose inline-block"}>Why aren’t you good at English?</span>
                 <span

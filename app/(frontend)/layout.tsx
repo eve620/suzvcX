@@ -6,8 +6,6 @@ import ClientContainer from "@/app/components/ClientContainer";
 import AvatarModal from "@/app/components/modals/AvatarModal";
 import ProfileModal from "@/app/components/modals/ProfileModal";
 import ProjectModal from "@/app/components/modals/ProjectModal";
-import MessageBox from "@/app/components/messagebox/MessageBox";
-import TagModal from "@/app/components/modals/TagModal";
 
 export default async function FrontLayout({children}: Readonly<{ children: React.ReactNode; }>) {
     const currentUser = await getCurrentUser()

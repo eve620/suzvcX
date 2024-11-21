@@ -11,6 +11,18 @@ export default async function RootLayout({children}: Readonly<{
 }>) {
     return (
         <html lang="en">
+        <head>
+            {/* 预加载字体 CSS */}
+            <link
+                rel="preload"
+                href="/fonts/fonts.css"
+                as="style"
+            />
+            <link
+                rel="stylesheet"
+                href="/fonts/fonts.css"
+            />
+        </head>
         <body>
         {children}
         </body>

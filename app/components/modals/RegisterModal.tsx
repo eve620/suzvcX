@@ -34,20 +34,24 @@ const RegisterModal = () => {
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         const user = await fetch("http://localhost:3000/api/auth/user"
             , {
-            method: "POST",
-            body: JSON.stringify(data)
-        })
+                method: "POST",
+                body: JSON.stringify(data)
+            })
         if (user.ok) {
             showMessage("注册成功")
             registerModal.onClose()
-        }
-        const response = await signIn('credentials', {
-            ...data,
-            redirect: false
-        })
-        if (!response?.error) {
-            router.push("/")
-            router.refresh()
+            const response = await signIn('credentials', {
+                name: data.account,
+                password: data.password,
+                redirect: false
+            })
+            if (!response?.error) {
+                router.push("/")
+                router.refresh()
+            }
+        } else {
+            const message = await user.json()
+            showMessage(message.error)
         }
     }
     const bodyContent = (

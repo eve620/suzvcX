@@ -4,8 +4,6 @@ import {compare, hash} from "bcrypt"
 import fs from "fs";
 import path from "path";
 
-const UPLOAD_DIR = path.join(__dirname, "../../../../..", "/public/storage/avatar");
-
 export async function POST(request: NextRequest) {
     try {
         const {username, account, password} = await request.json()
@@ -15,7 +13,7 @@ export async function POST(request: NextRequest) {
                 account
             }
         })
-        if (user) return NextResponse.json({error: "该账号已存在"}, {status: 400})
+        if (user) return NextResponse.json({error: "该账号已存在"}, {status: 409})
         // 创建新用户
         const hashedPassword = await hash(password, 10);
         const newUser = await prisma.user.create({
@@ -34,14 +32,12 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
     try {
         const {username, account, oldPassword, newPassword, bio, base64Image} = await request.json()
-        let fileName = null
         // 判断是否存在
         const user = await prisma.user.findUnique({
-            where: {
-                account
-            }
+            where: {account}
         })
         if (!user) return NextResponse.json({error: "账号不存在"}, {status: 400})
+        let fileName = user.image
         if (base64Image) {
             if (user.image) {
                 const deleteFilePath = path.join(process.cwd(), 'public', 'storage', 'avatar', user.image);
