@@ -53,7 +53,6 @@ const AvatarModal: React.FC = () => {
         })
         const message = await save.json()
         if (save.ok) {
-            console.log(message)
             showMessage(message.message)
             avatarModal.onClose()
             setImageUrl("")

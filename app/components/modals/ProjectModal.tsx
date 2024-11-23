@@ -11,7 +11,20 @@ import {SafeUser} from "@/types";
 import {useRouter} from "next/navigation";
 import Image from "next/image";
 import showMessage from "@/app/components/Message";
-import Button from "@/app/components/Button";
+import MyButton from "@/app/components/MyButton";
+import * as React from "react"
+import {Button} from "@/components/ui/button"
+import {format} from "date-fns"
+import {Calendar as CalendarIcon, Upload as UploadIcon} from "lucide-react"
+import {DateRange} from "react-day-picker"
+import {Calendar} from "@/components/ui/calendar"
+import {zhCN} from "date-fns/locale";
+import {cn} from "@/lib/utils";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
 
 interface ProjectModalProps {
     currentUser?: SafeUser | null
@@ -28,8 +41,6 @@ const getBase64 = (file: Blob): Promise<string> =>
 const schema = z.object({
     title: z.string(),
     job: z.string(),
-    startTime: z.string().regex(/^\d{4}\.\d{1,2}$/, {message: '时间格式必须为YYYY.M'}),
-    endTime: z.string().regex(/^\d{4}\.\d{1,2}$/, {message: '时间格式必须为YYYY.M'}),
     describe: z.string(),
     highlight: z.string(),
 })
@@ -43,22 +54,32 @@ const ProjectModal: React.FC<ProjectModalProps> = ({currentUser}) => {
         formState: {errors},
         reset
     } = useForm({
+        defaultValues: {
+            title: projectModal.curProject?.title || ''
+        },
         resolver: zodResolver(schema)
     })
     const [stacks, setStacks] = useState([])
     const [newStack, setNewStack] = useState('')
+    const [isRemove, setIsRemove] = useState(false)
+    const [previewOpen, setPreviewOpen] = useState(false);
+    const [previewImage, setPreviewImage] = useState('');
+    const [previewTitle, setPreviewTitle] = useState('');
+    const [fileList, setFileList] = useState<UploadFile[]>([]);
+    const [date, setDate] = React.useState<DateRange | undefined>()
 
-    // 使用 useEffect 来处理数据加载并更新表单的默认值
     useEffect(() => {
         reset({
             title: projectModal.curProject?.title || '',
             job: projectModal.curProject?.job || '',
-            startTime: projectModal.curProject?.startTime || '',
-            endTime: projectModal.curProject?.endTime || '',
             describe: projectModal.curProject?.describe || '',
             highlight: projectModal.curProject?.highlight || '',
         })
         if (projectModal.curProject) {
+            setDate({
+                from: projectModal.curProject.startTime ? new Date(projectModal.curProject.startTime) : undefined,
+                to: projectModal.curProject.endTime ? new Date(projectModal.curProject.endTime) : undefined
+            })
             setStacks(JSON.parse(projectModal.curProject?.stacks))
             let exist = JSON.parse(projectModal.curProject?.imageUrl).map(item => {
                 const parts = item.split("_", 1);
@@ -75,10 +96,23 @@ const ProjectModal: React.FC<ProjectModalProps> = ({currentUser}) => {
         }
     }, [projectModal.curProject, reset])
 
-    const [previewOpen, setPreviewOpen] = useState(false);
-    const [previewImage, setPreviewImage] = useState('');
-    const [previewTitle, setPreviewTitle] = useState('');
-    const [fileList, setFileList] = useState<UploadFile[]>([]);
+    const handleRemove = async () => {
+        if (projectModal.curProject && projectModal.curProject.id) {
+            const remove = await fetch("api/project", {
+                method: "DELETE",
+                body: projectModal.curProject.id,
+            })
+            if (remove.ok) {
+                showMessage("删除成功")
+            } else {
+                showMessage("删除失败")
+            }
+            initData()
+            projectModal.onClose()
+            router.refresh()
+        }
+        setIsRemove(false)
+    }
     const handlePreview = async (file: UploadFile) => {
         if (!file.url && !file.preview) {
             file.preview = await getBase64(file.originFileObj as Blob);
@@ -92,9 +126,14 @@ const ProjectModal: React.FC<ProjectModalProps> = ({currentUser}) => {
     const handleChange: UploadProps['onChange'] = ({file, fileList: newFileList}) => {
         setFileList(newFileList);
     }
-
+    const initData = () => {
+        reset()
+        setDate(undefined)
+        setFileList([])
+        setStacks([])
+        setNewStack('')
+    }
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-        // @ts-ignore
         if (!currentUser) {
             showMessage('未登录')
             return
@@ -103,11 +142,15 @@ const ProjectModal: React.FC<ProjectModalProps> = ({currentUser}) => {
         formData.append('title', data.title || "")
         formData.append('job', data.job || "")
         formData.append('stacks', JSON.stringify(stacks || []))
-        formData.append('startTime', data.startTime || "")
-        formData.append('endTime', data.endTime || "")
         formData.append('describe', data.describe || "")
         formData.append('highlight', data.highlight || "")
         formData.append('createdBy', currentUser.id.toString())
+        if (date?.from) {
+            formData.append("startTime", date.from.toISOString()); // 开始日期
+        }
+        if (date?.to) {
+            formData.append("endTime", date.to.toISOString()); // 结束日期
+        }
         let uploaderImage = []
         fileList.forEach((item, index) => {
             if (item.originFileObj) {
@@ -134,24 +177,59 @@ const ProjectModal: React.FC<ProjectModalProps> = ({currentUser}) => {
         }
 
         if (res.ok) {
-            projectModal.onClose()
-            reset()
-            setFileList([])
             router.refresh()
+            projectModal.onClose()
+            initData()
         }
 
     }
-
-    const uploadButton = (
-        <button style={{border: 0, background: 'none'}} type="button">
-            <div style={{marginTop: 8}}>Upload</div>
-        </button>
-    );
     const bodyContent = (
         <form className={"space-y-3"}>
             <FormInput id={"title"} label={"标题"} register={register} errors={errors}/>
-            <FormInput id={"startTime"} label={"开始时间"} register={register} errors={errors}/>
-            <FormInput id={"endTime"} label={"结束时间"} register={register} errors={errors}/>
+            <div className="w-full px-5 relative flex items-center justify-between">
+                <label
+                    className="text-nowrap text-sm"
+                >
+                    时间
+                </label>
+                <Popover>
+                    <PopoverTrigger asChild>
+                        <Button
+                            id="date"
+                            variant={"outline"}
+                            className={cn(
+                                "w-5/6 h-10 justify-start text-left font-normal bg-transparent border border-gray-300 dark:border-neutral-600",
+                                !date && "text-muted-foreground"
+                            )}
+                        >
+                            <CalendarIcon className="mr-2 h-4 w-4"/>
+                            {date?.from ? (
+                                date.to ? (
+                                    <>
+                                        {format(date.from, "yyyy年MM月dd日", {locale: zhCN})} -{" "}
+                                        {format(date.to, "yyyy年MM月dd日", {locale: zhCN})}
+                                    </>
+                                ) : (
+                                    format(date.from, "yyyy年MM月dd日", {locale: zhCN})
+                                )
+                            ) : (
+                                <span>请选择日期...</span>
+                            )}
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0 dark:border-neutral-700 dark:bg-slate-950" align="start">
+                        <Calendar
+                            locale={zhCN}
+                            initialFocus
+                            mode="range"
+                            defaultMonth={date?.from}
+                            selected={date}
+                            onSelect={setDate}
+                            numberOfMonths={2}
+                        />
+                    </PopoverContent>
+                </Popover>
+            </div>
             <FormInput id={"job"} label={"职责"} register={register} errors={errors}/>
             <div className="w-full px-5 relative flex items-center justify-between">
                 <label className={'text-nowrap text-sm'}>
@@ -162,7 +240,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({currentUser}) => {
                         <div
                             className={'border-neutral-300 flex flex-wrap gap-2 p-2 mb-2 bg-transparent border dark:border-neutral-600 rounded-md outline-none transition'}>
                             {stacks.map((item, index) => {
-                                return <span onClick={() => {
+                                return <span key={index} onClick={() => {
                                     const newStacks = [...stacks];
                                     newStacks.splice(index, 1);
                                     setStacks(newStacks)
@@ -179,7 +257,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({currentUser}) => {
                                }}
                                className={'px-2 py-1 bg-transparent rounded-md outline-none border dark:border-neutral-600 dark:focus:border-white transition'}
                                onChange={(e) => setNewStack(e.target.value)}/>
-                        <Button label={'添加'} onClick={() => {
+                        <MyButton label={'添加'} onClick={() => {
                             if (newStack.trim().length === 0) {
                                 showMessage('不能为空')
                                 setNewStack('')
@@ -203,7 +281,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({currentUser}) => {
                     {...register('describe')}
                     maxLength={100}
                     className="w-5/6 p-2 font bg-transparent border dark:border-neutral-600 dark:focus:border-white
-                    rounded-md outline-none transition min-h-20 max-h-42"
+                    rounded-md outline-none transition min-h-[4.5em] max-h-28"
                     placeholder={"请输入描述"}/>
                 <label
                     className={"absolute right-8 text-sm text-rose-500"}>{errors['describe']?.message as string}</label>
@@ -219,7 +297,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({currentUser}) => {
                     {...register('highlight')}
                     maxLength={100}
                     className="w-5/6 p-2 font bg-transparent border dark:border-neutral-600 dark:focus:border-white
-                    rounded-md outline-none transition min-h-20 max-h-42"
+                    rounded-md outline-none transition min-h-[4.5em] max-h-28"
                     placeholder={"请输入亮点"}/>
                 <label
                     className={"absolute right-8 text-sm text-rose-500"}>{errors['describe']?.message as string}</label>
@@ -229,9 +307,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({currentUser}) => {
                 fileList={fileList}
                 onPreview={handlePreview}
                 onChange={handleChange}
-                accept="image/*"
-            >
-                {fileList.length >= 8 ? null : uploadButton}
+                accept="image/*">
+                {fileList.length >= 8 ? null : <UploadIcon className={'text-neutral-500 dark:text-gray-200'}/>}
             </Upload>
             <AntdModal open={previewOpen} title={previewTitle} footer={null} width={1000} onCancel={() => {
                 setPreviewOpen(false)
@@ -242,17 +319,25 @@ const ProjectModal: React.FC<ProjectModalProps> = ({currentUser}) => {
         </form>
     )
     return (
-        <Modal isOpen={projectModal.isOpen}
-               onClose={() => {
-                   reset()
-                   projectModal.onClose()
-                   setFileList([])
-                   setStacks([])
-                   setNewStack('')
-               }}
-               onSubmit={handleSubmit(onSubmit)}
-               body={bodyContent}
-               actionLabel={"保存"}/>
+        <>
+            <Modal isOpen={projectModal.isOpen}
+                   onClose={() => {
+                       projectModal.onClose()
+                       initData()
+                   }}
+                   secondaryActionLabel={'删除'}
+                   secondaryAction={() => {
+                       setIsRemove(true)
+                   }}
+                   onSubmit={handleSubmit(onSubmit)}
+                   body={bodyContent}
+                   actionLabel={"保存"}/>
+            <Modal little title={"确定删除吗？"} isOpen={isRemove} secondaryAction={() => {
+                setIsRemove(false)
+            }} secondaryActionLabel={"取消"} onClose={() => {
+                setIsRemove(false)
+            }} onSubmit={handleRemove} actionLabel={"确认"}/>
+        </>
     )
 }
 

@@ -8,6 +8,7 @@ interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
     onSubmit: () => void;
+    little?: boolean,
     title?: string;
     body?: React.ReactElement;
     footer?: React.ReactElement;
@@ -21,6 +22,7 @@ const Modal: React.FC<ModalProps> = ({
                                          isOpen,
                                          onClose,
                                          onSubmit,
+                                         little,
                                          title,
                                          body,
                                          actionLabel,
@@ -67,102 +69,62 @@ const Modal: React.FC<ModalProps> = ({
     }
 
     return (
-        <>
+        <div className={`items-center flex overflow-x-hidden overflow-y-auto fixed inset-0
+        z-40 outline-none focus:outline-none bg-neutral-800/90 duration-300
+          ${showModal ? 'opacity-100' : 'opacity-0'}`} onMouseDown={handleClose}>
             <div
-                className={`
-          justify-center 
-          items-center
-          flex 
-          overflow-x-hidden 
-          overflow-y-auto 
-          fixed 
-          inset-0 
-          z-40
-          outline-none 
-          focus:outline-none
-          bg-neutral-800/90
-          duration-300
-          ${showModal ? 'opacity-100' : 'opacity-0'}
-        `}
-                onMouseDown={() => {
-                    handleClose()
-                }}
-            >
-                <div className="
-          relative 
-          w-full
-          md:w-2/3
-          lg:w-1/2
-          xl:w-1/3
-          my-6
-          mx-auto 
-          h-full 
-          lg:h-auto
-          md:h-auto
-          "
-                     onMouseDown={(event) => {
-                         event.stopPropagation()
-                     }}
-                >
-                    {/*content*/}
-                    <div className={`
-            translate
-            duration-300
-            h-full
+                className={`relative w-full ${little ? 'w-3/4 md:w-2/5 lg:w-2/5 xl:w-1/4' : 'md:w-2/3 lg:w-1/2 xl:w-1/3'} my-6 mx-auto lg:h-auto md:h-auto`}
+                onMouseDown={(event) => {
+                    event.stopPropagation()
+                }}>
+                {/*content*/}
+                <div className={`translate duration-300 h-full
             ${showModal ? 'translate-y-0' : 'translate-y-16'}
-            ${showModal ? 'opacity-100' : 'opacity-0'}
-          `}>
-                        <div className="translateh-fulllg:h-automd:h-autoborder-0
+            ${showModal ? 'opacity-100' : 'opacity-0'}`}>
+                    <div className="translate h-full lg:h-auto md:h-auto border-0
                         rounded-lg shadow-lg relative flex flex-col w-full
                         bg-modalBg outline-none focus:outline-none">
-                            <div className="flex justify-between items-center p-2 rounded-t relative border-b-[1px] dark:border-0">
-                                <button
-                                    className="py-2 px-5 border-0 hover:opacity-70 transition left-9"
-                                    onClick={handleClose}
-                                >
-                                    <svg className="icon" viewBox="0 0 1024 1024" width="16" height="16">
-                                        <path
-                                            d="M563.8 512l262.5-312.9c4.4-5.2 0.7-13.1-6.1-13.1h-79.8c-4.7 0-9.2 2.1-12.3 5.7L511.6 449.8 295.1 191.7c-3-3.6-7.5-5.7-12.3-5.7H203c-6.8 0-10.5 7.9-6.1 13.1L459.4 512 196.9 824.9c-4.4 5.2-0.7 13.1 6.1 13.1h79.8c4.7 0 9.2-2.1 12.3-5.7l216.5-258.1 216.5 258.1c3 3.6 7.5 5.7 12.3 5.7h79.8c6.8 0 10.5-7.9 6.1-13.1L563.8 512z"
-                                            fill="#707070"></path>
-                                    </svg>
-                                </button>
-                                <div className=" font-semibold italic">
-                                    {title}
-                                </div>
-                                <div className={"w-12"}/>
+                        <div
+                            className="flex justify-between items-center p-2 rounded-t relative border-b-[1px] dark:border-0">
+                            <button
+                                className="py-2 px-5 border-0 hover:opacity-70 transition left-9"
+                                onClick={handleClose}>
+                                <svg className="icon" viewBox="0 0 1024 1024" width="16" height="16">
+                                    <path
+                                        d="M563.8 512l262.5-312.9c4.4-5.2 0.7-13.1-6.1-13.1h-79.8c-4.7 0-9.2 2.1-12.3 5.7L511.6 449.8 295.1 191.7c-3-3.6-7.5-5.7-12.3-5.7H203c-6.8 0-10.5 7.9-6.1 13.1L459.4 512 196.9 824.9c-4.4 5.2-0.7 13.1 6.1 13.1h79.8c4.7 0 9.2-2.1 12.3-5.7l216.5-258.1 216.5 258.1c3 3.6 7.5 5.7 12.3 5.7h79.8c6.8 0 10.5-7.9 6.1-13.1L563.8 512z"
+                                        fill="#707070"></path>
+                                </svg>
+                            </button>
+                            <div className=" font-semibold italic">
+                                {title}
                             </div>
-                            {/*body*/}
-                            <div className="relative p-5 flex-auto">
-                                {body}
-                            </div>
-                            {/*footer*/}
-                            <div className="flex flex-col gap-2 p-5 pt-0">
-                                <div className="flex
-                                 items-center
-                                 gap-4
-                                 w-full"
-                                >
-                                    {secondaryAction && secondaryActionLabel && (
-                                        <FormButton
-                                            disabled={disabled}
-                                            label={secondaryActionLabel}
-                                            onClick={handleSecondaryAction}
-                                            outline
-                                        />
-                                    )}
+                            <div className={"w-12"}/>
+                        </div>
+                        {/*body*/}
+                        <div className="relative p-5 flex-auto">
+                            {body}
+                        </div>
+                        {/*footer*/}
+                        <div className="flex flex-col gap-2 p-5 pt-0">
+                            <div className="flex items-center gap-4 w-full">
+                                {secondaryAction && secondaryActionLabel && (
                                     <FormButton
                                         disabled={disabled}
-                                        label={actionLabel}
-                                        onClick={handleSubmit}
-                                    />
-                                </div>
-                                {footer}
+                                        label={secondaryActionLabel}
+                                        onClick={handleSecondaryAction}
+                                        outline/>
+                                )}
+                                <FormButton
+                                    disabled={disabled}
+                                    label={actionLabel}
+                                    onClick={handleSubmit}/>
                             </div>
+                            {footer}
                         </div>
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 }
 

@@ -20,8 +20,8 @@ const TaskBox: React.FC<TaskBoxProps> = ({events, setEvents, currentEvent, setCu
             body: JSON.stringify({title: currentEvent.title}),
         })
         if (removeEvent.ok) {
-            setEvents((prev:any) => {
-                const result = prev.filter((item:any) => item.title != currentEvent.title);
+            setEvents((prev: any) => {
+                const result = prev.filter((item: any) => item.title != currentEvent.title);
                 if (result.length) {
                     setCurrentEvent(result[0]);
                 }
@@ -37,8 +37,8 @@ const TaskBox: React.FC<TaskBoxProps> = ({events, setEvents, currentEvent, setCu
         const curEvent = events.find((item) => item.title === currentEvent.title);
         if (!curEvent) return;
         const taskCopy = curEvent[source.droppableId][source.index];
-        setEvents((prev:any) =>
-            prev.map((event:any) => {
+        setEvents((prev: any) =>
+            prev.map((event: any) => {
                 if (event.title === currentEvent.title) {
                     let eventCopy = {...event};
                     // Remove from source
@@ -85,7 +85,7 @@ const TaskBox: React.FC<TaskBoxProps> = ({events, setEvents, currentEvent, setCu
                     </div>
                 </DragDropContext>
             </div>
-            <Modal title={"确定删除吗？"} isOpen={isRemove} secondaryAction={() => {
+            <Modal little title={"确定删除吗？"} isOpen={isRemove} secondaryAction={() => {
                 setIsRemove(false)
             }} secondaryActionLabel={"取消"} onClose={() => {
                 setIsRemove(false)

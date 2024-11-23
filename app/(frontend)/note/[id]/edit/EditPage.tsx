@@ -1,5 +1,5 @@
 "use client"
-import Button from "@/app/components/Button";
+import MyButton from "@/app/components/MyButton";
 import {useRouter} from "next/navigation";
 import {useRef, useState} from "react";
 import {useOnClickOutside} from "next/dist/client/components/react-dev-overlay/internal/hooks/use-on-click-outside";
@@ -131,13 +131,13 @@ const EditPage: React.FC<EditPageProps> = ({tags, note}) => {
             </div>
             <div className="flex gap-4 mt-4">
                 <div className={"flex-1"}></div>
-                <Button label={"保存"} onClick={() => {
+                <MyButton label={"保存"} onClick={() => {
                     editNote()
                     router.push(`/note/${note.id}`)
                     router.refresh()
                 }
                 }/>
-                <Button label={"取消"} onClick={() => {
+                <MyButton label={"取消"} onClick={() => {
                     router.push(`/note/${note.id}`)
                     router.refresh()
                 }}/>

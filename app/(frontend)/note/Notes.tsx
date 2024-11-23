@@ -1,5 +1,5 @@
 "use client"
-import Button from "@/app/components/Button";
+import MyButton from "@/app/components/MyButton";
 import {useRouter} from "next/navigation";
 import {useRef, useState} from "react";
 import {useOnClickOutside} from "next/dist/client/components/react-dev-overlay/internal/hooks/use-on-click-outside";
@@ -29,11 +29,11 @@ const Notes: React.FC<NotesProps> = ({notes, tags}) => {
                 <span
                     className="flex flex-wrap text-gray-500 dark:text-gray-300 items-center gap-1.5 break-words text-2xl text-muted-foreground sm:gap-2.5">Home</span>
                 <div className={"flex-1"}></div>
-                <Button label={"添加笔记"} onClick={() => {
+                <MyButton label={"添加笔记"} onClick={() => {
                     router.push("/note/new")
                 }
                 }/>
-                <Button label={"编辑标签"} onClick={() => {
+                <MyButton label={"编辑标签"} onClick={() => {
                     tagModal.onOpen()
                 }}/>
             </div>

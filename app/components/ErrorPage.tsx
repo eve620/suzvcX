@@ -1,7 +1,7 @@
 'use client' // ErrorPage components must be Client Components
 
 import {useEffect} from 'react'
-import Button from "@/app/components/Button";
+import MyButton from "@/app/components/MyButton";
 import {useRouter} from "next/navigation";
 
 export default function ErrorPage({error}: {
@@ -34,7 +34,7 @@ export default function ErrorPage({error}: {
                     {"Something went wrong!"}
                 </div>
             </div>
-            <Button
+            <MyButton
                 label="点击返回首页"
                 onClick={() => router.push('/')}
             />

@@ -1,9 +1,9 @@
 import {NextRequest, NextResponse} from "next/server";
 import prisma from "@/prisma/client";
-import {compare, hash} from "bcrypt"
 import fs from "fs";
 import path from "path";
 import getCurrentUser from "@/app/actions/getCurrentUser";
+import {saveBase64Image} from "@/app/api/auth/user/utils";
 
 const AVATAR_DIR = path.join(process.cwd(), 'public', 'storage', 'avatar');
 
@@ -12,7 +12,6 @@ export async function PUT(request: NextRequest) {
         const currentUser = await getCurrentUser()
         if (!currentUser) return NextResponse.json({error: "未登录"}, {status: 400})
         const {base64Image} = await request.json()
-        let fileName = null
         if (base64Image) {
             if (currentUser.image) {
                 const deleteFilePath = path.join(AVATAR_DIR, currentUser.image);
@@ -27,17 +26,7 @@ export async function PUT(request: NextRequest) {
             if (!matches) {
                 return NextResponse.json({error: '无效的图片'}, {status: 400});
             }
-            const mimeType = matches[1];
-            const extension = mimeType.split('/')[1];
-            const base64Data = base64Image.replace(/^data:image\/\w+;base64,/, '');
-            const buffer = Buffer.from(base64Data, 'base64');
-            fileName = `${Date.now()}.${extension}`;
-            const filePath = path.join(AVATAR_DIR, fileName);
-            fs.writeFile(filePath, buffer, (err) => {
-                if (err) {
-                    return NextResponse.json({error: '头像存储错误'}, {status: 500});
-                }
-            });
+            const fileName = await saveBase64Image(base64Image)
             await prisma.user.update({
                 where: {account: currentUser.account},
                 data: {image: fileName}
@@ -46,6 +35,6 @@ export async function PUT(request: NextRequest) {
         }
         return NextResponse.json({error: "无效头像"}, {status: 400})
     } catch (e) {
-        return NextResponse.json({error: '服务器内部错误'}, {status: 500});
+        throw new Error("服务器出错")
     }
 }

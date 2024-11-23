@@ -3,6 +3,7 @@ import prisma from "@/prisma/client";
 import {compare, hash} from "bcrypt"
 import fs from "fs";
 import path from "path";
+import {saveBase64Image} from "@/app/api/auth/user/utils";
 
 export async function POST(request: NextRequest) {
     try {
@@ -52,17 +53,7 @@ export async function PUT(request: NextRequest) {
             if (!matches) {
                 return NextResponse.json({error: '无效的 Base64 图片'}, {status: 400});
             }
-            const mimeType = matches[1];
-            const extension = mimeType.split('/')[1];
-            const base64Data = base64Image.replace(/^data:image\/\w+;base64,/, '');
-            const buffer = Buffer.from(base64Data, 'base64');
-            fileName = `${Date.now()}.${extension}`;
-            const filePath = path.join(process.cwd(), 'public', 'storage', 'avatar', fileName);
-            fs.writeFile(filePath, buffer, (err) => {
-                if (err) {
-                    return NextResponse.json({error: '头像存储错误'}, {status: 500});
-                }
-            });
+            fileName = await saveBase64Image(base64Image)
         }
         if (oldPassword) {
             const passwordCorrect = await compare(oldPassword, user.password);
@@ -82,6 +73,6 @@ export async function PUT(request: NextRequest) {
         })
         return NextResponse.json({message: "修改成功"})
     } catch (e) {
-        return NextResponse.json({error: '服务器内部错误'}, {status: 500});
+        throw new Error("服务器出错")
     }
 }

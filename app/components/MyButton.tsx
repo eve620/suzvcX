@@ -5,7 +5,7 @@ interface ButtonProps {
     type?: "default" | "red" | "outline",
 }
 
-const Button: React.FC<ButtonProps> = ({label, onClick, big, type = "default"}) => {
+const MyButton: React.FC<ButtonProps> = ({label, onClick, big, type = "default"}) => {
     return (
         <>
             {type === "red" ?
@@ -37,4 +37,4 @@ const Button: React.FC<ButtonProps> = ({label, onClick, big, type = "default"}) 
     )
 }
 
-export default Button
+export default MyButton

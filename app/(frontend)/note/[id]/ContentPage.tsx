@@ -1,5 +1,5 @@
 "use client"
-import Button from "@/app/components/Button";
+import MyButton from "@/app/components/MyButton";
 import {useRouter} from "next/navigation";
 import {createContext, useState} from "react";
 import Viewer from "@/app/components/tiptap/Viewer";
@@ -45,13 +45,13 @@ const ContentPage: React.FC<ContentPageProps> = ({note}) => {
                     : <span className="ml-3">...</span>
                 }
                 <div className={"flex-1"}></div>
-                <Button label={"编辑"} onClick={() => {
+                <MyButton label={"编辑"} onClick={() => {
                     router.push(`/note/${note.id}/edit`)
                 }}/>
-                <Button label={"分享"} onClick={() => {
+                <MyButton label={"分享"} onClick={() => {
                 }}/>
-                <Button label={"删除"} type={"outline"} onClick={deleteNote}/>
-                <Button label={"返回"} type={"outline"} onClick={() => {
+                <MyButton label={"删除"} type={"outline"} onClick={deleteNote}/>
+                <MyButton label={"返回"} type={"outline"} onClick={() => {
                     router.push("/note")
                 }}/>
             </div>

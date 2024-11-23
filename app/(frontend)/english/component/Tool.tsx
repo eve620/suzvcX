@@ -188,8 +188,8 @@ const Tool: React.FC<ToolProps> = ({currentCourse, statementIndex, handleCourse,
                     })}
                 </div>
                 <Modal isOpen={confirmModalShow}
-                       title={"Tips"}
-                       body={(<div className={"text-black ml-5 font-semibold"}>Do you confirm to reset progress?</div>)}
+                       title={"Tips"} little
+                       body={(<div className={"ml-5 font-semibold"}>你希望重置进度吗?</div>)}
                        onClose={() => setConfirmModalShow(false)}
                        onSubmit={() => {
                            handleWord(0)

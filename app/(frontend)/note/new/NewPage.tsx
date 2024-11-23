@@ -4,7 +4,7 @@ import {useRef, useState} from "react";
 import showMessage from "@/app/components/Message";
 import {useOnClickOutside} from "next/dist/client/components/react-dev-overlay/internal/hooks/use-on-click-outside";
 import Tiptap from "@/app/components/tiptap/Tiptap";
-import Button from "@/app/components/Button";
+import MyButton from "@/app/components/MyButton";
 
 interface NewPageProps {
     tags: string[]
@@ -121,13 +121,13 @@ const NewPage = ({tags}: NewPageProps) => {
             </div>
             <div className="flex gap-4 mt-4">
                 <div className={"flex-1"}></div>
-                <Button label={"保存"} onClick={() => {
+                <MyButton label={"保存"} onClick={() => {
                     addNote()
                     router.push('/note')
                     router.refresh()
                 }
                 }/>
-                <Button label={"取消"} onClick={() => {
+                <MyButton label={"取消"} onClick={() => {
                     router.push("/note")
                 }}/>
             </div>

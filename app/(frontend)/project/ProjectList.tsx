@@ -7,6 +7,7 @@ import {Project} from "@/app/(frontend)/project/page";
 import './antdModal.css'
 import Image from "next/image";
 import useProjectModal from "@/app/hooks/useProjectModal";
+import {format} from "date-fns";
 
 interface ProjectListProps {
     projectList: Project[]
@@ -34,15 +35,8 @@ const ProjectList: React.FC<ProjectListProps> = ({projectList}) => {
                                      projectModal.setProject(item)
                                      projectModal.onOpen()
                                  }}
-                                 className="
-                             mb-8
-                             sm:break-inside-avoid
-                             rounded-xl
-                             shadow-lg
-                             duration-200
-                             bg-contentBg
-                             transition-shadow
-                             dark:hover:shadow-blue-400/40
+                                 className="mb-8 sm:break-inside-avoid rounded-xl shadow-lg
+                             duration-200 bg-contentBg transition-shadow dark:hover:shadow-blue-400/40
                              hover:shadow-2xl hover:shadow-purple-400/50">
                                 <div className={"flex flex-col p-6"}>
                                     <div className={"flex flex-wrap justify-between text-nowrap"}>
@@ -65,7 +59,9 @@ const ProjectList: React.FC<ProjectListProps> = ({projectList}) => {
                                     </div>
                                     <div className={"my-4"}/>
                                     <div className={"flex justify-between text-xs"}>
-                                        <p className={"text-gray-400"}>{item.startTime + "-" + item.endTime}</p>
+                                        <p className={"text-gray-400"}>{(item.startTime && item.startTime) &&
+                                            `${format(new Date(item.startTime), "yyyy.MM")} - 
+                                            ${format(new Date(item.endTime), "yyyy.MM")}`}</p>
                                         <p className={"text-blue-500 cursor-pointer"} onClick={(e) => {
                                             e.stopPropagation()
                                             if (!JSON.parse(item.imageUrl).length) {
@@ -73,7 +69,7 @@ const ProjectList: React.FC<ProjectListProps> = ({projectList}) => {
                                                 return
                                             }
                                             showImages(JSON.parse(item.imageUrl))
-                                        }}>show images</p>
+                                        }}>展示图片</p>
                                     </div>
                                 </div>
                             </div>

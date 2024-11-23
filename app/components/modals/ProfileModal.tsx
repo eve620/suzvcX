@@ -7,7 +7,7 @@ import {useEffect, useState} from "react";
 import {UploadProps} from "antd";
 import "./css/profileModal.css"
 import AntCrop from "@/app/components/AntCrop";
-import Button from "@/app/components/Button";
+import MyButton from "@/app/components/MyButton";
 import FormInput from "@/app/components/FormInput";
 import showMessage from "@/app/components/Message";
 import {useRouter} from "next/navigation";
@@ -134,8 +134,8 @@ const ProfileModal: React.FC<ProfileModalProps> = ({currentUser}) => {
                     <FormInput label={'原密码'} id={"oldPassword"} register={register} errors={errors}/>
                     <FormInput label={'新密码'} id={"newPassword"} register={register} errors={errors}/>
                     <div className={'flex justify-end pr-5'}>
-                        <Button label={"取消"} big
-                                onClick={() => {
+                        <MyButton label={"取消"} big
+                                  onClick={() => {
                                     setValue('newPassword', '')
                                     setValue('oldPassword', '')
                                     setIsChangePassword(false)
@@ -146,7 +146,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({currentUser}) => {
                     <label className={`text-nowrap text-sm ${errors[''] && 'text-rose-500'}`}>
                         密码
                     </label>
-                    <Button label={"修改密码"} onClick={() => {
+                    <MyButton label={"修改密码"} onClick={() => {
                         setIsChangePassword(true)
                     }}/>
                 </div>
