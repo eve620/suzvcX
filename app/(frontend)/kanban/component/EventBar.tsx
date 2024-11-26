@@ -1,7 +1,7 @@
 "use client"
 
 import React, {useCallback, useState} from 'react';
-import AddEventButton from './AddEventButton';
+import AddButton from './AddButton';
 import Modal from "@/app/components/modals/Modal";
 import Input from "@/app/components/Input";
 import showMessage from "@/app/components/Message";
@@ -22,7 +22,7 @@ const EventBar: React.FC<EventBarProps> = ({events, setEvents, currentEvent, set
     const handleAdd = useCallback(() => {
         // Prevent Duplicated
         if (
-            events.find((event:any) => event.title.toLowerCase() === newEventName.trim().toLowerCase())
+            events.find((event: any) => event.title.toLowerCase() === newEventName.trim().toLowerCase())
         ) {
             showMessage(`${newEventName.trim()}已存在`);
             return;
@@ -30,7 +30,7 @@ const EventBar: React.FC<EventBarProps> = ({events, setEvents, currentEvent, set
         if (!newEventName) showMessage("名称不能为空")
         // Add new event
         if (newEventName) {
-            setEvents((prev:any) => [
+            setEvents((prev: any) => [
                 ...prev,
                 {
                     title: newEventName.trim(),
@@ -45,16 +45,16 @@ const EventBar: React.FC<EventBarProps> = ({events, setEvents, currentEvent, set
     }, [newEventName, events, setEvents]);
 
     return (
-        <div className='event-bar'>
-            <h1 className='event-bar-title'>代办事项</h1>
-            <AddEventButton handleClick={() => setIsAddEvent(true)}/>
-            {/*<AddEventButton handleClick={handleAdd}/>*/}
-            <div className='event-container'>
-                {events.map((item:any) => (
-                    <div
+        <div className='text-center border-r-2 min-w-52 max-w-64'>
+            <h1 className='text-2xl font-semibold pt-5 pb-2'>代办事项</h1>
+            <AddButton handleClick={() => setIsAddEvent(true)}/>
+            <div className='px-8 cursor-pointer'>
+                {events.map((item: any) => (
+                    <div style={{transitionProperty:'background-color'}}
                         key={item.title}
-                        className={`event over-hide ${currentEvent && currentEvent.title === item.title ? 'selected-event' : ''
-                        }`}
+                        className={`px-8 mb-2 text-xl py-2 rounded-3xl truncate duration-200
+                        hover:bg-[#deacde] dark:hover:bg-[#2c4885] hover:text-white
+                        ${currentEvent && currentEvent.title === item.title && 'text-white bg-[#f1bbf1] dark:bg-[#406cc7]'}`}
                         onClick={() => setCurrentEvent(item)}
                     >
                         {item.title}

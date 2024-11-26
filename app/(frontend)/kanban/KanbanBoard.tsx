@@ -2,9 +2,6 @@
 import {useCallback, useEffect, useMemo, useState} from "react";
 import TaskBox from "@/app/(frontend)/kanban/component/TaskBox";
 import EventBar from "@/app/(frontend)/kanban/component/EventBar";
-import "./App.css"
-import "./component/event.css"
-import "./component/task.css"
 import {eventDataProps} from "@/app/(frontend)/kanban/page";
 
 export interface KanbanBoardProps {
@@ -42,7 +39,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({eventData}) => {
     }, [updateProgress, prevLength, events]);
 
     return (
-        <div className='App flex-1 min-w-fit'>
+        <div className='flex flex-1 min-w-fit'>
             <EventBar
                 events={events}
                 setEvents={setEvents}

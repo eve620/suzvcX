@@ -1,13 +1,12 @@
 "use client"
 
-import AddTaskButton from './AddTaskButton';
 import Task from './Task';
 import {Droppable, Draggable} from '@hello-pangea/dnd';
-
 import Modal from "@/app/components/modals/Modal";
 import React, {useEffect, useState} from "react";
 import Input from "@/app/components/Input";
 import showMessage from "@/app/components/Message";
+import AddButton from "@/app/(frontend)/kanban/component/AddButton";
 
 interface ColumnProps {
     events: any[];
@@ -122,14 +121,14 @@ const Column: React.FC<ColumnProps> = ({tag, currentEvent, events, setEvents}) =
 
     return (
         <>
-            <div className='column'>
+            <div className='bg-white dark:bg-gray-700 p-4 rounded-lg w-64 shadow-md mx-3'>
                 {tagTextMap[tag as ("toDo" | "inProgress" | "completed")]}
-                <AddTaskButton handleClick={handleAdd}/>
+                <AddButton handleClick={handleAdd}/>
                 <Droppable droppableId={tag}>
                     {(provided, snapshot) => {
                         return (
                             <div
-                                className='task-container min-h-16 max-h-[40vh] overflow-y-auto'
+                                className='min-h-16 max-h-[40vh] overflow-y-auto px-2 overflow-x-hidden'
                                 ref={provided.innerRef}
                                 {...provided.droppableProps}
                             >
@@ -147,7 +146,6 @@ const Column: React.FC<ColumnProps> = ({tag, currentEvent, events, setEvents}) =
                                                 details={item.details}
                                                 id={item.id}
                                                 provided={provided}
-                                                // snapshot={snapshot}
                                                 handleRemove={handleRemove}
                                                 handleUpdate={handleUpdate}
                                             />

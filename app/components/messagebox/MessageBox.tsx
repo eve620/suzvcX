@@ -93,3 +93,70 @@ const MessageBox: React.FC = () => {
     )
 }
 export default MessageBox;
+
+
+// import React, { useRef, useState, useEffect } from 'react';
+//
+// const DraggableComponent = () => {
+//     const [position, setPosition] = useState({ x: 0, y: 0 });
+//     const messageContainerRef = useRef(null);
+//
+//     const handleDragStart = (e) => {
+//         e.dataTransfer.setData('text/plain', '');
+//         e.currentTarget.style.opacity = '0.5'; // 可选：拖动时降低透明度
+//     };
+//
+//     const handleDrag = (e) => {
+//         let newX = Math.max(0, e.clientX - position.x);
+//         let newY = Math.max(0, e.clientY - position.y);
+//
+//         // 如果需要，也可以限制最大值，确保不会超出窗口边界
+//         const maxRight = document.documentElement.clientWidth - messageContainerRef.current.offsetWidth;
+//         const maxBottom = document.documentElement.clientHeight - messageContainerRef.current.offsetHeight;
+//         newX = Math.min(maxRight, newX);
+//         newY = Math.min(maxBottom, newY);
+//
+//         setPosition({
+//             x: newX < 0 ? 0 : newX,
+//             y: newY < 0 ? 0 : newY,
+//         });
+//     };
+//
+//     const handleDragEnd = (e) => {
+//         e.currentTarget.style.opacity = '1'; // 拖动结束时恢复透明度
+//     };
+//
+//     useEffect(() => {
+//         // 添加 noSelect 类以防止文本选择
+//         document.body.classList.add('noSelect');
+//
+//         return () => {
+//             // 移除 noSelect 类
+//             document.body.classList.remove('noSelect');
+//         };
+//     }, []);
+//
+//     return (
+//         <div
+//             ref={messageContainerRef}
+//             style={{
+//                 position: 'absolute',
+//                 top: position.y,
+//                 left: position.x,
+//                 width: '100px',
+//                 height: '100px',
+//                 backgroundColor: 'lightblue',
+//                 cursor: 'move',
+//                 userSelect: 'none', // 防止文本选择
+//             }}
+//             draggable
+//             onDragStart={handleDragStart}
+//             onDrag={handleDrag}
+//             onDragEnd={handleDragEnd}
+//         >
+//             Drag me!
+//         </div>
+//     );
+// };
+//
+// export default DraggableComponent;

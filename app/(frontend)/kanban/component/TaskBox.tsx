@@ -3,6 +3,7 @@ import React, {useCallback, useState} from 'react';
 import Column from './Column';
 import {DragDropContext, DropResult} from "@hello-pangea/dnd";
 import Modal from "@/app/components/modals/Modal";
+import MyButton from "@/app/components/MyButton";
 
 interface TaskBoxProps {
     events: any[];
@@ -60,17 +61,15 @@ const TaskBox: React.FC<TaskBoxProps> = ({events, setEvents, currentEvent, setCu
 
     return (
         <>
-            <div className='task-box'>
-                <header className='task-box-header'>
-                    <h1 className='task-box-title'>所有任务</h1>
-                    <button className='remove-button tracking-wider' onClick={() => {
+            <div className='flex flex-col flex-1'>
+                <header className='flex items-center pl-24'>
+                    <h1 className='text-2xl font-[500] mr-4'>所有任务</h1>
+                    <MyButton label={'删除事件'} onClick={() => {
                         setIsRemove(true)
-                    }}>
-                        删除事件
-                    </button>
+                    }}/>
                 </header>
                 <DragDropContext onDragEnd={(result) => handleDragEnd(result)}>
-                    <div className='task-box-body'>
+                    <div className='flex w-full justify-evenly mt-12 items-start mx-3'>
                         {
                             ['toDo', 'inProgress', 'completed'].map((tag) => (
                                 <Column
