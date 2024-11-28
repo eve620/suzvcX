@@ -30,7 +30,7 @@ const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
                         <p className={"cursor-pointer"}>{currentUser.username}</p>
                         {isDropdownOpen &&
                             <div
-                                className={"absolute right-0 shadow-sm rounded-2xl border dark:border-0 overflow-hidden"}>
+                                className={"absolute right-0 shadow-sm rounded-2xl border dark:border-slate-800 overflow-hidden"}>
                                 <MenuItem label={"详情"} onClick={profileModal.onOpen}/>
                                 <MenuItem label={"站内信"}/>
                                 {currentUser.role === "Admin" && <MenuItem label={"管理"} onClick={() => {

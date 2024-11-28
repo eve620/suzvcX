@@ -1,42 +1,39 @@
-import "./introduce.css"
 import Image from "next/image";
+import {Card, CardContent, CardHeader} from "@/components/ui/card";
 
 export default function About() {
     return (
         <>
             <h2 className={"text-center text-xl font-bold tracking-tight sm:text-4xl bg-clip-text text-transparent " +
                 "bg-gradient-to-r from-purple-600 to-gray-200 dark:from-purple-600 dark:to-gray-100 m-4"}>关于我</h2>
-            <div className={"w-full flex-1"}>
-                <div className={"w-[44rem] h-[28rem] bg-white relative rounded-3xl overflow-hidden shadow-2xl"}>
-                    <Image src="/storage/avatar/avatar1.jpg" width={160} height={160} alt={"avatar"}
-                           className={"rounded-full absolute top-32 left-9 border-8 border-white z-10 shadow-2xl"}/>
-                    <div className={"head"}>
-                        <div className="absolute top-28 left-72 text-white leading-10">
-                            <div className="title1 text-4xl">GQJ<span className={"pl-6 text-3xl"}>西安电子科技大学</span>
-                            </div>
-                            <div className="title2">前端开发</div>
-                        </div>
+            <Card
+                className="w-full max-w-xl dark:bg-gray-950 dark:border-gray-800 shadow-lg dark:shadow-blue-950 min-w-fit">
+                <CardHeader className="flex flex-col items-center space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
+                    <Image src="/storage/avatar/avatar1.jpg" width={120} height={120} alt={"avatar"}
+                           className={"rounded-full border-4 border-gray-200 z-10 shadow-lg"}/>
+                    <div className="text-center sm:text-left">
+                        <h2 className="text-2xl font-bold">suzvc</h2>
+                        <p className="text-muted-foreground">西安电子科技大学</p>
+                        <p className="text-muted-foreground">前端开发</p>
                     </div>
-                    <div className={""}>
-                        <div className="float-left text-black text-center w-52 space-x-2 pt-16">
-                            <span className="tag mb-3">#HTML</span>
-                            <span className="tag mb-3">#CSS</span>
-                            <span className="tag mb-3">#JS</span>
-                            <span className="tag mb-3">#JQ</span>
-                            <span className="tag mb-3">#bootstrap</span>
-                            <span className="tag mb-3">#PR</span>
-                            <span className="tag mb-3">#AE</span>
-                            <span className="tag mb-3">#Vscode</span>
-                        </div>
-                        <div className="text-xl text-black leading-9 float-left w-[450px] pl-12 pt-5">
-                            <p>
-                                Hello everyone, I am very glad to have the opportunity to introduce
-                                myself to you. I have a strong interest in CSS and love sports...
-                            </p>
-                        </div>
+                </CardHeader>
+                <CardContent className="flex flex-col items-center space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
+                    <div className="text-black text-center max-w-52 min-w-44 space-x-2 pt-4">
+                        <span className="tag mb-3">#HTML</span>
+                        <span className="tag mb-3">#CSS</span>
+                        <span className="tag mb-3">#JS</span>
+                        <span className="tag mb-3">#JQ</span>
+                        <span className="tag mb-3">#bootstrap</span>
+                        <span className="tag mb-3">#PR</span>
+                        <span className="tag mb-3">#AE</span>
+                        <span className="tag mb-3">#Vscode</span>
                     </div>
-                </div>
-            </div>
+                    <div className="text-xl leading-9 float-left max-w-[380px] px-2">
+                        Hello everyone, I am very glad to have the opportunity to introduce
+                        myself to you. I have a strong interest in CSS and love sports...
+                    </div>
+                </CardContent>
+            </Card>
         </>
     );
 }

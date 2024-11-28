@@ -7,6 +7,7 @@ import Tool from "@/app/(frontend)/english/component/Tool";
 import Tips from "@/app/(frontend)/english/component/Tips";
 import Progress from "@/app/(frontend)/english/component/Progress";
 import Loading from "@/app/components/Loading";
+import {useRouter} from "next/navigation";
 
 interface EnglishLayoutProps {
     courseData: {
@@ -25,7 +26,7 @@ const EnglishLayout: React.FC<EnglishLayoutProps> = ({courseData, wordIndex}) =>
         useState<"Question" | "Answer" | "Summary">("Question")
     const word = currentCourse.statements[statementIndex]
     const percent = ((statementIndex / currentCourse.statements.length) * 100).toFixed(2)
-
+    const router = useRouter()
     useEffect(() => {
         async function updateProgress() {
             const update = await fetch("/api/course/progress", {
@@ -35,9 +36,10 @@ const EnglishLayout: React.FC<EnglishLayoutProps> = ({courseData, wordIndex}) =>
                     wordIndex: statementIndex,
                 })
             })
+            if (update.ok) router.refresh()
         }
 
-        const timeoutId = setTimeout(() => updateProgress(), 3000)
+        const timeoutId = setTimeout(() => updateProgress(), 1000)
         return () => {
             clearTimeout(timeoutId)
         }

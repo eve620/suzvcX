@@ -3,6 +3,7 @@ import {useCallback, useEffect, useMemo, useState} from "react";
 import TaskBox from "@/app/(frontend)/kanban/component/TaskBox";
 import EventBar from "@/app/(frontend)/kanban/component/EventBar";
 import {eventDataProps} from "@/app/(frontend)/kanban/page";
+import {useRouter} from "next/navigation";
 
 export interface KanbanBoardProps {
     eventData: eventDataProps[]
@@ -12,6 +13,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({eventData}) => {
     const [events, setEvents] = useState<eventDataProps[]>(eventData);
     const [currentEvent, setCurrentEvent] = useState(events[0] || null);
     const [prevLength, setPrevLength] = useState(events.length);
+    const router = useRouter()
     const updateProgress = useCallback(async () => {
         const response = await fetch("/api/kanban", {
             method: "PUT",
@@ -20,21 +22,13 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({eventData}) => {
             },
             body: JSON.stringify({events})
         });
-
-        if (!response.ok) {
-            console.error("Failed to update progress:", response.statusText);
-        }
+        if (response.ok) router.refresh()
     }, [events]);
     useEffect(() => {
         const currentLength = events.length;
+        updateProgress()
         if (currentLength !== prevLength) {
-            // Length has changed, execute different logic
-            updateProgress()
             setPrevLength(currentLength);
-        } else {
-            // Length has not changed, set a timeout
-            const timeoutId = setTimeout(() => updateProgress(), 1000);
-            return () => clearTimeout(timeoutId);
         }
     }, [updateProgress, prevLength, events]);
 
